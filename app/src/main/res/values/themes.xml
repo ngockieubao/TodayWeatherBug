@@ -19,4 +19,8 @@
     <style name="CornerRadiusImage">
         <item name="cornerSize">3%</item>
     </style>
+
+    <style name="RoundImage">
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>

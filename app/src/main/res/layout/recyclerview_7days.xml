@@ -8,19 +8,23 @@
     android:padding="17dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:padding="5dp"
         android:id="@+id/constraintLayout_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imgView_cloudy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="25dp"
+            android:foregroundGravity="center_horizontal"
+            android:layout_height="25dp"
+            android:scaleType="centerInside"
             android:layout_marginStart="0dp"
             android:layout_marginTop="0dp"
-            android:padding="10dp"
+            app:shapeAppearanceOverlay="@style/RoundImage"
+            android:background="#8F8F8F"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@mipmap/ic_cloud" />
@@ -31,6 +35,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="100%"
+            android:textSize="10sp"
+            android:textColor="#2196F3"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imgView_cloudy" />
     </androidx.constraintlayout.widget.ConstraintLayout>
