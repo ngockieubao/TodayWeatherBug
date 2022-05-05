@@ -12,11 +12,16 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_homeFragment_to_sevenDaysFragment"
-            app:destination="@id/sevenDaysFragment" />
+            app:destination="@id/sevenDaysFragment"
+            app:popUpTo="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/sevenDaysFragment"
         android:name="com.example.todayweather.SevenDaysFragment"
         android:label="fragment_seven_days"
-        tools:layout="@layout/fragment_seven_days" />
+        tools:layout="@layout/fragment_seven_days" >
+        <action
+            android:id="@+id/action_sevenDaysFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
 </navigation>
