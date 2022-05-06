@@ -30,7 +30,7 @@
             app:srcCompat="@mipmap/ic_cloud" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/tv_humidity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -50,7 +50,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/txt_constr_date"
+            android:id="@+id/tv_7days_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="THỨ 5,05 THÁNG 5"
@@ -58,12 +58,12 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/txt_constr_celcius"
+            android:id="@+id/tv_7days_celcius"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="32° / 20°"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_constr_date" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_7days_date" />
 
         <TextView
             android:id="@+id/txt_constr_status"
@@ -71,6 +71,6 @@
             android:layout_height="wrap_content"
             android:text="Mây đen u ám. Cao 32°C, thấp 20°C. Gió đông nam, tốc độ 20 km/h"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_constr_celcius" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_7days_celcius" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

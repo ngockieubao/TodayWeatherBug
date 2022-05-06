@@ -31,7 +31,7 @@
                 app:shapeAppearanceOverlay="@style/CornerRadiusImage" />
 
             <TextView
-                android:id="@+id/txt_celcius"
+                android:id="@+id/tv_home_celcius"
                 style="@style/txt_celcius"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
@@ -43,7 +43,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
             <TextView
-                android:id="@+id/txt_celcius_max"
+                android:id="@+id/tv_home_celcius_max"
                 style="@style/txt_celcius_min_max"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
@@ -51,22 +51,22 @@
                 android:layout_marginTop="17dp"
                 android:paddingTop="5dp"
                 android:text="32°"
-                app:layout_constraintStart_toEndOf="@+id/txt_celcius"
+                app:layout_constraintStart_toEndOf="@+id/tv_home_celcius"
                 app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
             <TextView
-                android:id="@+id/txt_celcius_slash"
+                android:id="@+id/tv_home_celcius_slash"
                 style="@style/txt_celcius_min_max"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_marginTop="17dp"
                 android:paddingTop="10dp"
                 android:text="/"
-                app:layout_constraintStart_toEndOf="@+id/txt_celcius_max"
+                app:layout_constraintStart_toEndOf="@+id/tv_home_celcius_max"
                 app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
             <TextView
-                android:id="@+id/txt_celcius_min"
+                android:id="@+id/tv_home_celcius_min"
                 style="@style/txt_celcius_min_max"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
@@ -74,21 +74,21 @@
                 android:layout_marginTop="17dp"
                 android:paddingTop="15dp"
                 android:text="20°"
-                app:layout_constraintStart_toEndOf="@+id/txt_celcius_slash"
+                app:layout_constraintStart_toEndOf="@+id/tv_home_celcius_slash"
                 app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
             <TextView
-                android:id="@+id/txt_date"
+                android:id="@+id/tv_home_date"
                 style="@style/txt_grey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="0dp"
                 android:text="TH 5, 05 THÁNG 5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_celcius" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_home_celcius" />
 
             <TextView
-                android:id="@+id/txt_location"
+                android:id="@+id/tv_home_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="0dp"
@@ -96,27 +96,27 @@
                 android:text="Hà Nội"
                 android:textSize="17sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_date" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_home_date" />
 
             <TextView
-                android:id="@+id/txt_status"
+                android:id="@+id/tv_home_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="0dp"
                 android:text="Mây đen u ám"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_location" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_home_location" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/txt_status_description"
+                android:id="@+id/tv_home_status_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_status">
+                app:layout_constraintTop_toBottomOf="@+id/tv_home_status">
 
                 <TextView
-                    android:id="@+id/txt_status_description_above"
+                    android:id="@+id/tv_home_status_description_above"
                     style="@style/txt_grey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -125,14 +125,14 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/txt_status_description_below"
+                    android:id="@+id/tv_home_status_description_below"
                     style="@style/txt_grey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="0dp"
                     android:text="Gió đông nam, tốc độ 20km/h."
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txt_status_description_above" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_home_status_description_above" />
 
                 <ImageView
                     android:layout_width="6dp"
@@ -143,7 +143,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toEndOf="@+id/txt_status_description_above"
+                    app:layout_constraintStart_toEndOf="@+id/tv_home_status_description_above"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.542" />
             </androidx.constraintlayout.widget.ConstraintLayout>

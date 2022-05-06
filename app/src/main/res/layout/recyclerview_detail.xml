@@ -5,7 +5,8 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/txt_recyclerView_detail"
+        android:text="Chi tiết"
+        android:id="@+id/tv_recyclerView_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
