@@ -30,62 +30,72 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearanceOverlay="@style/CornerRadiusImage" />
 
-            <TextView
-                android:id="@+id/tv_home_celcius"
-                style="@style/txt_celcius"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="17dp"
-                android:background="@drawable/corner_radius"
-                android:text="23°C"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView" />
+                app:layout_constraintTop_toBottomOf="@+id/imageView">
 
-            <TextView
-                android:id="@+id/tv_home_celcius_max"
-                style="@style/txt_celcius_min_max"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="17dp"
-                android:paddingTop="5dp"
-                android:text="32°"
-                app:layout_constraintStart_toEndOf="@+id/tv_home_celcius"
-                app:layout_constraintTop_toBottomOf="@+id/imageView" />
+                <TextView
+                    android:id="@+id/tv_home_celcius"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/corner_radius"
+                    android:text="23°C"
+                    android:textSize="55sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tv_home_celcius_slash"
-                style="@style/txt_celcius_min_max"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_marginTop="17dp"
-                android:paddingTop="10dp"
-                android:text="/"
-                app:layout_constraintStart_toEndOf="@+id/tv_home_celcius_max"
-                app:layout_constraintTop_toBottomOf="@+id/imageView" />
+                <TextView
+                    android:id="@+id/tv_home_celcius_max"
+                    style="@style/txt_celcius_min_max"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="17dp"
+                    android:text="32°"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tv_home_celcius"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
 
-            <TextView
-                android:id="@+id/tv_home_celcius_min"
-                style="@style/txt_celcius_min_max"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_marginStart="3dp"
-                android:layout_marginTop="17dp"
-                android:paddingTop="15dp"
-                android:text="20°"
-                app:layout_constraintStart_toEndOf="@+id/tv_home_celcius_slash"
-                app:layout_constraintTop_toBottomOf="@+id/imageView" />
+                <TextView
+                    android:id="@+id/tv_home_celcius_slash"
+                    style="@style/txt_celcius_min_max"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="20dp"
+                    android:text="/"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tv_home_celcius_max"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_home_celcius_min"
+                    style="@style/txt_celcius_min_max"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="33dp"
+                    android:text="20°"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tv_home_celcius_slash"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:id="@+id/tv_home_date"
                 style="@style/txt_grey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="0dp"
                 android:text="TH 5, 05 THÁNG 5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_home_celcius" />
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
             <TextView
                 android:id="@+id/tv_home_location"
@@ -148,13 +158,16 @@
                     app:layout_constraintVertical_bias="0.542" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!--    <androidx.recyclerview.widget.RecyclerView-->
-            <!--        android:layout_width="0dp"-->
-            <!--        android:layout_height="170dp"-->
-            <!--        android:layout_marginTop="7dp"-->
-            <!--        app:layout_constraintEnd_toEndOf="parent"-->
-            <!--        app:layout_constraintStart_toStartOf="parent"-->
-            <!--        app:layout_constraintTop_toBottomOf="@+id/txt_status_description" />-->
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="300dp"
+                android:layout_marginTop="7dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_home_status_description">
+
+                <include layout="@layout/recyclerview_detail_element"/>
+            </FrameLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

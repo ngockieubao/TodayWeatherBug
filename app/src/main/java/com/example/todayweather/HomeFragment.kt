@@ -15,7 +15,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater)
-        binding.txtStatusDescription.setOnClickListener {
+        binding.tvHomeStatusDescription.setOnClickListener {
             findNavController()?.navigate(R.id.action_homeFragment_to_sevenDaysFragment)
         }
 

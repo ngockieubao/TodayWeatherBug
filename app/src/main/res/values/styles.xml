@@ -4,7 +4,7 @@
         <item name="android:textSize">40sp</item>
     </style>
     <style name="txt_celcius_min_max">
-        <item name="android:textSize">25sp</item>
+        <item name="android:textSize">30sp</item>
     </style>
     <style name="txt_grey">
         <item name="android:textColor">#B3FFFFFF</item>
