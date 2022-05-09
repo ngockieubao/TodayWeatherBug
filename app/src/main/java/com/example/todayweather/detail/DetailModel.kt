@@ -16,4 +16,7 @@ data class DetailModel(
 //    val visibility: Int,
 //    val weather: List<Weather>,
 //    val wind: Wind
+    val icon: Int,
+    val description: String,
+    val result: Int
 )
