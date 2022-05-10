@@ -33,7 +33,7 @@ class DetailAdapter : RecyclerView.Adapter<DetailAdapter.DetailViewHolder>() {
                 }
             )
             recyclerviewDetailElementBinding.tvTitleHomeDetail.text = item.description
-            recyclerviewDetailElementBinding.tvResHomeDetail.text = item.result.toString()
+            recyclerviewDetailElementBinding.tvResHomeDetail.text = item.result
         }
     }
 

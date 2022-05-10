@@ -3,4 +3,12 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="rcv_detail_title">Chi tiết</string>
+
+    <!--  String detail description  -->
+    <string name="temperature_C">%d℃</string>
+    <string name="temperature_F">%d℉</string>
+    <string name="humidity">%d%%</string>
+    <string name="visibility">%dkm</string>
+    <string name="dew_point">%d%%</string>
+    <string name="pressure">%dmb</string>
 </resources>

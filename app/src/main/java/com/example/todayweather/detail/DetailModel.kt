@@ -18,5 +18,5 @@ data class DetailModel(
 //    val wind: Wind
     val icon: Int,
     val description: String,
-    val result: Int
+    val result: String
 )

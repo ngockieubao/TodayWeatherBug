@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.todayweather.databinding.FragmentHomeBinding
 import com.example.todayweather.detail.DetailAdapter
 import com.example.todayweather.detail.DetailViewModel
+import com.example.todayweather.detail.DetailViewModelFactory
 
 class HomeFragment : Fragment() {
     private lateinit var bindingHome: FragmentHomeBinding
@@ -26,7 +27,11 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_homeFragment_to_sevenDaysFragment)
         }
 
-        detailViewModel = ViewModelProvider(this).get(DetailViewModel::class.java)
+        //
+        val application = requireNotNull(this.activity).application
+        val detailViewModelFactory = DetailViewModelFactory(application)
+
+        detailViewModel = ViewModelProvider(this, detailViewModelFactory).get(DetailViewModel::class.java)
         detailAdapter = DetailAdapter()
 
         // Set data
@@ -34,6 +39,7 @@ class HomeFragment : Fragment() {
 
         // Set adapter
         bindingHome.recyclerViewDetailContainerElement.recyclerViewDetail.adapter = detailAdapter
+
         return bindingHome.root
     }
 }
