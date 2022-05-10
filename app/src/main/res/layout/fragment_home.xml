@@ -158,19 +158,13 @@
                     app:layout_constraintVertical_bias="0.542" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <FrameLayout
-                android:id="@+id/recyclerView_detail_container"
-                android:layout_width="0dp"
+            <include
+                android:id="@+id/recyclerView_detail_container_element"
+                layout="@layout/recyclerview_detail"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_home_status_description">
-
-                <include
-                    android:id="@+id/recyclerView_detail_container_element"
-                    layout="@layout/recyclerview_detail" />
-            </FrameLayout>
+                app:layout_constraintTop_toBottomOf="@+id/tv_home_status_description" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

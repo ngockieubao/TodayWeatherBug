@@ -12,27 +12,26 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="115dp"
         android:layout_margin="5dp"
         android:background="@drawable/corner_layout"
         android:padding="5dp">
 
         <ImageView
             android:id="@+id/imgView_ic_home_detail"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:src="@{item.icon}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@+id/tv_title_home_detail"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:backgroundTint="@color/white"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_title_home_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{item.description}"
-            android:textSize="10sp"
+            android:textSize="11sp"
             app:layout_constraintBottom_toTopOf="@+id/tv_res_home_detail"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +41,6 @@
             android:id="@+id/tv_res_home_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{item.result + ``}"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

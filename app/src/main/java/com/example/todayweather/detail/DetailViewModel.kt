@@ -22,5 +22,4 @@ class DetailViewModel : ViewModel() {
         var detailModel5: DetailModel = DetailModel(6, "Áp Suất", 1011)
         listData.add(detailModel5)
     }
-
 }

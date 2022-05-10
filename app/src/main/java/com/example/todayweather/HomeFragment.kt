@@ -29,20 +29,11 @@ class HomeFragment : Fragment() {
         detailViewModel = ViewModelProvider(this).get(DetailViewModel::class.java)
         detailAdapter = DetailAdapter()
 
-        val layoutManager = GridLayoutManager(context, 3)
-
         // Set data
         detailAdapter.dataList = detailViewModel.listData
 
         // Set adapter
         bindingHome.recyclerViewDetailContainerElement.recyclerViewDetail.adapter = detailAdapter
-
-        // Set layout
-        bindingHome.recyclerViewDetailContainerElement.recyclerViewDetail.layoutManager = layoutManager
-
-
-//        bindingReDetail.recyclerViewDetail.adapter = detailAdapter
-
         return bindingHome.root
     }
 }
