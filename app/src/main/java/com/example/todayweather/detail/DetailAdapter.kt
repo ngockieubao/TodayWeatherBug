@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todayweather.R
-import com.example.todayweather.databinding.RecyclerviewDetailElementBinding
+import com.example.todayweather.databinding.RcvDetailElementBinding
 
 class DetailAdapter : RecyclerView.Adapter<DetailAdapter.DetailViewHolder>() {
 
@@ -16,7 +16,7 @@ class DetailAdapter : RecyclerView.Adapter<DetailAdapter.DetailViewHolder>() {
         }
 
     // create ViewHolder with args are binding layout
-    class DetailViewHolder(private val recyclerviewDetailElementBinding: RecyclerviewDetailElementBinding) :
+    class DetailViewHolder(private val recyclerviewDetailElementBinding: RcvDetailElementBinding) :
         RecyclerView.ViewHolder(recyclerviewDetailElementBinding.root) {
         fun bind(item: DetailModel?) {
             if (item == null) return
@@ -39,7 +39,7 @@ class DetailAdapter : RecyclerView.Adapter<DetailAdapter.DetailViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailViewHolder {
         return DetailViewHolder(
-            RecyclerviewDetailElementBinding.inflate(
+            RcvDetailElementBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,     // add parent arg
                 false  // add false arg

@@ -28,6 +28,6 @@
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="3"
             tools:itemCount="6"
-            tools:listitem="@layout/recyclerview_detail_element" />
+            tools:listitem="@layout/rcv_detail_element" />
     </LinearLayout>
 </layout>
