@@ -1,7 +1,5 @@
 package com.example.todayweather.detail
 
-import com.example.todayweather.detail.*
-
 data class DetailModel(
 //    val base: String,
 //    val clouds: Clouds,
