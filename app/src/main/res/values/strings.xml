@@ -11,4 +11,5 @@
     <string name="visibility">%dkm</string>
     <string name="dew_point">%d%%</string>
     <string name="pressure">%dmb</string>
+    <string name="rcv_everyday_title">Hàng giờ</string>
 </resources>
