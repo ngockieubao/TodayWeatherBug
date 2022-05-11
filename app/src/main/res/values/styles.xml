@@ -9,4 +9,7 @@
     <style name="txt_grey">
         <item name="android:textColor">#B3FFFFFF</item>
     </style>
+    <style name="txt_blue">
+        <item name="android:textColor">#2196F3</item>
+    </style>
 </resources>
