@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import com.example.todayweather.databinding.FragmentHomeBinding
 import com.example.todayweather.detail.DetailAdapter
 import com.example.todayweather.detail.DetailViewModel
@@ -31,6 +30,7 @@ class HomeFragment : Fragment() {
         val application = requireNotNull(this.activity).application
         val detailViewModelFactory = DetailViewModelFactory(application)
 
+        // Init
         detailViewModel = ViewModelProvider(this, detailViewModelFactory).get(DetailViewModel::class.java)
         detailAdapter = DetailAdapter()
 

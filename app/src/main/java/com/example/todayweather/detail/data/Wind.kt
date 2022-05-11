@@ -1,4 +1,4 @@
-package com.example.todayweather.detail
+package com.example.todayweather.detail.data
 
 data class Wind(
     val deg: Int,
