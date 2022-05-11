@@ -1,5 +1,6 @@
 package com.example.todayweather.everyday
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -10,6 +11,7 @@ class EverydayAdapter : RecyclerView.Adapter<EverydayAdapter.EverydayViewHolder>
 
     // init list data
     var dataList = listOf<EverydayModel>()
+        @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -36,7 +38,7 @@ class EverydayAdapter : RecyclerView.Adapter<EverydayAdapter.EverydayViewHolder>
                     else -> R.mipmap.ic_dew_point
                 }
             )
-            rcvEverydayElementBinding.tvRecyclerViewEverydayTime.text = item.time.toString()
+            rcvEverydayElementBinding.tvRecyclerViewEverydayTime.text = item.time
         }
     }
 

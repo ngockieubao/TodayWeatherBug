@@ -43,7 +43,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/corner_radius"
-                    android:text="23°C"
+                    android:text="@string/home_temp"
                     android:textSize="55sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -56,7 +56,7 @@
                     android:layout_height="50dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="17dp"
-                    android:text="32°"
+                    android:text="@string/home_temp_max"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tv_home_celcius"
                     app:layout_constraintTop_toTopOf="parent"
@@ -68,7 +68,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:layout_marginTop="20dp"
-                    android:text="/"
+                    android:text="@string/home_temp_slash"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tv_home_celcius_max"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -80,7 +80,7 @@
                     android:layout_height="50dp"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="33dp"
-                    android:text="20°"
+                    android:text="@string/home_temp_min"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tv_home_celcius_slash"
                     app:layout_constraintTop_toTopOf="parent"
@@ -93,7 +93,7 @@
                 style="@style/txt_grey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TH 5, 05 THÁNG 5"
+                android:text="@string/home_date"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
@@ -103,7 +103,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="3dp"
-                android:text="Hà Nội"
+                android:text="@string/home_location"
                 android:textSize="17sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_home_date" />
@@ -113,7 +113,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="0dp"
-                android:text="Mây đen u ám"
+                android:text="@string/home_status"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_home_location" />
 
@@ -130,7 +130,7 @@
                     style="@style/txt_grey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Hôm nay - Mây đen u ám, Cao 32°C, thấp 20°C."
+                    android:text="@string/home_status_description_above"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -140,7 +140,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="0dp"
-                    android:text="Gió đông nam, tốc độ 20km/h."
+                    android:text="@string/home_status_description_below"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_home_status_description_above" />
 
@@ -155,7 +155,8 @@
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toEndOf="@+id/tv_home_status_description_above"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.542" />
+                    app:layout_constraintVertical_bias="0.542"
+                    tools:ignore="ContentDescription" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <include
@@ -173,7 +174,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                app:layout_constraintTop_toBottomOf="@id/recyclerView_detail_container_element"/>
+                app:layout_constraintTop_toBottomOf="@id/recyclerView_detail_container_element" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
