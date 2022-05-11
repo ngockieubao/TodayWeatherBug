@@ -11,11 +11,16 @@ import com.example.todayweather.databinding.FragmentHomeBinding
 import com.example.todayweather.detail.DetailAdapter
 import com.example.todayweather.detail.DetailViewModel
 import com.example.todayweather.detail.DetailViewModelFactory
+import com.example.todayweather.everyday.EverydayAdapter
+import com.example.todayweather.everyday.EverydayViewModel
+import com.example.todayweather.everyday.EverydayViewModelFactory
 
 class HomeFragment : Fragment() {
     private lateinit var bindingHome: FragmentHomeBinding
     private lateinit var detailViewModel: DetailViewModel
     private lateinit var detailAdapter: DetailAdapter
+    private lateinit var everydayViewModel: EverydayViewModel
+    private lateinit var everydayAdapter: EverydayAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,16 +34,24 @@ class HomeFragment : Fragment() {
         //
         val application = requireNotNull(this.activity).application
         val detailViewModelFactory = DetailViewModelFactory(application)
+        val everyViewModelFactory = EverydayViewModelFactory(application)
 
-        // Init
-        detailViewModel = ViewModelProvider(this, detailViewModelFactory).get(DetailViewModel::class.java)
+        // Init ViewModel & Adapter
+        detailViewModel =
+            ViewModelProvider(this, detailViewModelFactory).get(DetailViewModel::class.java)
         detailAdapter = DetailAdapter()
+        everydayViewModel =
+            ViewModelProvider(this, everyViewModelFactory).get(EverydayViewModel::class.java)
+        everydayAdapter = EverydayAdapter()
+
 
         // Set data
         detailAdapter.dataList = detailViewModel.listData
+        everydayAdapter.dataList = everydayViewModel.listData
 
         // Set adapter
         bindingHome.recyclerViewDetailContainerElement.recyclerViewDetail.adapter = detailAdapter
+        bindingHome.recyclerViewEverydayContainerElement.recyclerViewEveryday.adapter = everydayAdapter
 
         return bindingHome.root
     }

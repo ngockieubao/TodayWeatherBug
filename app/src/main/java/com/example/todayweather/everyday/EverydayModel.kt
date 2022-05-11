@@ -5,8 +5,8 @@ import android.widget.ImageView
 data class EverydayModel(
     val temp: String,
     val humidity: String,
-    val iconStatus: ImageView,
+    val iconStatus: Int,
     val wind: String,
-    val iconPosition: ImageView,
-    val time: Int
+    val iconWindSpeed: Int,
+    val time: String
 )
