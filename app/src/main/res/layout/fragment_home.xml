@@ -117,47 +117,33 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_home_location" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/tv_home_status_description"
+            <LinearLayout
+                android:id="@+id/home_status_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                android:weightSum="10"
                 app:layout_constraintTop_toBottomOf="@+id/tv_home_status">
 
                 <TextView
-                    android:id="@+id/tv_home_status_description_above"
+                    android:id="@+id/tv_home_status_description"
                     style="@style/txt_grey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/home_status_description_above"
+                    android:layout_weight="9"
+                    android:text="@string/home_status_description"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/tv_home_status_description_below"
-                    style="@style/txt_grey"
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="0dp"
-                    android:text="@string/home_status_description_below"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_home_status_description_above" />
-
-                <ImageView
-                    android:layout_width="6dp"
-                    android:layout_height="6dp"
-                    android:layout_marginStart="52dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="0dp"
+                    android:layout_weight="1"
                     android:src="@mipmap/ic_play"
-                    app:flow_verticalAlign="center"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toEndOf="@+id/tv_home_status_description_above"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.542"
+                    app:layout_constraintStart_toEndOf="@+id/tv_home_status_description"
                     tools:ignore="ContentDescription" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
             <include
                 android:id="@+id/recyclerView_detail_container_element"
@@ -165,7 +151,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"
-                app:layout_constraintTop_toBottomOf="@+id/tv_home_status_description" />
+                app:layout_constraintTop_toBottomOf="@+id/home_status_description" />
 
 
             <include
