@@ -11,6 +11,7 @@ import com.example.todayweather.databinding.FragmentHomeBinding
 import com.example.todayweather.detail.DetailAdapter
 import com.example.todayweather.detail.DetailViewModel
 import com.example.todayweather.detail.DetailViewModelFactory
+import com.example.todayweather.detail.detailgetapi.DetailGetApiViewModel
 import com.example.todayweather.everyday.EverydayAdapter
 import com.example.todayweather.everyday.EverydayViewModel
 import com.example.todayweather.everyday.EverydayViewModelFactory
@@ -21,6 +22,8 @@ class HomeFragment : Fragment() {
     private lateinit var detailAdapter: DetailAdapter
     private lateinit var everydayViewModel: EverydayViewModel
     private lateinit var everydayAdapter: EverydayAdapter
+
+    private lateinit var detailGetApiViewModel: DetailGetApiViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,6 +47,7 @@ class HomeFragment : Fragment() {
             ViewModelProvider(this, everyViewModelFactory).get(EverydayViewModel::class.java)
         everydayAdapter = EverydayAdapter()
 
+        detailGetApiViewModel = ViewModelProvider(this).get(DetailGetApiViewModel::class.java)
 
         // Set data
         detailAdapter.dataList = detailViewModel.listData

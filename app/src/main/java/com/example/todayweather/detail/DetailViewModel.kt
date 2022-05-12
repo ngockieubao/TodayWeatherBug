@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.example.todayweather.R
 
 class DetailViewModel(application: Application) : ViewModel() {
-   private val res = application.resources
+    private val res = application.resources
 
     var listData = mutableListOf<DetailModel>()
 

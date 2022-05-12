@@ -1,5 +1,7 @@
 package com.example.todayweather.detail
 
+import com.example.todayweather.detail.data.*
+
 data class DetailModel(
 //    val base: String,
 //    val clouds: Clouds,
@@ -13,8 +15,8 @@ data class DetailModel(
 //    val timezone: Int,
 //    val visibility: Int,
 //    val weather: List<Weather>,
-//    val wind: Wind
-    val icon: Int,
-    val description: String,
-    val result: String
+//    val wind: Wind,
+    val icon: Int? = null,
+    val description: String? = null,
+    val result: String? = null
 )

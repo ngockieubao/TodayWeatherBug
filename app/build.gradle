@@ -51,4 +51,10 @@ dependencies {
 
     // RecyclerView
     implementation "androidx.recyclerview:recyclerview:1.2.1"
+
+    // Retrofit & OkHttp
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+
+    // JSON Converter
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
 }
