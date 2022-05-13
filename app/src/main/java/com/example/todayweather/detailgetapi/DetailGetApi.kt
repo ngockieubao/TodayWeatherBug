@@ -1,6 +1,6 @@
-package com.example.todayweather.detail.detailgetapi
+package com.example.todayweather.detailgetapi
 
-import com.example.todayweather.detail.data.*
+import com.example.todayweather.home.data.*
 
 data class DetailGetApi(
     val base: String,

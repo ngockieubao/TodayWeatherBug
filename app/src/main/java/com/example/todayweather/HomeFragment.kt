@@ -8,19 +8,16 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.todayweather.databinding.FragmentHomeBinding
-import com.example.todayweather.detail.DetailAdapter
-import com.example.todayweather.detail.DetailViewModel
-import com.example.todayweather.detail.DetailViewModelFactory
-import com.example.todayweather.detail.detailgetapi.DetailGetApiViewModel
-import com.example.todayweather.everyday.EverydayAdapter
-import com.example.todayweather.everyday.EverydayViewModel
-import com.example.todayweather.everyday.EverydayViewModelFactory
+import com.example.todayweather.home.DetailAdapter
+import com.example.todayweather.home.HomeViewModel
+import com.example.todayweather.home.HomeViewModelFactory
+import com.example.todayweather.detailgetapi.DetailGetApiViewModel
+import com.example.todayweather.home.EverydayAdapter
 
 class HomeFragment : Fragment() {
     private lateinit var bindingHome: FragmentHomeBinding
-    private lateinit var detailViewModel: DetailViewModel
+    private lateinit var homeViewModel: HomeViewModel
     private lateinit var detailAdapter: DetailAdapter
-    private lateinit var everydayViewModel: EverydayViewModel
     private lateinit var everydayAdapter: EverydayAdapter
 
     private lateinit var detailGetApiViewModel: DetailGetApiViewModel
@@ -36,22 +33,19 @@ class HomeFragment : Fragment() {
 
         //
         val application = requireNotNull(this.activity).application
-        val detailViewModelFactory = DetailViewModelFactory(application)
-        val everyViewModelFactory = EverydayViewModelFactory(application)
+        val homeViewModelFactory = HomeViewModelFactory(application)
 
         // Init ViewModel & Adapter
-        detailViewModel =
-            ViewModelProvider(this, detailViewModelFactory).get(DetailViewModel::class.java)
+        homeViewModel =
+            ViewModelProvider(this, homeViewModelFactory).get(HomeViewModel::class.java)
         detailAdapter = DetailAdapter()
-        everydayViewModel =
-            ViewModelProvider(this, everyViewModelFactory).get(EverydayViewModel::class.java)
         everydayAdapter = EverydayAdapter()
 
         detailGetApiViewModel = ViewModelProvider(this).get(DetailGetApiViewModel::class.java)
 
         // Set data
-        detailAdapter.dataList = detailViewModel.listData
-        everydayAdapter.dataList = everydayViewModel.listData
+        detailAdapter.dataList = homeViewModel.listDataDetail
+        everydayAdapter.dataList = homeViewModel.listDataEveryday
 
         // Set adapter
         bindingHome.recyclerViewDetailContainerElement.recyclerViewDetail.adapter = detailAdapter

@@ -1,7 +1,6 @@
-package com.example.todayweather.detail.detailgetapi
+package com.example.todayweather.detailgetapi
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,10 +12,6 @@ class DetailGetApiViewModel : ViewModel() {
     // The internal MutableLiveData String that stores the most recent response
     private val _response = MutableLiveData<String>()
 
-    // The external immutable LiveData for the response String
-    val response: LiveData<String>
-        get() = _response
-
     init {
         getDetailProperties()
     }
@@ -26,7 +21,7 @@ class DetailGetApiViewModel : ViewModel() {
             try {
 //                val listResult= retrofit.create(WeatherApiService::class.java).getProperties()
                 val listResult = WeatherApi.retrofitService.getProperties()
-                _response.value = "Success: ${listResult.toString()} Weather properties retrieved"
+                _response.value = "Success: $listResult Weather properties retrieved"
                 Log.d("api", listResult.toString())
             } catch (e: Exception) {
                 _response.value = "Failure: ${e.message}"

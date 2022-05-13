@@ -1,6 +1,6 @@
 package com.example.todayweather.network
 
-import com.example.todayweather.detail.detailgetapi.DetailGetApi
+import com.example.todayweather.detailgetapi.DetailGetApi
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -8,7 +8,7 @@ import retrofit2.http.GET
 private const val BASE_URL =
     "https://api.openweathermap.org/"
 
-val retrofit = Retrofit.Builder()
+val retrofit: Retrofit = Retrofit.Builder()
     .addConverterFactory(GsonConverterFactory.create())
     .baseUrl(BASE_URL)
     .build()

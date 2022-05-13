@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.example.todayweather.detail.DetailModel" />
+            type="com.example.todayweather.home.HomeModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

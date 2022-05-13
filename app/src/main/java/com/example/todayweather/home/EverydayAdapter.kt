@@ -1,4 +1,4 @@
-package com.example.todayweather.everyday
+package com.example.todayweather.home
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -10,7 +10,7 @@ import com.example.todayweather.databinding.RcvEverydayElementBinding
 class EverydayAdapter : RecyclerView.Adapter<EverydayAdapter.EverydayViewHolder>() {
 
     // init list data
-    var dataList = listOf<EverydayModel>()
+    var dataList = listOf<HomeModel>()
         @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
@@ -20,7 +20,7 @@ class EverydayAdapter : RecyclerView.Adapter<EverydayAdapter.EverydayViewHolder>
     class EverydayViewHolder(private val rcvEverydayElementBinding: RcvEverydayElementBinding) :
         RecyclerView.ViewHolder(rcvEverydayElementBinding.root) {
 
-        fun bind(item: EverydayModel?) {
+        fun bind(item: HomeModel?) {
             if (item == null) return
 
             rcvEverydayElementBinding.tvRecyclerViewEverydayTemp.text = item.temp
@@ -60,5 +60,3 @@ class EverydayAdapter : RecyclerView.Adapter<EverydayAdapter.EverydayViewHolder>
         return dataList.size
     }
 }
-
-//class DetailAdapter : RecyclerView.Adapter<DetailAdapter.DetailViewHolder>() {

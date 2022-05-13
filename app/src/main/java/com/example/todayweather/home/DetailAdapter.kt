@@ -1,4 +1,4 @@
-package com.example.todayweather.detail
+package com.example.todayweather.home
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -10,7 +10,7 @@ import com.example.todayweather.databinding.RcvDetailElementBinding
 class DetailAdapter : RecyclerView.Adapter<DetailAdapter.DetailViewHolder>() {
 
     // init list data
-    var dataList = listOf<DetailModel>()
+    var dataList = listOf<HomeModel>()
         @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
@@ -20,7 +20,7 @@ class DetailAdapter : RecyclerView.Adapter<DetailAdapter.DetailViewHolder>() {
     // create ViewHolder with args are binding layout
     class DetailViewHolder(private val recyclerviewDetailElementBinding: RcvDetailElementBinding) :
         RecyclerView.ViewHolder(recyclerviewDetailElementBinding.root) {
-        fun bind(item: DetailModel?) {
+        fun bind(item: HomeModel?) {
             if (item == null) return
 
             recyclerviewDetailElementBinding.imgViewIcHomeDetail.setImageResource(
