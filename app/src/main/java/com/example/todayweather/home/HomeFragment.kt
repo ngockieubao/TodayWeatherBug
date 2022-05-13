@@ -1,26 +1,23 @@
-package com.example.todayweather
+package com.example.todayweather.home
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.todayweather.R
+import com.example.todayweather.database.WeatherDatabase
 import com.example.todayweather.databinding.FragmentHomeBinding
-import com.example.todayweather.home.DetailAdapter
-import com.example.todayweather.home.HomeViewModel
-import com.example.todayweather.home.HomeViewModelFactory
-import com.example.todayweather.detailgetapi.DetailGetApiViewModel
-import com.example.todayweather.home.EverydayAdapter
 
 class HomeFragment : Fragment() {
     private lateinit var bindingHome: FragmentHomeBinding
-    private lateinit var homeViewModel: HomeViewModel
+    private lateinit var homeViewModel: WeatherViewModel
+    private lateinit var weatherViewModel: WeatherViewModel
     private lateinit var detailAdapter: DetailAdapter
-    private lateinit var everydayAdapter: EverydayAdapter
-
-    private lateinit var detailGetApiViewModel: DetailGetApiViewModel
+//    private lateinit var dailyAdapter: DailyAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,23 +30,23 @@ class HomeFragment : Fragment() {
 
         //
         val application = requireNotNull(this.activity).application
-        val homeViewModelFactory = HomeViewModelFactory(application)
 
-        // Init ViewModel & Adapter
-        homeViewModel =
-            ViewModelProvider(this, homeViewModelFactory).get(HomeViewModel::class.java)
+        // Init ViewModel & Adapter & Database
+        val dataSource = WeatherDatabase.getInstance(application).weatherDAO
+        val weatherViewModelFactory = WeatherViewModelFactory(dataSource, application)
+        weatherViewModel = ViewModelProvider(this, weatherViewModelFactory).get(WeatherViewModel::class.java)
         detailAdapter = DetailAdapter()
-        everydayAdapter = EverydayAdapter()
-
-        detailGetApiViewModel = ViewModelProvider(this).get(DetailGetApiViewModel::class.java)
+//        dailyAdapter = DailyAdapter()
 
         // Set data
-        detailAdapter.dataList = homeViewModel.listDataDetail
-        everydayAdapter.dataList = homeViewModel.listDataEveryday
+        weatherViewModel.properties.observe(this.viewLifecycleOwner, Observer {
+            detailAdapter.dataList = it
+        })
+//        dailyAdapter.dataList = weatherViewModel.listDataEveryday
 
         // Set adapter
         bindingHome.recyclerViewDetailContainerElement.recyclerViewDetail.adapter = detailAdapter
-        bindingHome.recyclerViewEverydayContainerElement.recyclerViewEveryday.adapter = everydayAdapter
+//        bindingHome.recyclerViewEverydayContainerElement.recyclerViewEveryday.adapter = dailyAdapter
 
         return bindingHome.root
     }

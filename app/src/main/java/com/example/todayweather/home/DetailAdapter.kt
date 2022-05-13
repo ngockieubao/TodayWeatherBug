@@ -6,11 +6,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todayweather.R
 import com.example.todayweather.databinding.RcvDetailElementBinding
+import com.example.todayweather.home.model.WeatherGetApi
 
 class DetailAdapter : RecyclerView.Adapter<DetailAdapter.DetailViewHolder>() {
 
     // init list data
-    var dataList = listOf<HomeModel>()
+    var dataList = listOf<WeatherGetApi>()
         @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
@@ -20,11 +21,11 @@ class DetailAdapter : RecyclerView.Adapter<DetailAdapter.DetailViewHolder>() {
     // create ViewHolder with args are binding layout
     class DetailViewHolder(private val recyclerviewDetailElementBinding: RcvDetailElementBinding) :
         RecyclerView.ViewHolder(recyclerviewDetailElementBinding.root) {
-        fun bind(item: HomeModel?) {
+        fun bind(item: WeatherGetApi?) {
             if (item == null) return
 
             recyclerviewDetailElementBinding.imgViewIcHomeDetail.setImageResource(
-                when (item.icon) {
+                when (item.current.icon) {
                     1 -> R.mipmap.ic_temperature
                     2 -> R.mipmap.ic_water
                     3 -> R.mipmap.ic_sun
@@ -34,8 +35,8 @@ class DetailAdapter : RecyclerView.Adapter<DetailAdapter.DetailViewHolder>() {
                     else -> R.mipmap.ic_temperature
                 }
             )
-            recyclerviewDetailElementBinding.tvTitleHomeDetail.text = item.description
-            recyclerviewDetailElementBinding.tvResHomeDetail.text = item.result
+            recyclerviewDetailElementBinding.tvTitleHomeDetail.text = item.current.description
+            recyclerviewDetailElementBinding.tvResHomeDetail.text = item.current.temp.toString()
         }
     }
 
