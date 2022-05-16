@@ -5,6 +5,6 @@
     android:layout_height="match_parent"
     tools:context=".sevendays.SevenDaysFragment">
 
-    <include layout="@layout/rcv_7days"/>
+    <include layout="@layout/rcv_daily_nav"/>
 
 </FrameLayout>

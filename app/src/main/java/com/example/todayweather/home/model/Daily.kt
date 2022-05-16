@@ -19,5 +19,6 @@ data class Daily(
     val weather: List<Weather>,
     val wind_deg: Int,
     val wind_gust: Double,
-    val wind_speed: Double
+    val wind_speed: Double,
+    val icon: Int? = null
 )
