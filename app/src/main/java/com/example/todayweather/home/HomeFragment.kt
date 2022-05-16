@@ -7,18 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.todayweather.fragment.HourlyFragment
 import com.example.todayweather.R
 import com.example.todayweather.database.WeatherDatabase
 import com.example.todayweather.databinding.FragmentHomeBinding
-import com.example.todayweather.home.model.Hourly
 
 class HomeFragment : Fragment() {
     private lateinit var bindingHome: FragmentHomeBinding
     private lateinit var weatherViewModel: WeatherViewModel
     private lateinit var detailAdapter: DetailAdapter
     private lateinit var hourlyAdapter: HourlyAdapter
-//    private lateinit var dailyA
-
+//    private lateinit var dailyAdapter: DailyAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,7 +25,10 @@ class HomeFragment : Fragment() {
     ): View {
         bindingHome = FragmentHomeBinding.inflate(inflater)
         bindingHome.tvHomeStatusDescription.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_sevenDaysFragment)
+            findNavController().navigate(R.id.action_homeFragment_to_dailyFragment)
+        }
+        bindingHome.recyclerViewHourlyContainerElement.constraintHeaderHourly.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_hourlyFragment)
         }
 
         val application = requireNotNull(this.activity).application
@@ -34,12 +36,12 @@ class HomeFragment : Fragment() {
         // Init ViewModel & Adapter & Database
         val dataSource = WeatherDatabase.getInstance(application).weatherDAO
         val weatherViewModelFactory = WeatherViewModelFactory(dataSource, application)
-        weatherViewModel = ViewModelProvider(this, weatherViewModelFactory).get(WeatherViewModel::class.java)
+        weatherViewModel = ViewModelProvider(requireActivity(), weatherViewModelFactory).get(WeatherViewModel::class.java)
 //        bindingHome.tvHomeCelciusMax =
 
         detailAdapter = DetailAdapter()
         hourlyAdapter = HourlyAdapter()
-
+//        dailyAdapter = DailyAdapter()
 
         // Set data
         weatherViewModel.listDataDetail.observe(this.viewLifecycleOwner) {
@@ -49,6 +51,8 @@ class HomeFragment : Fragment() {
         weatherViewModel.listDataHourly.observe(this.viewLifecycleOwner) {
             hourlyAdapter.dataList = it
         }
+
+//        dailyAdapter.dataList = weatherViewModel.
 
         // Set adapter
         bindingHome.recyclerViewDetailContainerElement.recyclerViewDetail.adapter = detailAdapter

@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todayweather.R
 import com.example.todayweather.database.WeatherDAO
+import com.example.todayweather.home.model.Daily
 import com.example.todayweather.home.model.Hourly
 import com.example.todayweather.home.model.WeatherGetApi
 import com.example.todayweather.network.WeatherApi
@@ -18,8 +19,11 @@ class WeatherViewModel(
 ) : ViewModel() {
     var listDataDetail = MutableLiveData<MutableList<HomeModel>>()
     var listDataHourly = MutableLiveData<MutableList<Hourly>>()
+    var listDataDaily = MutableLiveData<MutableList<Daily>>()
+
     var listDetail = mutableListOf<HomeModel>()
     var listHourly = mutableListOf<Hourly>()
+    var listDaily = mutableListOf<Daily>()
 
     private val res = application.resources
     private val _properties = MutableLiveData<WeatherGetApi>()
@@ -36,6 +40,9 @@ class WeatherViewModel(
                 addDataDetail()
                 listHourly = _properties.value!!.hourly
                 listDataHourly.value = listHourly
+
+//                listDaily = _properties.value!!.hourly
+//                listDataHourly.value = listHourly
             } catch (e: Exception) {
                 Log.d("bug", e.toString())
             }

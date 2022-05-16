@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.example.todayweather.home.model.Hourly" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        android:padding="17dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout_hourly_nav_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imgView_hourly_nav_cloudy"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:background="#8F8F8F"
+                android:foregroundGravity="center_horizontal"
+                android:scaleType="centerInside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/RoundImage"
+                app:srcCompat="@mipmap/ic_cloud" />
+
+            <TextView
+                android:id="@+id/tv_hourly_nav_humidity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="100%"
+                android:textColor="#2196F3"
+                android:textSize="10sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imgView_hourly_nav_cloudy"
+                tools:text="100%" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="330dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="0dp"
+            app:layout_constraintStart_toEndOf="@+id/constraintLayout_hourly_nav_left"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_hourly_nav_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="THỨ 2, 16 THÁNG 5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="THỨ 2, 16 THÁNG 5" />
+
+            <TextView
+                android:id="@+id/tv_hourly_nav_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="32° / 20°"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_hourly_nav_date"
+                tools:text="32° / 20°" />
+
+            <TextView
+                android:id="@+id/tv_daily_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mây đen u ám. Cao 32°C, thấp 20°C. Gió đông nam, tốc độ 20 km/h"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_hourly_nav_temp"
+                tools:text="Mây đen u ám. Cao 32°C, thấp 20°C. Gió đông nam, tốc độ 20 km/h" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
