@@ -5,13 +5,14 @@
     <string name="rcv_detail_title">Chi tiết</string>
 
     <!--  String detail description  -->
-    <string name="temperature_C">%d℃</string>
-    <string name="temperature_F">%d℉</string>
+    <string name="temperature_C">%.1f℃</string>
+    <string name="temperature_F">%.1f℉</string>
     <string name="humidity">%d%%</string>
-    <string name="visibility">%dkm</string>
-    <string name="dew_point">%d%%</string>
-    <string name="pressure">%dmb</string>
-    <string name="wind_speed">%d km/h</string>
+    <string name="visibility">%d km</string>
+    <string name="dew_point">%.0f°C</string>
+    <string name="pressure">%d mb</string>
+    <string name="wind_speed">%f km/h</string>
+    <string name="uvi">%.1f</string>
     <string name="rcv_everyday_title">Hàng giờ</string>
     <string name="time">%s</string>
     <string name="home_status_description">Hôm nay - Mây đen u ám, Cao 32°C, thấp 20°C. Gió đông nam, tốc độ 20km/h.</string>

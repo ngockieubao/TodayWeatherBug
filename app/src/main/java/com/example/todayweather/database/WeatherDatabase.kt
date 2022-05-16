@@ -6,9 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.todayweather.home.model.WeatherGetApi
+import com.example.todayweather.home.model.WeatherGetApiDTO
 import com.example.todayweather.network.Converters
 
-@Database(entities = [WeatherGetApi::class], version = 1, exportSchema = false)
+@Database(entities = [WeatherGetApiDTO::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class WeatherDatabase : RoomDatabase() {
     abstract val weatherDAO: WeatherDAO

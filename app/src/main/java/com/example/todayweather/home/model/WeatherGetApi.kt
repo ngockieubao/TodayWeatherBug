@@ -3,9 +3,7 @@ package com.example.todayweather.home.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "get_api_table")
 data class WeatherGetApi(
-    @PrimaryKey val id: Int=1,
     val current: Current,
     val daily: List<Daily>,
     val hourly: List<Hourly>,
