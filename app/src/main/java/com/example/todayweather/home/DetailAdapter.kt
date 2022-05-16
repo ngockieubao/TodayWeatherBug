@@ -18,12 +18,12 @@ class DetailAdapter : RecyclerView.Adapter<DetailAdapter.DetailViewHolder>() {
         }
 
     // create ViewHolder with args are binding layout
-    class DetailViewHolder(private val recyclerviewDetailElementBinding: RcvDetailElementBinding) :
-        RecyclerView.ViewHolder(recyclerviewDetailElementBinding.root) {
+    class DetailViewHolder(private val rcvDetailElementBinding: RcvDetailElementBinding) :
+        RecyclerView.ViewHolder(rcvDetailElementBinding.root) {
         fun bind(item: HomeModel?) {
             if (item == null) return
 
-            recyclerviewDetailElementBinding.imgViewIcHomeDetail.setImageResource(
+            rcvDetailElementBinding.imgViewIcHomeDetail.setImageResource(
                 when (item.icon) {
                     1 -> R.mipmap.ic_temperature
                     2 -> R.mipmap.ic_water
@@ -34,8 +34,8 @@ class DetailAdapter : RecyclerView.Adapter<DetailAdapter.DetailViewHolder>() {
                     else -> R.mipmap.ic_temperature
                 }
             )
-            recyclerviewDetailElementBinding.tvTitleHomeDetail.text = item.description
-            recyclerviewDetailElementBinding.tvResHomeDetail.text = item.result
+            rcvDetailElementBinding.tvTitleHomeDetail.text = item.description
+            rcvDetailElementBinding.tvResHomeDetail.text = item.result
         }
     }
 

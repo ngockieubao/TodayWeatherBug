@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todayweather.R
 import com.example.todayweather.database.WeatherDAO
+import com.example.todayweather.home.model.Hourly
 import com.example.todayweather.home.model.WeatherGetApi
 import com.example.todayweather.network.WeatherApi
 import kotlinx.coroutines.launch
@@ -16,7 +17,9 @@ class WeatherViewModel(
     private val database: WeatherDAO, application: Application
 ) : ViewModel() {
     var listDataDetail = MutableLiveData<MutableList<HomeModel>>()
+    var listDataHourly = MutableLiveData<MutableList<Hourly>>()
     var listDetail = mutableListOf<HomeModel>()
+    var listHourly = mutableListOf<Hourly>()
 
     private val res = application.resources
     private val _properties = MutableLiveData<WeatherGetApi>()
@@ -31,6 +34,8 @@ class WeatherViewModel(
             try {
                 _properties.value = WeatherApi.retrofitService.getProperties()
                 addDataDetail()
+                listHourly = _properties.value!!.hourly
+                listDataHourly.value = listHourly
             } catch (e: Exception) {
                 Log.d("bug", e.toString())
             }
@@ -56,57 +61,4 @@ class WeatherViewModel(
         listDetail.add(index6)
         listDataDetail.value = listDetail
     }
-
-//    private fun addDataDaily() {
-//        val index1 = HomeModel(
-//            temp = res.getString(R.string.temperature_C, 28), humidity = res.getString(R.string.humidity, 15), iconStatus = 1,
-//            wind = res.getString(R.string.wind_speed, 16), iconWindSpeed = 1, time = res.getString(R.string.time, "10:00")
-//        )
-//        listDataDaily.add(index1)
-//        val index2 = HomeModel(
-//            temp = res.getString(R.string.temperature_C, 24), humidity = res.getString(R.string.humidity, 25), iconStatus = 1,
-//            wind = res.getString(R.string.wind_speed, 15), iconWindSpeed = 1, time = res.getString(R.string.time, "11:00")
-//        )
-//        listDataDaily.add(index2)
-//        val index3 = HomeModel(
-//            temp = res.getString(R.string.temperature_C, 27), humidity = res.getString(R.string.humidity, 37), iconStatus = 1,
-//            wind = res.getString(R.string.wind_speed, 19), iconWindSpeed = 1, time = res.getString(R.string.time, "12:00")
-//        )
-//        listDataDaily.add(index3)
-//        val index4 = HomeModel(
-//            temp = res.getString(R.string.temperature_C, 19), humidity = res.getString(R.string.humidity, 40), iconStatus = 1,
-//            wind = res.getString(R.string.wind_speed, 10), iconWindSpeed = 1, time = res.getString(R.string.time, "13:00")
-//        )
-//        listDataDaily.add(index4)
-//        val index5 = HomeModel(
-//            temp = res.getString(R.string.temperature_C, 28), humidity = res.getString(R.string.humidity, 15), iconStatus = 1,
-//            wind = res.getString(R.string.wind_speed, 16), iconWindSpeed = 1, time = res.getString(R.string.time, "14:00")
-//        )
-//        listDataDaily.add(index5)
-//        val index6 = HomeModel(
-//            temp = res.getString(R.string.temperature_C, 24), humidity = res.getString(R.string.humidity, 25), iconStatus = 1,
-//            wind = res.getString(R.string.wind_speed, 15), iconWindSpeed = 1, time = res.getString(R.string.time, "15:00")
-//        )
-//        listDataDaily.add(index6)
-//        val index7 = HomeModel(
-//            temp = res.getString(R.string.temperature_C, 27), humidity = res.getString(R.string.humidity, 37), iconStatus = 1,
-//            wind = res.getString(R.string.wind_speed, 19), iconWindSpeed = 1, time = res.getString(R.string.time, "16:00")
-//        )
-//        listDataDaily.add(index7)
-//        val index8 = HomeModel(
-//            temp = res.getString(R.string.temperature_C, 19), humidity = res.getString(R.string.humidity, 40), iconStatus = 1,
-//            wind = res.getString(R.string.wind_speed, 10), iconWindSpeed = 1, time = res.getString(R.string.time, "17:00")
-//        )
-//        listDataDaily.add(index8)
-//        val index9 = HomeModel(
-//            temp = res.getString(R.string.temperature_C, 27), humidity = res.getString(R.string.humidity, 37), iconStatus = 1,
-//            wind = res.getString(R.string.wind_speed, 19), iconWindSpeed = 1, time = res.getString(R.string.time, "18:00")
-//        )
-//        listDataDaily.add(index9)
-//        val index10 = HomeModel(
-//            temp = res.getString(R.string.temperature_C, 19), humidity = res.getString(R.string.humidity, 40), iconStatus = 1,
-//            wind = res.getString(R.string.wind_speed, 10), iconWindSpeed = 1, time = res.getString(R.string.time, "19:00")
-//        )
-//        listDataDaily.add(index10)
-//  }
 }

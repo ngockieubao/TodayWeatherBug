@@ -5,46 +5,47 @@
 //import android.view.ViewGroup
 //import androidx.recyclerview.widget.RecyclerView
 //import com.example.todayweather.R
-//import com.example.todayweather.databinding.RcvEverydayElementBinding
+//import com.example.todayweather.databinding.RcvHourlyElementBinding
+//import com.example.todayweather.home.model.Daily
+//import com.example.todayweather.home.model.Hourly
 //
-//class DailyAdapter : RecyclerView.Adapter<DailyAdapter.EverydayViewHolder>() {
+//class DailyAdapter : RecyclerView.Adapter<DailyAdapter.DailyViewHolder>() {
 //
 //    // init list data
-//    var dataList = listOf<HomeModel>()
+//    var dataList = listOf<Daily>()
 //        @SuppressLint("NotifyDataSetChanged")
 //        set(value) {
 //            field = value
 //            notifyDataSetChanged()
 //        }
 //
-//    class EverydayViewHolder(private val rcvEverydayElementBinding: RcvEverydayElementBinding) :
-//        RecyclerView.ViewHolder(rcvEverydayElementBinding.root) {
+//    // create ViewHolder with args are binding layout
+//    class DailyViewHolder(private val rcvDailyElementBinding: RcvHourlyElementBinding) :
+//        RecyclerView.ViewHolder(rcvDailyElementBinding.root) {
 //
-//        fun bind(item: HomeModel?) {
+//        fun bind(item: Daily?) {
 //            if (item == null) return
-//
-//            rcvEverydayElementBinding.tvRecyclerViewEverydayTemp.text = item.temp
-//            rcvEverydayElementBinding.tvRecyclerViewEverydayHumidity.text = item.humidity
-//            rcvEverydayElementBinding.imgViewIcStatusHomeRcvEveryday.setImageResource(
-//                when (item.iconStatus) {
+//            rcvDailyElementBinding.item = item
+//            rcvDailyElementBinding.rcvHourlyImgViewIcStatus.setImageResource(
+//                when(item.icon){
 //                    1 -> R.mipmap.ic_cloud
-//                    else -> R.mipmap.ic_cloud
+//                    2 -> R.mipmap.ic_sun
+//                    else -> R.mipmap.ic_water
 //                }
 //            )
-//            rcvEverydayElementBinding.tvRecyclerViewEverydayWindSpeed.text = item.wind
-//            rcvEverydayElementBinding.imgViewIcWindSpeedHomeRcvEveryday.setImageResource(
-//                when (item.iconWindSpeed) {
-//                    1 -> R.mipmap.ic_dew_point
-//                    else -> R.mipmap.ic_dew_point
+//            rcvHourlyElementBinding.rcvHourlyImgViewIcWindSpeed.setImageResource(
+//                when(item.icon){
+//                    1 -> R.mipmap.ic_cloud
+//                    2 -> R.mipmap.ic_sun
+//                    else -> R.mipmap.ic_water
 //                }
 //            )
-//            rcvEverydayElementBinding.tvRecyclerViewEverydayTime.text = item.time
 //        }
 //    }
 //
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EverydayViewHolder {
-//        return EverydayViewHolder(
-//            RcvEverydayElementBinding.inflate(
+//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DailyViewHolder {
+//        return DailyViewHolder(
+//            RcvHourlyElementBinding.inflate(
 //                LayoutInflater.from(parent.context),
 //                parent,
 //                false
@@ -52,7 +53,7 @@
 //        )
 //    }
 //
-//    override fun onBindViewHolder(holder: EverydayViewHolder, position: Int) {
+//    override fun onBindViewHolder(holder: DailyViewHolder, position: Int) {
 //        holder.bind(dataList[position])
 //    }
 //

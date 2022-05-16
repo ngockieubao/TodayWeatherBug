@@ -3,7 +3,7 @@ package com.example.todayweather.home.model
 data class Hourly(
     val clouds: Int,
     val dew_point: Double,
-    val dt: Int,
+    val dt: Long,
     val feels_like: Double,
     val humidity: Int,
     val pop: Double,
@@ -15,5 +15,6 @@ data class Hourly(
     val weather: List<Weather>,
     val wind_deg: Int,
     val wind_gust: Double,
-    val wind_speed: Double
+    val wind_speed: Double,
+    val icon: Int? = null
 )
