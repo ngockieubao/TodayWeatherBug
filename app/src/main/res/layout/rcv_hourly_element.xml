@@ -29,6 +29,7 @@
             android:padding="5dp" />
 
         <TextView
+            android:layout_marginBottom="3dp"
             style="@style/txt_blue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

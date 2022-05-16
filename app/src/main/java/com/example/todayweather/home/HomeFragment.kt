@@ -10,15 +10,13 @@ import androidx.navigation.fragment.findNavController
 import com.example.todayweather.R
 import com.example.todayweather.database.WeatherDatabase
 import com.example.todayweather.databinding.FragmentHomeBinding
-import com.example.todayweather.home.model.Hourly
 
 class HomeFragment : Fragment() {
     private lateinit var bindingHome: FragmentHomeBinding
     private lateinit var weatherViewModel: WeatherViewModel
     private lateinit var detailAdapter: DetailAdapter
     private lateinit var hourlyAdapter: HourlyAdapter
-//    private lateinit var dailyA
-
+//    private lateinit var dailyAdapter: DailyAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,21 +32,19 @@ class HomeFragment : Fragment() {
         // Init ViewModel & Adapter & Database
         val dataSource = WeatherDatabase.getInstance(application).weatherDAO
         val weatherViewModelFactory = WeatherViewModelFactory(dataSource, application)
-        weatherViewModel = ViewModelProvider(this, weatherViewModelFactory).get(WeatherViewModel::class.java)
-//        bindingHome.tvHomeCelciusMax =
+        weatherViewModel = ViewModelProvider(requireActivity(), weatherViewModelFactory).get(WeatherViewModel::class.java)
 
         detailAdapter = DetailAdapter()
         hourlyAdapter = HourlyAdapter()
-
 
         // Set data
         weatherViewModel.listDataDetail.observe(this.viewLifecycleOwner) {
             detailAdapter.dataList = it
         }
-
         weatherViewModel.listDataHourly.observe(this.viewLifecycleOwner) {
             hourlyAdapter.dataList = it
         }
+
 
         // Set adapter
         bindingHome.recyclerViewDetailContainerElement.recyclerViewDetail.adapter = detailAdapter
