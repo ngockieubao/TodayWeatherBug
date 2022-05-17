@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.todayweather.R
 import com.example.todayweather.databinding.RcvHourlyNavBinding
 import com.example.todayweather.home.model.Hourly
+import java.text.SimpleDateFormat
+import java.util.*
 
 class HourlyNavAdapter : RecyclerView.Adapter<HourlyNavAdapter.HourlyNavViewHolder>() {
 
@@ -25,12 +27,43 @@ class HourlyNavAdapter : RecyclerView.Adapter<HourlyNavAdapter.HourlyNavViewHold
         fun bind(item: Hourly?) {
             if (item == null) return
             rcvNavHourlyBinding.imgViewHourlyNavIcon.setImageResource(
-                when(item.icon){
-                    1 -> R.mipmap.ic_cloud
+                when (item.icon) {
+                    1 -> R.mipmap.ic_water
                     2 -> R.mipmap.ic_sun
-                    else -> R.mipmap.ic_water
+                    else -> R.mipmap.ic_cloud
                 }
             )
+
+            // Format data
+            // humidity
+            val pop = item.pop * 100
+            val popFormat = String.format("%.0f%%", pop)
+            if (pop != 0.0)
+                rcvNavHourlyBinding.tvHourlyNavHumidity.text = popFormat
+            else
+                rcvNavHourlyBinding.tvHourlyNavHumidity.text = " "
+
+            // date
+            val getDate = item.dt
+            val time = Date(getDate * 1000)
+            val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+            rcvNavHourlyBinding.tvHourlyNavTime.text = timeFormat.format(time)
+
+            // temp
+            val temp = item.temp
+            val feelsLike = item.feels_like
+            val tempFormat = String.format("%.0f", temp)
+            val feelsLikeFormat = String.format("%.0f", feelsLike)
+            val tempFeelsLike = "$tempFormat°C - Cảm Giác Như: $feelsLikeFormat°C"
+            rcvNavHourlyBinding.tvHourlyNavTemp.text = tempFeelsLike
+
+            // status description
+            val statusAbove = item.weather[0].description
+            rcvNavHourlyBinding.tvHourlyNavStatusAbove.text = statusAbove
+            val statusBelowWind = item.wind_speed
+            val statusBelowWindDeg = item.wind_deg
+            val statusBelowWindFormat = String.format("Gió: %.0fkm/h •", statusBelowWind)
+            rcvNavHourlyBinding.tvHourlyNavStatusBelow.text = statusBelowWindFormat
         }
     }
 
