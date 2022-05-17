@@ -62,9 +62,6 @@ class HomeFragment : Fragment() {
         bindingHome.recyclerViewDetailContainerElement.recyclerViewDetail.adapter = detailAdapter
         bindingHome.recyclerViewHourlyContainerElement.recyclerViewHourly.adapter = hourlyAdapter
 
-        fun setDataToListHourlyNav(data: MutableList<Hourly>) {
-            sharedViewModel.addListHourlyNav(data)
-        }
         return bindingHome.root
     }
 }

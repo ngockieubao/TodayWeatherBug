@@ -26,14 +26,13 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/imgView_hourly_nav_cloudy"
+                android:id="@+id/imgView_hourly_nav_icon"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="0dp"
                 android:background="#4E4E4E"
                 android:foregroundGravity="center_horizontal"
                 android:scaleType="centerInside"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearanceOverlay="@style/RoundImage"
@@ -47,8 +46,9 @@
                 android:text="100%"
                 android:textColor="#2196F3"
                 android:textSize="10sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imgView_hourly_nav_cloudy" />
+                app:layout_constraintTop_toBottomOf="@+id/imgView_hourly_nav_icon" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout

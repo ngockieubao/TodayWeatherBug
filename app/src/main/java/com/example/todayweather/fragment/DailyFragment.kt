@@ -5,14 +5,45 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import com.example.todayweather.R
+import com.example.todayweather.adapter.DailyNavAdapter
+import com.example.todayweather.databinding.FragmentNavDailyBinding
+import com.example.todayweather.home.WeatherViewModel
+import com.example.todayweather.home.model.Daily
+import com.example.todayweather.home.model.Hourly
 
 class DailyFragment : Fragment() {
+    private lateinit var bindingDailyNavBinding: FragmentNavDailyBinding
+    private lateinit var dailyNavAdapter: DailyNavAdapter
+
+    private val sharedViewModel: WeatherViewModel by activityViewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_nav_daily, container, false)
+
+        bindingDailyNavBinding = FragmentNavDailyBinding.inflate(inflater, container, false)
+
+        return bindingDailyNavBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        bindingDailyNavBinding.apply {
+            lifecycleOwner = viewLifecycleOwner
+            viewModel = sharedViewModel
+        }
+
+        dailyNavAdapter = DailyNavAdapter()
+
+        sharedViewModel.listDataDaily.observe(this.viewLifecycleOwner) {
+            dailyNavAdapter.dataList = it
+        }
+
+
+        bindingDailyNavBinding.rcvNavDaily.adapter = dailyNavAdapter
     }
 }

@@ -1,11 +1,17 @@
-package com.example.todayweather
+package com.example.todayweather.util
 
 import android.annotation.SuppressLint
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import com.example.todayweather.R
 import java.text.SimpleDateFormat
 import java.util.*
+
+@BindingAdapter("setHumidity")
+fun TextView.setHumidity(humidity: Int){
+    this.text = context.getString(R.string.humidity, humidity)
+}
 
 @BindingAdapter("setTemp")
 fun TextView.setTemp(temp: Double) {

@@ -11,6 +11,7 @@ import com.example.todayweather.databinding.FragmentNavHourlyBinding
 import com.example.todayweather.adapter.HourlyNavAdapter
 import com.example.todayweather.databinding.RcvHourlyNavBinding
 import com.example.todayweather.home.WeatherViewModel
+import com.example.todayweather.home.model.Hourly
 
 class HourlyFragment : Fragment() {
     private lateinit var bindingHourlyNavBinding: FragmentNavHourlyBinding
@@ -24,24 +25,12 @@ class HourlyFragment : Fragment() {
     ): View? {
         bindingHourlyNavBinding = FragmentNavHourlyBinding.inflate(inflater, container, false)
 
-        val application = requireNotNull(this.activity).application
-//
-//        // Init ViewModel & Adapter & Database
-//        val dataSource = WeatherDatabase.getInstance(application).weatherDAO
-//        val weatherViewModelFactory = WeatherViewModelFactory(dataSource, application)
-//        weatherViewModel = ViewModelProvider(
-//            requireActivity(),
-//            weatherViewModelFactory
-//        ).get(WeatherViewModel::class.java)
-
-
         return bindingHourlyNavBinding.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bindingHourlyNavBinding
 
         bindingHourlyNavBinding.apply {
             // Specify the fragment as the lifecycle owner
@@ -50,7 +39,7 @@ class HourlyFragment : Fragment() {
             // Assign the view model to a property in the binding class
             viewModel = sharedViewModel
 
-            // using for onClick listener
+            // use for onClick listener
 //            hourlyFragment = this@HourlyFragment
         }
 
@@ -59,6 +48,7 @@ class HourlyFragment : Fragment() {
         sharedViewModel.listDataHourly.observe(this.viewLifecycleOwner) {
             hourlyNavAdapter.dataList = it
         }
+
 
         bindingHourlyNavBinding.rcvNavHourly.adapter = hourlyNavAdapter
     }

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.todayweather.R
 import com.example.todayweather.databinding.RcvHourlyNavBinding
 import com.example.todayweather.home.model.Hourly
 
@@ -23,7 +24,13 @@ class HourlyNavAdapter : RecyclerView.Adapter<HourlyNavAdapter.HourlyNavViewHold
 
         fun bind(item: Hourly?) {
             if (item == null) return
-            rcvNavHourlyBinding.item = item
+            rcvNavHourlyBinding.imgViewHourlyNavIcon.setImageResource(
+                when(item.icon){
+                    1 -> R.mipmap.ic_cloud
+                    2 -> R.mipmap.ic_sun
+                    else -> R.mipmap.ic_water
+                }
+            )
         }
     }
 

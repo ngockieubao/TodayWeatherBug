@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todayweather.R
 import com.example.todayweather.database.WeatherDAO
+import com.example.todayweather.home.model.Daily
 import com.example.todayweather.home.model.Hourly
 import com.example.todayweather.home.model.WeatherGetApi
 import com.example.todayweather.network.WeatherApi
@@ -16,15 +17,21 @@ import kotlinx.coroutines.launch
 class WeatherViewModel(
     private val database: WeatherDAO, application: Application
 ) : ViewModel() {
+    // list data detail
+    private var listDetail = mutableListOf<HomeModel>()
     var listDataDetail = MutableLiveData<MutableList<HomeModel>>()
 
+    // daily nav
+    private val _listDailyNav = MutableLiveData<MutableList<Daily>>()
+    val listDataDaily: LiveData<MutableList<Daily>>
+        get() = _listDailyNav
+
+    // hourly nav
     private val _listHourlyNav = MutableLiveData<MutableList<Hourly>>()
-    var listDataHourly = MutableLiveData<MutableList<Hourly>>()
+    val listDataHourly: LiveData<MutableList<Hourly>>
         get() = _listHourlyNav
 
-    private var listDetail = mutableListOf<HomeModel>()
-    private var listHourly = mutableListOf<Hourly>()
-
+    // var using for set data to list data detail
     private val res = application.resources
 
     private val _properties = MutableLiveData<WeatherGetApi>()
@@ -40,16 +47,26 @@ class WeatherViewModel(
     private fun getWeatherProperties() {
         viewModelScope.launch {
             try {
+                // get data from API
                 _properties.value = WeatherApi.retrofitService.getProperties()
                 addDataDetail()
+
+                // get data Hourly & set to ListHourly
+                var listHourly = mutableListOf<Hourly>()
                 listHourly = _properties.value!!.hourly
-                listDataHourly.value = listHourly
+                _listHourlyNav.value = listHourly
+
+                // get data Daily & set to ListDaily
+                var listDaily = mutableListOf<Daily>()
+                listDaily = _properties.value!!.daily
+                _listDailyNav.value = listDaily
             } catch (e: Exception) {
                 Log.d("bug", e.toString())
             }
         }
     }
 
+    // set data to list data detail
     private fun addDataDetail() {
         val index1 = HomeModel(1, "Cảm Giác Như", res.getString(R.string.temperature_C, _properties.value?.current?.temp))
         listDetail.add(index1)
@@ -63,10 +80,8 @@ class WeatherViewModel(
         listDetail.add(index5)
         val index6 = HomeModel(6, "Áp Suất", res.getString(R.string.pressure, _properties.value?.current?.pressure))
         listDetail.add(index6)
-        listDataDetail.value = listDetail
-    }
 
-    fun addListHourlyNav(data: MutableList<Hourly>) {
-        _listHourlyNav.value = data
+        // set data to observe
+        listDataDetail.value = listDetail
     }
 }

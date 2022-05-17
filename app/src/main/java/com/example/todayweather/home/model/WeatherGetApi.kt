@@ -2,7 +2,7 @@ package com.example.todayweather.home.model
 
 data class WeatherGetApi(
     val current: Current,
-    val daily: List<Daily>,
+    val daily: MutableList<Daily>,
     val hourly: MutableList<Hourly>,
     val lat: Double,
     val lon: Double,
