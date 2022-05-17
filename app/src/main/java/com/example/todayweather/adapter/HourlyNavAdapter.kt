@@ -1,10 +1,10 @@
-package com.example.todayweather.home
+package com.example.todayweather.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.todayweather.databinding.RcvHourlyBinding
+import com.example.todayweather.databinding.RcvHourlyNavBinding
 import com.example.todayweather.home.model.Hourly
 
 class HourlyNavAdapter : RecyclerView.Adapter<HourlyNavAdapter.HourlyNavViewHolder>() {
@@ -18,7 +18,7 @@ class HourlyNavAdapter : RecyclerView.Adapter<HourlyNavAdapter.HourlyNavViewHold
         }
 
     // create ViewHolder with args are binding layout
-    class HourlyNavViewHolder(private val rcvNavHourlyBinding: RcvHourlyBinding) :
+    class HourlyNavViewHolder(private val rcvNavHourlyBinding: RcvHourlyNavBinding) :
         RecyclerView.ViewHolder(rcvNavHourlyBinding.root) {
 
         fun bind(item: Hourly?) {
@@ -29,7 +29,7 @@ class HourlyNavAdapter : RecyclerView.Adapter<HourlyNavAdapter.HourlyNavViewHold
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HourlyNavViewHolder {
         return HourlyNavViewHolder(
-            RcvHourlyBinding.inflate(
+            RcvHourlyNavBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false

@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todayweather.R
 import com.example.todayweather.database.WeatherDAO
-import com.example.todayweather.home.model.Daily
 import com.example.todayweather.home.model.Hourly
 import com.example.todayweather.home.model.WeatherGetApi
 import com.example.todayweather.network.WeatherApi
@@ -18,17 +17,25 @@ class WeatherViewModel(
     private val database: WeatherDAO, application: Application
 ) : ViewModel() {
     var listDataDetail = MutableLiveData<MutableList<HomeModel>>()
-    var listDataHourly = MutableLiveData<MutableList<Hourly>>()
 
-    var listDetail = mutableListOf<HomeModel>()
-    var listHourly = mutableListOf<Hourly>()
+    private val _listHourlyNav = MutableLiveData<MutableList<Hourly>>()
+    var listDataHourly = MutableLiveData<MutableList<Hourly>>()
+        get() = _listHourlyNav
+
+    private var listDetail = mutableListOf<HomeModel>()
+    private var listHourly = mutableListOf<Hourly>()
 
     private val res = application.resources
+
     private val _properties = MutableLiveData<WeatherGetApi>()
 
     // The external LiveData interface to the property is immutable, so only this class can modify
     val properties: LiveData<WeatherGetApi>
         get() = _properties
+
+    init {
+        getWeatherProperties()
+    }
 
     private fun getWeatherProperties() {
         viewModelScope.launch {
@@ -37,17 +44,10 @@ class WeatherViewModel(
                 addDataDetail()
                 listHourly = _properties.value!!.hourly
                 listDataHourly.value = listHourly
-
-//                listDaily = _properties.value!!.hourly
-//                listDataHourly.value = listHourly
             } catch (e: Exception) {
                 Log.d("bug", e.toString())
             }
         }
-    }
-
-    init {
-        getWeatherProperties()
     }
 
     private fun addDataDetail() {
@@ -64,5 +64,9 @@ class WeatherViewModel(
         val index6 = HomeModel(6, "Áp Suất", res.getString(R.string.pressure, _properties.value?.current?.pressure))
         listDetail.add(index6)
         listDataDetail.value = listDetail
+    }
+
+    fun addListHourlyNav(data: MutableList<Hourly>) {
+        _listHourlyNav.value = data
     }
 }

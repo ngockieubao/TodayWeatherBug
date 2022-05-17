@@ -1,4 +1,4 @@
-package com.example.todayweather.home
+package com.example.todayweather.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater

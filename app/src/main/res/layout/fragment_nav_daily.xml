@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".fragment.HourlyFragment">
+    tools:context=".fragment.DailyFragment">
 
     <data>
 
@@ -11,8 +11,8 @@
             type="com.example.todayweather.home.WeatherViewModel" />
 
         <variable
-            name="hourlyFragment"
-            type="com.example.todayweather.fragment.HourlyFragment" />
+            name="dailyFragment"
+            type="com.example.todayweather.fragment.DailyFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,42 +30,26 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
+                android:id="@+id/tv_title_daily_nav"
                 style="@style/txt_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/title_hourly_nav"
+                android:padding="5dp"
+                android:text="@string/title_daily_nav"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv_nav_hourly"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout_nav_hourly">
-
-            <TextView
-                android:id="@+id/tv_header_hourly_nav"
-                style="@style/txt_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:paddingVertical="7dp"
-                android:text="@string/header_hourly_nav"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcv_nav_hourly"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_header_hourly_nav"
-                tools:listitem="@layout/rcv_hourly_nav" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout_nav_hourly"
+            tools:listitem="@layout/rcv_daily_nav" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

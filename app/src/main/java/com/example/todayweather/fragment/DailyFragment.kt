@@ -13,6 +13,6 @@ class DailyFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.rcv_daily_nav, container, false)
+        return inflater.inflate(R.layout.fragment_nav_daily, container, false)
     }
 }

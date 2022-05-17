@@ -26,4 +26,7 @@
     <string name="home_temp_slash">/</string>
     <string name="home_temp_min">20°</string>
     <string name="todo">TODO</string>
+    <string name="header_hourly_nav">HÔM NAY</string>
+    <string name="title_daily_nav">7 Ngày tiếp</string>
+    <string name="title_hourly_nav">48 Giờ tiếp</string>
 </resources>
