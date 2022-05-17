@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.example.todayweather.home.model.Daily" />
+            type="com.example.todayweather.home.model.Hourly" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,7 +17,7 @@
         android:padding="17dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout_left"
+            android:id="@+id/constraintLayout_hourly_nav_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
@@ -25,7 +25,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/imgView_cloudy"
+                android:id="@+id/imgView_hourly_nav_cloudy"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_marginStart="0dp"
@@ -39,15 +39,15 @@
                 app:srcCompat="@mipmap/ic_cloud" />
 
             <TextView
-                android:id="@+id/tv_humidity"
+                android:id="@+id/tv_hourly_nav_humidity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                tools:text="100%"
+                android:text="100%"
                 android:textColor="#2196F3"
                 android:textSize="10sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imgView_cloudy" />
+                app:layout_constraintTop_toBottomOf="@+id/imgView_hourly_nav_cloudy" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -55,32 +55,32 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="0dp"
-            app:layout_constraintStart_toEndOf="@+id/constraintLayout_left"
+            app:layout_constraintStart_toEndOf="@+id/constraintLayout_hourly_nav_left"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/tv_daily_date"
+                android:id="@+id/tv_hourly_nav_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="THỨ 5,05 THÁNG 5"
+                android:text="THỨ 2, 16 THÁNG 5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tv_daily_temp"
+                android:id="@+id/tv_hourly_nav_temp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="32° / 20°"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_daily_date"
-                tools:text="32° / 20°" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_hourly_nav_date" />
 
             <TextView
-                android:id="@+id/tv_daily_description"
+                android:id="@+id/tv_hourly_nav_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Mây đen u ám. Cao 32°C, thấp 20°C. Gió đông nam, tốc độ 20 km/h"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_daily_temp"
-                tools:text="Mây đen u ám. Cao 32°C, thấp 20°C. Gió đông nam, tốc độ 20 km/h" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_hourly_nav_temp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

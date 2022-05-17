@@ -19,11 +19,9 @@ class WeatherViewModel(
 ) : ViewModel() {
     var listDataDetail = MutableLiveData<MutableList<HomeModel>>()
     var listDataHourly = MutableLiveData<MutableList<Hourly>>()
-    var listDataDaily = MutableLiveData<MutableList<Daily>>()
 
     var listDetail = mutableListOf<HomeModel>()
     var listHourly = mutableListOf<Hourly>()
-    var listDaily = mutableListOf<Daily>()
 
     private val res = application.resources
     private val _properties = MutableLiveData<WeatherGetApi>()
@@ -33,7 +31,6 @@ class WeatherViewModel(
         get() = _properties
 
     private fun getWeatherProperties() {
-
         viewModelScope.launch {
             try {
                 _properties.value = WeatherApi.retrofitService.getProperties()
