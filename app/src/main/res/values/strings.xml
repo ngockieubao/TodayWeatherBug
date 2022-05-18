@@ -29,4 +29,10 @@
     <string name="header_hourly_nav">HÔM NAY</string>
     <string name="title_daily_nav">7 Ngày tiếp</string>
     <string name="title_hourly_nav">48 Giờ tiếp</string>
+    <string name="feelLikes_string">Cảm Giác Như</string>
+    <string name="humidity_string">Độ Ẩm</string>
+    <string name="uvi_string">Chỉ số UV</string>
+    <string name="visibility_string">Tầm Nhìn</string>
+    <string name="dewPoint_string">Điểm Sương</string>
+    <string name="pressure_string">Áp Suất</string>
 </resources>

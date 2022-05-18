@@ -12,13 +12,14 @@ import com.example.todayweather.home.model.Daily
 import com.example.todayweather.home.model.Hourly
 import com.example.todayweather.home.model.WeatherGetApi
 import com.example.todayweather.network.WeatherApi
+import com.example.todayweather.network.WeatherApi.retrofitService
 import kotlinx.coroutines.launch
 
 class WeatherViewModel(
+    // init var database
     private val database: WeatherDAO, application: Application
 ) : ViewModel() {
     // list data detail
-    private var listDetail = mutableListOf<HomeModel>()
     var listDataDetail = MutableLiveData<MutableList<HomeModel>>()
 
     // daily nav
@@ -40,15 +41,23 @@ class WeatherViewModel(
     val properties: LiveData<WeatherGetApi>
         get() = _properties
 
-    init {
-        getWeatherProperties()
-    }
+    // init var get location to show in MainActivity
+    val showLocation = MutableLiveData<String>()
 
-    private fun getWeatherProperties() {
+    fun getWeatherProperties(lat: Double, lon: Double) {
+
+        var getDataFromApi = MutableLiveData<WeatherGetApi>()
         viewModelScope.launch {
             try {
                 // get data from API
-                _properties.value = WeatherApi.retrofitService.getProperties()
+                _properties.value = WeatherApi.retrofitService.getProperties(lat, lon)
+//                getDataFromApi.value = WeatherApi.retrofitService.getProperties(lat, lon)
+
+                // create and save db after get from API
+                database.insert(_properties.value!!)
+
+
+                // display home fragment
                 addDataDetail()
 
                 // get data Hourly & set to ListHourly
@@ -68,20 +77,30 @@ class WeatherViewModel(
 
     // set data to list data detail
     private fun addDataDetail() {
-        val index1 = HomeModel(1, "Cảm Giác Như", res.getString(R.string.temperature_C, _properties.value?.current?.temp))
+        val listDetail = mutableListOf<HomeModel>()
+        val index1 = HomeModel(1, res.getString(R.string.feelLikes_string), res.getString(R.string.temperature_C, _properties.value?.current?.temp))
         listDetail.add(index1)
-        val index2 = HomeModel(2, "Độ Ẩm", res.getString(R.string.humidity, _properties.value?.current?.humidity))
+        val index2 = HomeModel(2, res.getString(R.string.humidity_string), res.getString(R.string.humidity, _properties.value?.current?.humidity))
         listDetail.add(index2)
-        val index3 = HomeModel(3, "Chỉ số UV", res.getString(R.string.uvi, _properties.value?.current?.uvi))
+        val index3 = HomeModel(3, res.getString(R.string.uvi_string), res.getString(R.string.uvi, _properties.value?.current?.uvi))
         listDetail.add(index3)
-        val index4 = HomeModel(4, "Tầm Nhìn", res.getString(R.string.visibility, (_properties.value?.current?.visibility?.div(1000))))
+        val index4 = HomeModel(
+            4, res.getString(R.string.visibility_string), res.getString(R.string.visibility, (_properties.value?.current?.visibility?.div(1000))))
         listDetail.add(index4)
-        val index5 = HomeModel(5, "Điểm Sương", res.getString(R.string.dew_point, _properties.value?.current?.dew_point))
+        val index5 = HomeModel(5, res.getString(R.string.dewPoint_string), res.getString(R.string.dew_point, _properties.value?.current?.dew_point))
         listDetail.add(index5)
-        val index6 = HomeModel(6, "Áp Suất", res.getString(R.string.pressure, _properties.value?.current?.pressure))
+        val index6 = HomeModel(6, res.getString(R.string.pressure_string), res.getString(R.string.pressure, _properties.value?.current?.pressure))
         listDetail.add(index6)
 
         // set data to observe
         listDataDetail.value = listDetail
+    }
+
+    fun showLocation(location: String) {
+        showLocation.value = location
+    }
+
+    suspend fun loadDataFromDB(): List<WeatherGetApi> {
+        return database.loadAPI()
     }
 }

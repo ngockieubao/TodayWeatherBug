@@ -1,13 +1,38 @@
 package com.example.todayweather
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.location.Geocoder
+import android.location.Location
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Looper
+import android.util.Log
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import com.example.todayweather.database.WeatherDatabase
+import com.example.todayweather.databinding.FragmentHomeBinding
+import com.example.todayweather.home.WeatherViewModel
+import com.example.todayweather.home.WeatherViewModelFactory
+import com.google.android.gms.location.*
+import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var weatherViewModel: WeatherViewModel
+
+    // init var location
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var getPosition: String = ""
+    private lateinit var locationRequest: LocationRequest
+    private lateinit var locationCallback: LocationCallback
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -17,10 +42,135 @@ class MainActivity : AppCompatActivity() {
 
 //        val navController = this.findNavController(R.id.actNavHost)
 //        NavigationUI.setupActionBarWithNavController(this, navController)
+
+        val dataSource = WeatherDatabase.getInstance(application).weatherDAO
+        val weatherViewModelFactory = WeatherViewModelFactory(dataSource, application)
+        weatherViewModel = ViewModelProvider(
+            this,
+            weatherViewModelFactory
+        ).get(WeatherViewModel::class.java)
+
+        // init var use for get location
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        // Get permission then get location
+        getLastLocation()
+
+        // Update location
+        // init locationRequest
+        locationRequest = LocationRequest.create().apply {
+            interval = 10000
+            fastestInterval = 5000
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        }
+        // init locationCallback
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                locationResult ?: return
+                for (location in locationResult.locations) {
+                    // Update UI with location data
+                    // get lat-lon
+                    val latUpdate = location.latitude
+                    val lonUpdate = location.longitude
+
+                    // pass lat-lon args after allow position
+                    weatherViewModel.getWeatherProperties(latUpdate, lonUpdate)
+
+                    // init var for update location
+                    try {
+                        val geocoder = Geocoder(this@MainActivity)
+                        val position = geocoder.getFromLocation(latUpdate, lonUpdate, 1)
+                        Log.d("location", position[0].toString())
+                        // display location
+                        getPosition = position[0].getAddressLine(0)
+                        weatherViewModel.showLocation(getPosition)
+                    } catch (ex: IOException) {
+                        Log.d("bugUpdateLocation", ex.toString())
+                    }
+                }
+            }
+        }
+        startLocationUpdates()
     }
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = this.findNavController(R.id.actNavHost)
         return navController.navigateUp()
+    }
+
+    // get last location
+    private val localPermissionRequest = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+        // permission = it : result of return
+            permission ->
+        if (permission == true) {
+            getLastLocation()
+        } else {
+            Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
+            // navigate to setup permission
+        }
+    }
+
+    // Show dialog to request permission location
+    private fun requestLocationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                // Run secondly show dialog with 3 choices
+                localPermissionRequest.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
+            } else {
+                // Run firstly show dialog with 2 choices
+                localPermissionRequest.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
+            }
+        } else {
+            TODO("VERSION.SDK_INT < M")
+        }
+    }
+
+    // Check permission location & Get location
+    private fun getLastLocation() {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            // Get location
+            fusedLocationClient.lastLocation
+                .addOnSuccessListener { location: Location? ->
+                    // Got last known location. In some rare situations this can be null.
+                    if (location != null) {
+                        val lat = location.latitude
+                        val lon = location.longitude
+                        try {
+                            val geocoder = Geocoder(this)
+                            val position = geocoder.getFromLocation(lat, lon, 1)
+                            Log.d("location", position[0].toString())
+                            getPosition = position[0].getAddressLine(0)
+                            weatherViewModel.showLocation(getPosition)
+                        } catch (e: Exception) {
+                            Log.w("bugLocation", e)
+                        }
+                    } else {
+                        Log.w("bug_Location", "getLastLocation:exception")
+                    }
+                }.addOnFailureListener {
+                    Log.e("addOnFailureListener", "getLastLocation: ${it.message}")
+                }.addOnCompleteListener {
+                    Log.i("addOnCompleteListener", "Completed!")
+                }
+            return
+        } else {
+            requestLocationPermission()
+        }
+    }
+
+    private fun startLocationUpdates() {
+        try {
+            fusedLocationClient.requestLocationUpdates(
+                locationRequest,
+                locationCallback,
+                Looper.getMainLooper()
+            )
+        } catch (e: SecurityException) {
+            Log.e("SecurityException", e.toString())
+        }
     }
 }

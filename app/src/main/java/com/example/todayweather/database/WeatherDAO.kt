@@ -2,21 +2,21 @@ package com.example.todayweather.database
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
-import androidx.room.Update
+import com.example.todayweather.home.model.Current
+import com.example.todayweather.home.model.Daily
+import com.example.todayweather.home.model.Hourly
 import com.example.todayweather.home.model.WeatherGetApi
 
 @Dao
 interface WeatherDAO {
-//    @Insert
-//    fun insert(weatherGetApi: List<WeatherGetApi>)
-//
-//    @Update
-//    fun update(weatherGetApi: WeatherGetApi)
-//
-////    @Query("SELECT * from detail_get_api_table WHERE nightId = :key")
-////    fun get(key: Long): DetailGetApi?
-//
-//    @Query("DELETE FROM get_api_table")
-//    fun clear()
+    @Insert(onConflict = REPLACE)
+    suspend fun insert(weatherGetApi: WeatherGetApi)
+
+    @Query("SELECT * FROM get_api_table")
+    suspend fun loadAPI(): List<WeatherGetApi>
+
+    @Query("DELETE FROM get_api_table")
+    suspend fun clear()
 }

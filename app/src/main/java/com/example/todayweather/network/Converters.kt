@@ -4,8 +4,10 @@ import androidx.room.TypeConverter
 import com.example.todayweather.home.model.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import java.util.*
 
 class Converters {
+    // Convert data from json object to display
     @TypeConverter
     fun fromJsonToCurrent(input: String): Current {
         return Gson().fromJson(input, Current::class.java)
@@ -23,6 +25,7 @@ class Converters {
         return Gson().fromJson(input, type)
     }
 
+    // Convert data from API to json object
     @TypeConverter
     fun fromCurrentToJson(input: Current): String {
         return Gson().toJson(input)
