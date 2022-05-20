@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.todayweather.R
 import com.example.todayweather.databinding.RcvHourlyNavBinding
 import com.example.todayweather.home.model.Hourly
@@ -25,13 +26,15 @@ class HourlyNavAdapter : RecyclerView.Adapter<HourlyNavAdapter.HourlyNavViewHold
 
         fun bind(item: Hourly?) {
             if (item == null) return
-            rcvNavHourlyBinding.imgViewHourlyNavIcon.setImageResource(
-                when (item.icon) {
-                    1 -> R.mipmap.ic_water
-                    2 -> R.mipmap.ic_sun
-                    else -> R.mipmap.ic_cloud
-                }
-            )
+//            rcvNavHourlyBinding.imgViewHourlyNavIcon.setImageResource(
+//                when (item.icon) {
+//                    1 -> R.mipmap.ic_water
+//                    2 -> R.mipmap.ic_sun
+//                    else -> R.mipmap.ic_cloud
+//                }
+//            )
+            Glide.with(rcvNavHourlyBinding.imgViewHourlyNavIcon).load("http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png")
+                .into(rcvNavHourlyBinding.imgViewHourlyNavIcon)
 
             // pop
             val getPop = item.pop
