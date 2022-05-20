@@ -35,6 +35,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:setIcon="@{item.weather[0].icon}"
                 app:shapeAppearanceOverlay="@style/RoundImage"
                 app:srcCompat="@mipmap/ic_cloud" />
 
@@ -43,12 +44,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="100%"
                 android:textColor="#2196F3"
                 android:textSize="10sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imgView_hourly_nav_icon" />
+                app:layout_constraintTop_toBottomOf="@+id/imgView_hourly_nav_icon"
+                app:setPop="@{item.pop}"
+                tools:ignore="SmallSp"
+                tools:text="100%" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -65,6 +68,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:setTime="@{item.dt}"
                 tools:text="9:00" />
 
             <TextView
@@ -73,6 +77,8 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_hourly_nav_time"
+                app:setFeelsLike="@{item.feels_like}"
+                app:setTempCurrent="@{item.temp}"
                 tools:text="24°C - Cảm Giác Như: 24°C" />
 
             <TextView
@@ -82,6 +88,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_hourly_nav_temp"
+                app:setStatus="@{item.weather[0].description}"
                 tools:text="Mây đen u ám." />
 
             <TextView
@@ -89,7 +96,7 @@
                 style="@style/txt_grey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="5dp"
+                android:layout_marginVertical="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_hourly_nav_status_above"
                 tools:text="Gió: 7km/h • Bắc - Đông Bắc" />

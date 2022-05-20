@@ -4,12 +4,8 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.example.todayweather.R
 import com.example.todayweather.databinding.RcvDailyNavBinding
 import com.example.todayweather.home.model.Daily
-import com.example.todayweather.home.model.Temp
-import com.example.todayweather.util.Utils
 
 class DailyNavAdapter : RecyclerView.Adapter<DailyNavAdapter.DailyNavViewHolder>() {
 
@@ -27,27 +23,7 @@ class DailyNavAdapter : RecyclerView.Adapter<DailyNavAdapter.DailyNavViewHolder>
 
         fun bind(item: Daily?) {
             if (item == null) return
-
-            Glide.with(rcvNavDailyBinding.imgViewDailyNavIcon).load("http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png")
-                .into(rcvNavDailyBinding.imgViewDailyNavIcon)
-
-            // pop
-            val getPop = item.pop
-            rcvNavDailyBinding.tvDailyNavHumidity.text = Utils.formatPop(getPop)
-
-            // date
-            val getDate = item.dt
-            rcvNavDailyBinding.tvDailyNavDate.text = Utils.formatDate(getDate)
-
-            // temperature
-            val getTemp: Temp = item.temp
-            val tempMax = getTemp.max
-            val tempMin = getTemp.min
-            rcvNavDailyBinding.tvDailyNavCelcius.text = Utils.formatTempMaxMin(tempMax, tempMin)
-
-            // status
-            val description = item.weather[0].description
-            rcvNavDailyBinding.tvDailyNavStatus.text = description
+            rcvNavDailyBinding.item = item
         }
     }
 

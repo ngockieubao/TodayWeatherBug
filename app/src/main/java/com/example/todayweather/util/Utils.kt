@@ -1,64 +1,55 @@
 package com.example.todayweather.util
 
+import android.content.Context
+import com.example.todayweather.R
 import java.text.SimpleDateFormat
 import java.util.*
 
 object Utils {
-    fun formatTime(time: Long): String {
+    fun formatTime(context: Context, time: Long): String {
         val getTime = Date(time.times(1000))
-        val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val timeFormat = SimpleDateFormat(context.getString(R.string.fm_time), Locale.getDefault())
         return timeFormat.format(getTime)
     }
 
-    fun formatDate(date: Long): String {
+    fun formatDate(context: Context, date: Long): String {
         val dateFormat = Date(date.times(1000))
-        val dayOfWeek = SimpleDateFormat("EEE", Locale.getDefault())
-        var dayOfWeekFormat = dayOfWeek.format(dateFormat)
-        dayOfWeekFormat = when (dayOfWeekFormat) {
-            "Mon" -> "THỨ HAI"
-            "Tue" -> "THỨ BA"
-            "Wed" -> "THỨ TƯ"
-            "Thu" -> "THỨ NĂM"
-            "Fri" -> "THỨ SÁU"
-            "Sat" -> "THỨ BẢY"
-            "Sun" -> "CHỦ NHẬT"
-            else
-            -> "BUG!!!"
-        }
-        val dayMonth = SimpleDateFormat("dd 'THÁNG' M", Locale.getDefault())
+        val dayOfWeek = SimpleDateFormat(context.getString(R.string.fm_day_of_week), Locale("vi"))
+        val dayOfWeekFormat = dayOfWeek.format(dateFormat)
+        val dayMonth = SimpleDateFormat(context.getString(R.string.fm_date), Locale("vi"))
         val dayMonthFormat = dayMonth.format(dateFormat)
-        return "$dayOfWeekFormat, $dayMonthFormat"
+        return String.format(context.getString(R.string.fm_day_date), dayOfWeekFormat, dayMonthFormat)
     }
 
-    fun formatPop(pop: Double): String {
-        val popFormat = String.format("%.0f%%", pop.times(100))
+    fun formatPop(context: Context, pop: Double): String {
+        val popFormat = String.format(context.getString(R.string.fm_pop), pop.times(100))
         return if (pop != 0.0)
             popFormat
         else
-            ""
+            String.format(context.getString(R.string.string_empty))
     }
 
-    fun formatTempFeelsLike(temp: Double, tempFeelsLike: Double): String {
-        val tempFormat = String.format("%.0f", temp)
-        val tempFeelsLikeFormat = String.format("%.0f", tempFeelsLike)
-        return "$tempFormat°C - Cảm Giác Như: $tempFeelsLikeFormat°C"
+    fun formatTempFeelsLike(context: Context, temp: Double, tempFeelsLike: Double): String {
+        val tempFormat = String.format(context.getString(R.string.fm_temp), temp)
+        val tempFeelsLikeFormat = String.format(context.getString(R.string.fm_temp), tempFeelsLike)
+        return String.format(context.getString(R.string.fm_temp_feels_like), tempFormat, tempFeelsLikeFormat)
     }
 
-    fun formatTempMaxMin(tempMax: Double, tempMin: Double): String {
-        val tempMaxFormat = String.format("%.0f", tempMax)
-        val tempMinFormat = String.format("%.0f", tempMin)
-        return "$tempMaxFormat° / $tempMinFormat°"
+    fun formatTempMaxMin(context: Context, tempMax: Double, tempMin: Double): String {
+        val tempMaxFormat = String.format(context.getString(R.string.fm_temp), tempMax)
+        val tempMinFormat = String.format(context.getString(R.string.fm_temp), tempMin)
+        return String.format(context.getString(R.string.fm_temp_max_min), tempMaxFormat, tempMinFormat)
     }
 
-    fun formatTemp(temp: Double): String {
-        return String.format("%.0f°C", temp)
+    fun formatTemp(context: Context, temp: Double): String {
+        return String.format(context.getString(R.string.fm_temp_celsius), temp)
     }
 
-    fun formatWind(wind: Double): String {
-        return String.format("Gió: %.0fkm/h •", wind)
+    fun formatWind(context: Context, wind: Double): String {
+        return String.format(context.getString(R.string.fm_wind_status), wind)
     }
 
-    fun formatWindSpeed(windSpeed: Double): String {
-        return String.format("%.0f km/h", windSpeed.times(3600).div(1000))
+    fun formatWindSpeed(context: Context, windSpeed: Double): String {
+        return String.format(context.getString(R.string.fm_wind_speed), windSpeed.times(3600).div(1000))
     }
 }

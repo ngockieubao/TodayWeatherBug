@@ -93,7 +93,7 @@ class WeatherViewModel(
         val weatherData = loadDataFromDB()
         val listCurrent = weatherData[0].current
 
-        val index1 = HomeModel(1, res.getString(R.string.feelLikes_string), res.getString(R.string.temperature_C, listCurrent.temp))
+        val index1 = HomeModel(1, res.getString(R.string.feels_like_string), res.getString(R.string.fm_temp_celsius, listCurrent.temp))
         listDetail.add(index1)
         val index2 = HomeModel(2, res.getString(R.string.humidity_string), res.getString(R.string.humidity, listCurrent.humidity))
         listDetail.add(index2)
@@ -103,7 +103,7 @@ class WeatherViewModel(
             4, res.getString(R.string.visibility_string), res.getString(R.string.visibility, (listCurrent.visibility.div(1000)))
         )
         listDetail.add(index4)
-        val index5 = HomeModel(5, res.getString(R.string.dewPoint_string), res.getString(R.string.dew_point, listCurrent.dew_point))
+        val index5 = HomeModel(5, res.getString(R.string.dew_point_string), res.getString(R.string.dew_point, listCurrent.dew_point))
         listDetail.add(index5)
         val index6 = HomeModel(6, res.getString(R.string.pressure_string), res.getString(R.string.pressure, listCurrent.pressure))
         listDetail.add(index6)

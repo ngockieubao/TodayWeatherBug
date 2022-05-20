@@ -38,7 +38,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imgView_ic_home_detail"
-            tools:text="@string/feelLikes_string" />
+            app:setStatus="@{item.description}"
+            tools:text="@string/feels_like_string" />
 
         <TextView
             android:id="@+id/tv_res_home_detail"
@@ -49,6 +50,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_title_home_detail"
+            app:setStatus="@{item.result}"
             tools:text="@string/home_temp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

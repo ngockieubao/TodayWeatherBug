@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="item"
             type="com.example.todayweather.home.model.Hourly" />
@@ -22,13 +23,13 @@
             android:orientation="horizontal">
 
             <TextView
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 android:id="@+id/tv_header_hourly"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/rcv_everyday_title"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -47,8 +48,9 @@
             android:id="@+id/recyclerView_hourly"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal"
+            android:overScrollMode="never"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/rcv_hourly_element" />
     </LinearLayout>

@@ -35,8 +35,7 @@ class DetailAdapter : RecyclerView.Adapter<DetailAdapter.DetailViewHolder>() {
                     else -> R.mipmap.ic_temperature
                 }
             )
-            rcvDetailElementBinding.tvTitleHomeDetail.text = item.description
-            rcvDetailElementBinding.tvResHomeDetail.text = item.result
+            rcvDetailElementBinding.item = item
         }
     }
 

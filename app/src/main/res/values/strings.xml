@@ -5,15 +5,10 @@
     <string name="rcv_detail_title">Chi tiết</string>
 
     <!--  String detail description  -->
-    <string name="temperature_C">%.0f°C</string>
-    <string name="temp_C">%.0f°C</string>
-    <string name="temperature_F">%.1f℉</string>
     <string name="humidity">%d%%</string>
     <string name="visibility">%d km</string>
     <string name="dew_point">%.0f°C</string>
     <string name="pressure">%d mb</string>
-    <string name="wind_speed">%.0f km/h</string>
-    <string name="pop">%.0f%%</string>
     <string name="uvi">%.1f</string>
     <string name="rcv_everyday_title">Hàng giờ</string>
     <string name="time">%s</string>
@@ -26,13 +21,44 @@
     <string name="home_temp_slash">/</string>
     <string name="home_temp_min">20°</string>
     <string name="todo">TODO</string>
-    <string name="header_hourly_nav">HÔM NAY</string>
+    <string name="today">HÔM NAY</string>
     <string name="title_daily_nav">7 Ngày tiếp</string>
     <string name="title_hourly_nav">48 Giờ tiếp</string>
-    <string name="feelLikes_string">Cảm Giác Như</string>
+    <string name="feels_like_string">Cảm Giác Như</string>
     <string name="humidity_string">Độ Ẩm</string>
     <string name="uvi_string">Chỉ số UV</string>
     <string name="visibility_string">Tầm Nhìn</string>
-    <string name="dewPoint_string">Điểm Sương</string>
+    <string name="dew_point_string">Điểm Sương</string>
     <string name="pressure_string">Áp Suất</string>
+    <string name="fm_time">HH:mm</string>
+    <string name="fm_day_of_week">EEE</string>
+    <string name="fm_date">dd \'THÁNG\' M</string>
+    <string name="fm_pop">%.0f%%</string>
+    <string name="fm_temp">%.0f</string>
+    <string name="fm_temp_celsius">%.0f°C</string>
+    <string name="fm_wind_status">Gió: %.0fkm/h •</string>
+    <string name="fm_wind_speed">%.0f km/h</string>
+    <string name="fm_temp_feels_like">%s°C - Cảm Giác Như: %s°C</string>
+    <string name="fm_temp_max_min">%s° / %s°</string>
+    <string name="fm_day_date">%s, %s</string>
+    <string name="string_empty" />
+
+    <string-array name="days_of_week">
+        <item>Sun</item>
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+        <item>Sat</item>
+    </string-array>
+    <string-array name="fm_days_of_week">
+        <item>CHỦ NHẬT</item>
+        <item>THỨ HAI</item>
+        <item>THỨ BA</item>
+        <item>THỨ TƯ</item>
+        <item>THỨ NĂM</item>
+        <item>THỨ SÁU</item>
+        <item>THỨ BẢY</item>
+    </string-array>
 </resources>
