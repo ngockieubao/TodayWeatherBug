@@ -25,40 +25,42 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            app:setTemp="@{item.temp}"
-            android:padding="5dp" />
+            android:padding="5dp"
+            app:setTemp="@{item.temp}" />
 
         <TextView
-            android:layout_marginBottom="3dp"
             style="@style/txt_blue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            app:setPop="@{item.pop}"
-            android:padding="5dp" />
+            android:padding="5dp"
+            app:setPop="@{item.pop}" />
 
         <ImageView
             android:id="@+id/rcv_hourly_imgView_ic_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:contentDescription="@string/todo"
             android:gravity="center"
             tools:srcCompat="@mipmap/ic_cloud" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:setWindSpeed="@{item.wind_speed}"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:padding="5dp" />
+            android:padding="5dp"
+            app:setWindSpeed="@{item.wind_speed}" />
 
         <ImageView
             android:id="@+id/rcv_hourly_imgView_ic_windSpeed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:contentDescription="@string/todo"
             android:gravity="center_vertical"
             tools:srcCompat="@mipmap/ic_uchiha_eyes_24" />
 
@@ -66,8 +68,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:setTime="@{item.dt}"
             android:gravity="center_vertical"
-            android:padding="5dp" />
+            android:padding="5dp"
+            app:setTime="@{item.dt}" />
     </LinearLayout>
 </layout>

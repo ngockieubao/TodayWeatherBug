@@ -63,35 +63,36 @@
                 android:id="@+id/tv_hourly_nav_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="9:00"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="9:00" />
 
             <TextView
                 android:id="@+id/tv_hourly_nav_temp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="24°C - Cảm Giác Như: 24°C"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_hourly_nav_time" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_hourly_nav_time"
+                tools:text="24°C - Cảm Giác Như: 24°C" />
 
             <TextView
                 android:id="@+id/tv_hourly_nav_status_above"
                 style="@style/txt_grey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mây đen u ám."
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_hourly_nav_temp" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_hourly_nav_temp"
+                tools:text="Mây đen u ám." />
 
             <TextView
                 android:id="@+id/tv_hourly_nav_status_below"
                 style="@style/txt_grey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Gió: 7km/h • Bắc - Đông Bắc"
+                android:layout_marginVertical="5dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_hourly_nav_status_above" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_hourly_nav_status_above"
+                tools:text="Gió: 7km/h • Bắc - Đông Bắc" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -11,7 +11,7 @@ data class WeatherGetApi(
     var lat: Double,
     var lon: Double,
     val timezone: String,
-    val timezone_offset: Int,
+    val timezone_offset: Int
 ) {
     @PrimaryKey
     var id = 1

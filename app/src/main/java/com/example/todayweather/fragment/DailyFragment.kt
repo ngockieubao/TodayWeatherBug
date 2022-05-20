@@ -6,24 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import com.example.todayweather.R
 import com.example.todayweather.adapter.DailyNavAdapter
 import com.example.todayweather.databinding.FragmentNavDailyBinding
 import com.example.todayweather.home.WeatherViewModel
-import com.example.todayweather.home.model.Daily
-import com.example.todayweather.home.model.Hourly
 
 class DailyFragment : Fragment() {
     private lateinit var bindingDailyNavBinding: FragmentNavDailyBinding
     private lateinit var dailyNavAdapter: DailyNavAdapter
 
+    // use share viewModel
     private val sharedViewModel: WeatherViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-
+    ): View {
         bindingDailyNavBinding = FragmentNavDailyBinding.inflate(inflater, container, false)
 
         return bindingDailyNavBinding.root

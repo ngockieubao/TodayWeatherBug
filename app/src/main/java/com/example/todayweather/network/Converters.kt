@@ -4,7 +4,6 @@ import androidx.room.TypeConverter
 import com.example.todayweather.home.model.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import java.util.*
 
 class Converters {
     // Convert data from json object to display

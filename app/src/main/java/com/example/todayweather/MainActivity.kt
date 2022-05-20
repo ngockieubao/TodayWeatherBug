@@ -53,17 +53,14 @@ class MainActivity : AppCompatActivity() {
         // init var use for get location
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-        // Get permission then get location
         getLastLocation()
+        initLocationRequest()
+        initLocationCallback()
+        startLocationUpdates()
+    }
 
-        // Update location
-        // init locationRequest
-        locationRequest = LocationRequest.create().apply {
-            interval = 10000
-            fastestInterval = 5000
-            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        }
-        // init locationCallback
+    // init locationRequest
+    private fun initLocationCallback() {
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 locationResult ?: return
@@ -90,12 +87,20 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        startLocationUpdates()
     }
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = this.findNavController(R.id.actNavHost)
         return navController.navigateUp()
+    }
+
+    // init locationCallback
+    private fun initLocationRequest() {
+        locationRequest = LocationRequest.create().apply {
+            interval = 10000
+            fastestInterval = 5000
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        }
     }
 
     // get last location
@@ -110,7 +115,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Show dialog to request permission location
+    // show dialog to request permission location
     private fun requestLocationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)) {
@@ -125,7 +130,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Check permission location & Get location
+    // check permission location & Get location
     private fun getLastLocation() {
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -162,6 +167,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // update location
     private fun startLocationUpdates() {
         try {
             fusedLocationClient.requestLocationUpdates(

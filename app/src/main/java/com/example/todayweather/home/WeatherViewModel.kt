@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todayweather.R
 import com.example.todayweather.database.WeatherDAO
-import com.example.todayweather.home.model.Current
 import com.example.todayweather.home.model.Daily
 import com.example.todayweather.home.model.Hourly
 import com.example.todayweather.home.model.WeatherGetApi
@@ -19,6 +18,12 @@ class WeatherViewModel(
     // init var database
     private val database: WeatherDAO, application: Application
 ) : ViewModel() {
+    // The external LiveData interface to the property is immutable, so only this class can modify
+    // list current
+    private val _listCurrent = MutableLiveData<Daily>()
+    val listCurrent: LiveData<Daily>
+        get() = _listCurrent
+
     // list data detail
     var listDataDetail = MutableLiveData<MutableList<HomeModel>>()
 
@@ -34,12 +39,6 @@ class WeatherViewModel(
 
     // var using for set data to list data detail
     private val res = application.resources
-
-    private val _properties = MutableLiveData<WeatherGetApi>()
-
-    // The external LiveData interface to the property is immutable, so only this class can modify
-    val properties: LiveData<WeatherGetApi>
-        get() = _properties
 
     // init var get location to show in MainActivity
     val showLocation = MutableLiveData<String>()
@@ -66,16 +65,21 @@ class WeatherViewModel(
 
     private suspend fun getDataFromDatabase() {
         val weatherData = loadDataFromDB().lastOrNull() ?: return
-        populateDailyHourlyData(weatherData)
+        viewModelScope.launch {
+            populateDailyHourlyData(weatherData)
+        }
     }
 
-    private fun populateDailyHourlyData(weatherData: WeatherGetApi) {
+    private suspend fun populateDailyHourlyData(weatherData: WeatherGetApi) {
         // display home fragment
-        addDataDetail(weatherData.current)
+        addDataDetail()
 
         // get data Daily & set to ListDaily
         val listDaily = weatherData.daily
         _listDailyNav.value = listDaily
+
+        // get first ele of daily List
+        _listCurrent.value = listDaily[0]
 
         // get data Hourly & set to ListHourly
         val listHourly = weatherData.hourly
@@ -83,21 +87,25 @@ class WeatherViewModel(
     }
 
     // set data to list data detail
-    private fun addDataDetail(current: Current) {
+    private suspend fun addDataDetail() {
         val listDetail = mutableListOf<HomeModel>()
-        val index1 = HomeModel(1, res.getString(R.string.feelLikes_string), res.getString(R.string.temperature_C, current.temp))
+
+        val weatherData = loadDataFromDB()
+        val listCurrent = weatherData[0].current
+
+        val index1 = HomeModel(1, res.getString(R.string.feelLikes_string), res.getString(R.string.temperature_C, listCurrent.temp))
         listDetail.add(index1)
-        val index2 = HomeModel(2, res.getString(R.string.humidity_string), res.getString(R.string.humidity, current.humidity))
+        val index2 = HomeModel(2, res.getString(R.string.humidity_string), res.getString(R.string.humidity, listCurrent.humidity))
         listDetail.add(index2)
-        val index3 = HomeModel(3, res.getString(R.string.uvi_string), res.getString(R.string.uvi, current.uvi))
+        val index3 = HomeModel(3, res.getString(R.string.uvi_string), res.getString(R.string.uvi, listCurrent.uvi))
         listDetail.add(index3)
         val index4 = HomeModel(
-            4, res.getString(R.string.visibility_string), res.getString(R.string.visibility, (current.visibility.div(1000)))
+            4, res.getString(R.string.visibility_string), res.getString(R.string.visibility, (listCurrent.visibility.div(1000)))
         )
         listDetail.add(index4)
-        val index5 = HomeModel(5, res.getString(R.string.dewPoint_string), res.getString(R.string.dew_point, current.dew_point))
+        val index5 = HomeModel(5, res.getString(R.string.dewPoint_string), res.getString(R.string.dew_point, listCurrent.dew_point))
         listDetail.add(index5)
-        val index6 = HomeModel(6, res.getString(R.string.pressure_string), res.getString(R.string.pressure, current.pressure))
+        val index6 = HomeModel(6, res.getString(R.string.pressure_string), res.getString(R.string.pressure, listCurrent.pressure))
         listDetail.add(index6)
 
         // set data to observe

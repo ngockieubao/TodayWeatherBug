@@ -6,12 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import com.example.todayweather.databinding.FragmentNavHourlyBinding
 import com.example.todayweather.adapter.HourlyNavAdapter
-import com.example.todayweather.databinding.RcvHourlyNavBinding
 import com.example.todayweather.home.WeatherViewModel
-import com.example.todayweather.home.model.Hourly
 
 class HourlyFragment : Fragment() {
     private lateinit var bindingHourlyNavBinding: FragmentNavHourlyBinding
@@ -22,7 +19,7 @@ class HourlyFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         bindingHourlyNavBinding = FragmentNavHourlyBinding.inflate(inflater, container, false)
 
         return bindingHourlyNavBinding.root

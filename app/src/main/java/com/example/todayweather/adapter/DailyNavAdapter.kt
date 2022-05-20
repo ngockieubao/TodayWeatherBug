@@ -8,8 +8,7 @@ import com.example.todayweather.R
 import com.example.todayweather.databinding.RcvDailyNavBinding
 import com.example.todayweather.home.model.Daily
 import com.example.todayweather.home.model.Temp
-import java.text.SimpleDateFormat
-import java.util.*
+import com.example.todayweather.util.Utils
 
 class DailyNavAdapter : RecyclerView.Adapter<DailyNavAdapter.DailyNavViewHolder>() {
 
@@ -36,42 +35,22 @@ class DailyNavAdapter : RecyclerView.Adapter<DailyNavAdapter.DailyNavViewHolder>
                 }
             )
 
-            // Format data
             // humidity
-            val humidity = item.humidity
-            val humidityFormat = "$humidity%"
-            if (humidity != 0)
-                rcvNavDailyBinding.tvDailyNavHumidity.text = humidityFormat
+            val getPop = item.pop
+            if (getPop != 0.0)
+                rcvNavDailyBinding.tvDailyNavHumidity.text = Utils.formatPop(getPop)
             else
                 rcvNavDailyBinding.tvDailyNavHumidity.text = " "
 
             // date
             val getDate = item.dt
-            val date = Date(getDate * 1000)
-            val dayOfWeek = SimpleDateFormat("EEEE", Locale.getDefault())
-            var dayOfWeekFormat = dayOfWeek.format(date)
-            dayOfWeekFormat = when (dayOfWeekFormat) {
-                "Monday" -> "THỨ HAI"
-                "Tuesday" -> "THỨ BA"
-                "Wednesday" -> "THỨ TƯ"
-                "Thursday" -> "THỨ NĂM"
-                "Friday" -> "THỨ SÁU"
-                "Saturday" -> "THỨ BẢY"
-                "Sunday" -> "CHỦ NHẬT"
-                else
-                -> "BUG!!!"
-            }
-            val dayMonth = SimpleDateFormat("dd 'THÁNG' M", Locale.getDefault())
-            val dayMonthFormat = dayMonth.format(date)
-            val dateFormat = "$dayOfWeekFormat, $dayMonthFormat"
-            rcvNavDailyBinding.tvDailyNavDate.text = dateFormat.format(date)
+            rcvNavDailyBinding.tvDailyNavDate.text = Utils.formatDate(getDate)
 
             // temperature
             val getTemp: Temp = item.temp
-            val tempMax = String.format("%.0f", getTemp.max)
-            val tempMin = String.format("%.0f", getTemp.min)
-            val tempFormat = "$tempMax° / $tempMin°"
-            rcvNavDailyBinding.tvDailyNavCelcius.text = tempFormat
+            val tempMax = getTemp.max
+            val tempMin = getTemp.min
+            rcvNavDailyBinding.tvDailyNavCelcius.text = Utils.formatTempMaxMin(tempMax, tempMin)
 
             // status
             val description = item.weather[0].description

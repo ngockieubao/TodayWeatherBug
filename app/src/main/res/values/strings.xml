@@ -5,7 +5,7 @@
     <string name="rcv_detail_title">Chi tiết</string>
 
     <!--  String detail description  -->
-    <string name="temperature_C">%.1f°C</string>
+    <string name="temperature_C">%.0f°C</string>
     <string name="temp_C">%.0f°C</string>
     <string name="temperature_F">%.1f℉</string>
     <string name="humidity">%d%%</string>
@@ -21,7 +21,7 @@
     <string name="home_status">Mây đen u ám</string>
     <string name="home_location">Hà Nội</string>
     <string name="home_date">TH 5, 05 THÁNG 5</string>
-    <string name="home_temp">23°C</string>
+    <string name="home_temp">22°C</string>
     <string name="home_temp_max">32°</string>
     <string name="home_temp_slash">/</string>
     <string name="home_temp_min">20°</string>

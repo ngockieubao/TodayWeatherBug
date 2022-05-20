@@ -47,11 +47,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/corner_radius"
-                    android:text="@string/home_temp"
                     android:textSize="55sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:setTemp="@{item.temp.day}"
                     tools:text="@string/home_temp" />
 
                 <TextView
@@ -61,11 +61,11 @@
                     android:layout_height="50dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="17dp"
-                    android:text="32°C"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tv_home_celcius"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0"
+                    app:setTemp="@{item.temp.max}"
                     tools:text="32°C" />
 
                 <TextView
@@ -86,11 +86,11 @@
                     android:layout_height="50dp"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="33dp"
-                    android:text="@string/home_temp_min"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tv_home_celcius_slash"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0"
+                    app:setTemp="@{item.temp.min}"
                     tools:text="@string/home_temp_min" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -100,9 +100,9 @@
                 style="@style/txt_grey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/home_date"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+                app:setDate="@{item.dt}"
                 tools:text="@string/home_date" />
 
             <TextView
@@ -121,9 +121,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="0dp"
-                android:text="@string/home_status"
+                android:text="@{item.weather[0].description}"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_home_location" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_home_location"
+                tools:text="@string/home_status" />
 
             <LinearLayout
                 android:id="@+id/home_status_description"
@@ -138,7 +139,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="9"
-                    android:text="@string/home_status_description"
+                    android:text="@{item.weather[0].description}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="@string/home_status_description" />

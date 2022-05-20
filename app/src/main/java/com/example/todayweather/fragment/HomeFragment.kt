@@ -49,6 +49,12 @@ class HomeFragment : Fragment() {
             }
         }
 
+        weatherViewModel.listCurrent.observe(this.viewLifecycleOwner) {
+            if (it != null) {
+                bindingHome.item = it
+            }
+        }
+
         detailAdapter = DetailAdapter()
         hourlyAdapter = HourlyAdapter()
 
