@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.example.todayweather.detail.DetailModel" />
+            type="com.example.todayweather.home.HomeModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,11 +21,13 @@
             android:id="@+id/imgView_ic_home_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:contentDescription="@string/todo"
             app:layout_constraintBottom_toTopOf="@+id/tv_title_home_detail"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:backgroundTint="@color/white"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@mipmap/ic_temperature" />
 
         <TextView
             android:id="@+id/tv_title_home_detail"
@@ -35,7 +37,9 @@
             app:layout_constraintBottom_toTopOf="@+id/tv_res_home_detail"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imgView_ic_home_detail" />
+            app:layout_constraintTop_toBottomOf="@+id/imgView_ic_home_detail"
+            app:setStatus="@{item.description}"
+            tools:text="@string/feels_like_string" />
 
         <TextView
             android:id="@+id/tv_res_home_detail"
@@ -45,6 +49,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_title_home_detail" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_title_home_detail"
+            app:setStatus="@{item.result}"
+            tools:text="@string/home_temp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

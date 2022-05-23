@@ -1,4 +1,4 @@
-package com.example.todayweather.detail
+package com.example.todayweather.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -6,11 +6,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todayweather.R
 import com.example.todayweather.databinding.RcvDetailElementBinding
+import com.example.todayweather.home.HomeModel
 
 class DetailAdapter : RecyclerView.Adapter<DetailAdapter.DetailViewHolder>() {
 
     // init list data
-    var dataList = listOf<DetailModel>()
+    var dataList = listOf<HomeModel>()
         @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
@@ -18,12 +19,12 @@ class DetailAdapter : RecyclerView.Adapter<DetailAdapter.DetailViewHolder>() {
         }
 
     // create ViewHolder with args are binding layout
-    class DetailViewHolder(private val recyclerviewDetailElementBinding: RcvDetailElementBinding) :
-        RecyclerView.ViewHolder(recyclerviewDetailElementBinding.root) {
-        fun bind(item: DetailModel?) {
+    class DetailViewHolder(private val rcvDetailElementBinding: RcvDetailElementBinding) :
+        RecyclerView.ViewHolder(rcvDetailElementBinding.root) {
+        fun bind(item: HomeModel?) {
             if (item == null) return
 
-            recyclerviewDetailElementBinding.imgViewIcHomeDetail.setImageResource(
+            rcvDetailElementBinding.imgViewIcHomeDetail.setImageResource(
                 when (item.icon) {
                     1 -> R.mipmap.ic_temperature
                     2 -> R.mipmap.ic_water
@@ -34,8 +35,7 @@ class DetailAdapter : RecyclerView.Adapter<DetailAdapter.DetailViewHolder>() {
                     else -> R.mipmap.ic_temperature
                 }
             )
-            recyclerviewDetailElementBinding.tvTitleHomeDetail.text = item.description
-            recyclerviewDetailElementBinding.tvResHomeDetail.text = item.result
+            rcvDetailElementBinding.item = item
         }
     }
 
