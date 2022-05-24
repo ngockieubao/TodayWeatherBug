@@ -5,16 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
 import com.example.todayweather.databinding.FragmentNavHourlyBinding
 import com.example.todayweather.adapter.HourlyNavAdapter
 import com.example.todayweather.home.WeatherViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class HourlyFragment : Fragment() {
     private lateinit var bindingHourlyNavBinding: FragmentNavHourlyBinding
     private lateinit var hourlyNavAdapter: HourlyNavAdapter
 
-    private val sharedViewModel: WeatherViewModel by activityViewModels()
+    private val sharedViewModel: WeatherViewModel by sharedViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,7 +24,6 @@ class HourlyFragment : Fragment() {
 
         return bindingHourlyNavBinding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

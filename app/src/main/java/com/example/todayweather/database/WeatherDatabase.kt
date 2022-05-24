@@ -13,23 +13,23 @@ import com.example.todayweather.network.Converters
 abstract class WeatherDatabase : RoomDatabase() {
     abstract val weatherDAO: WeatherDAO
 
-    companion object {
-        @Volatile
-        private var INSTANCE: WeatherDatabase? = null
-        fun getInstance(context: Context): WeatherDatabase {
-            synchronized(Database::class.java) {
-                var instance = INSTANCE
-                if (instance == null) {
-                    instance = Room.databaseBuilder(
-                        context.applicationContext,
-                           WeatherDatabase::class.java,
-                        "database"
-                    ).build()
-
-                    INSTANCE = instance
-                }
-                return instance
-            }
-        }
-    }
+//    companion object {
+//        @Volatile
+//        private var INSTANCE: WeatherDatabase? = null
+//        fun getInstance(context: Context): WeatherDatabase {
+//            synchronized(Database::class.java) {
+//                var instance = INSTANCE
+//                if (instance == null) {
+//                    instance = Room.databaseBuilder(
+//                        context.applicationContext,
+//                           WeatherDatabase::class.java,
+//                        "database"
+//                    ).build()
+//
+//                    INSTANCE = instance
+//                }
+//                return instance
+//            }
+//        }
+//    }
 }

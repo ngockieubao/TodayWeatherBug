@@ -41,6 +41,7 @@
     <string name="fm_temp_feels_like">%s°C - Cảm Giác Như: %s°C</string>
     <string name="fm_temp_max_min">%s° / %s°</string>
     <string name="fm_day_date">%s, %s</string>
+    <string name="fm_status_home">Hôm nay - %s. Cao %.0f°C, thấp %.0f°C. %s - %s, tốc độ %.0f km/h. Khả năng mưa %.0f%%</string>
     <string name="string_empty" />
 
     <string-array name="days_of_week">

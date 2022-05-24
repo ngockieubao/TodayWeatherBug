@@ -1,6 +1,5 @@
 package com.example.todayweather.home
 
-import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,12 +10,14 @@ import com.example.todayweather.database.WeatherDAO
 import com.example.todayweather.home.model.Daily
 import com.example.todayweather.home.model.Hourly
 import com.example.todayweather.home.model.WeatherGetApi
-import com.example.todayweather.network.WeatherApi
+import com.example.todayweather.network.WeatherApiService
+import com.example.todayweather.util.WeatherApplication
 import kotlinx.coroutines.launch
 
 class WeatherViewModel(
     // init var database
-    private val database: WeatherDAO, application: Application
+    private val database: WeatherDAO,
+    private val weatherApiService: WeatherApiService
 ) : ViewModel() {
     // The external LiveData interface to the property is immutable, so only this class can modify
     // list current
@@ -38,7 +39,7 @@ class WeatherViewModel(
         get() = _listHourlyNav
 
     // var using for set data to list data detail
-    private val res = application.resources
+    private val res = WeatherApplication.instant.resources
 
     // init var get location to show in MainActivity
     val showLocation = MutableLiveData<String>()
@@ -53,7 +54,7 @@ class WeatherViewModel(
         viewModelScope.launch {
             try {
                 // get data from API
-                val weatherData = WeatherApi.retrofitService.getProperties(lat, lon)
+                val weatherData = weatherApiService.getProperties(lat, lon)
                 // create and save db after get from API
                 database.insert(weatherData)
                 getDataFromDatabase()
@@ -65,21 +66,19 @@ class WeatherViewModel(
 
     private suspend fun getDataFromDatabase() {
         val weatherData = loadDataFromDB().lastOrNull() ?: return
-        viewModelScope.launch {
-            populateDailyHourlyData(weatherData)
-        }
+        populateDailyHourlyData(weatherData)
     }
 
-    private suspend fun populateDailyHourlyData(weatherData: WeatherGetApi) {
-        // display home fragment
-        addDataDetail()
+    private fun populateDailyHourlyData(weatherData: WeatherGetApi) {
+        // display detail home fragment
+        addDataDetail(weatherData)
 
         // get data Daily & set to ListDaily
         val listDaily = weatherData.daily
         _listDailyNav.value = listDaily
 
-        // get first ele of daily List
-        _listCurrent.value = listDaily[0]
+        // get first element of daily List
+        _listCurrent.value = listDaily.first()
 
         // get data Hourly & set to ListHourly
         val listHourly = weatherData.hourly
@@ -87,11 +86,10 @@ class WeatherViewModel(
     }
 
     // set data to list data detail
-    private suspend fun addDataDetail() {
+    private fun addDataDetail(weatherData: WeatherGetApi) {
         val listDetail = mutableListOf<HomeModel>()
 
-        val weatherData = loadDataFromDB()
-        val listCurrent = weatherData[0].current
+        val listCurrent = weatherData.current
 
         val index1 = HomeModel(1, res.getString(R.string.feels_like_string), res.getString(R.string.fm_temp_celsius, listCurrent.temp))
         listDetail.add(index1)
@@ -116,7 +114,5 @@ class WeatherViewModel(
         showLocation.value = location
     }
 
-    private suspend fun loadDataFromDB(): List<WeatherGetApi> {
-        return database.loadAPI()
-    }
+    private suspend fun loadDataFromDB() = database.loadAPI()
 }

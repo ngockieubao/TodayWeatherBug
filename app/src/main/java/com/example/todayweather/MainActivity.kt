@@ -12,20 +12,14 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.NavigationUI
-import com.example.todayweather.database.WeatherDatabase
-import com.example.todayweather.databinding.FragmentHomeBinding
 import com.example.todayweather.home.WeatherViewModel
-import com.example.todayweather.home.WeatherViewModelFactory
 import com.google.android.gms.location.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var weatherViewModel: WeatherViewModel
+    private val weatherViewModel: WeatherViewModel by viewModel()
 
     // init var location
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -37,18 +31,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.actNavHost) as NavHostFragment
-        val navController = navHostFragment.navController
+//        val navHostFragment = supportFragmentManager.findFragmentById(R.id.actNavHost) as NavHostFragment
+//        val navController = navHostFragment.navController
 
 //        val navController = this.findNavController(R.id.actNavHost)
 //        NavigationUI.setupActionBarWithNavController(this, navController)
-
-        val dataSource = WeatherDatabase.getInstance(application).weatherDAO
-        val weatherViewModelFactory = WeatherViewModelFactory(dataSource, application)
-        weatherViewModel = ViewModelProvider(
-            this,
-            weatherViewModelFactory
-        ).get(WeatherViewModel::class.java)
 
         // init var use for get location
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
@@ -149,12 +136,13 @@ class MainActivity : AppCompatActivity() {
                             val position = geocoder.getFromLocation(lat, lon, 1)
                             Log.d("location", position[0].toString())
                             getPosition = position[0].getAddressLine(0)
+                            weatherViewModel.getWeatherProperties(lat, lon)
                             weatherViewModel.showLocation(getPosition)
                         } catch (e: Exception) {
                             Log.w("bugLocation", e)
                         }
                     } else {
-                        Log.w("bug_Location", "getLastLocation:exception")
+                        startLocationUpdates()
                     }
                 }.addOnFailureListener {
                     Log.e("addOnFailureListener", "getLastLocation: ${it.message}")
