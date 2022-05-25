@@ -52,4 +52,13 @@ object Utils {
     fun formatWindSpeed(context: Context, windSpeed: Double): String {
         return String.format(context.getString(R.string.fm_wind_speed), windSpeed.times(3600).div(1000))
     }
+
+//    fun formatStatusHome: String(
+//    context: Context, description: String,
+//    tempMax: Double, tempMin: Double,
+//    windDeg: String, windSpeed: Double, pop: Double
+//    )
+//    {
+//        return String.format(context.)
+//    }
 }
