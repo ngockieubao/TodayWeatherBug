@@ -2,8 +2,10 @@ package com.example.todayweather.util
 
 import android.content.Context
 import com.example.todayweather.R
+import com.example.todayweather.home.model.Daily
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.roundToInt
 
 object Utils {
     fun formatTime(context: Context, time: Long): String {
@@ -45,20 +47,41 @@ object Utils {
         return String.format(context.getString(R.string.fm_temp_celsius), temp)
     }
 
-    fun formatWind(context: Context, wind: Double): String {
-        return String.format(context.getString(R.string.fm_wind_status), wind)
-    }
-
     fun formatWindSpeed(context: Context, windSpeed: Double): String {
         return String.format(context.getString(R.string.fm_wind_speed), windSpeed.times(3600).div(1000))
     }
 
-//    fun formatStatusHome: String(
-//    context: Context, description: String,
-//    tempMax: Double, tempMin: Double,
-//    windDeg: String, windSpeed: Double, pop: Double
-//    )
-//    {
-//        return String.format(context.)
-//    }
+    fun formatWind(context: Context, wind: Double, windDeg: Int): String {
+        return String.format(context.getString(R.string.fm_wind_status), wind, formatWindDeg(context, windDeg))
+    }
+
+    private fun formatWindDeg(context: Context, deg: Int): String {
+        val getIndex = deg.div(22.5).plus(1).roundToInt()
+        val listWindDeg = context.resources.getStringArray(R.array.wind_deg)
+        return listWindDeg[getIndex]
+    }
+
+    fun formatHomeStatus(context: Context, daily: Daily?): String {
+        return String.format(
+            context.getString(R.string.fm_status_home),
+            daily!!.weather[0].description,
+            daily.temp.max,
+            daily.temp.min,
+            formatWindDeg(context, daily.wind_deg),
+            daily.wind_speed,
+            daily.pop
+        )
+    }
+
+    fun formatDailyNavStatus(context: Context, daily: Daily?): String {
+        return String.format(
+            context.getString(R.string.fm_status_daily_nav),
+            daily!!.weather[0].description,
+            daily.temp.max,
+            daily.temp.min,
+            formatWindDeg(context, daily.wind_deg),
+            daily.wind_speed,
+            daily.pop
+        )
+    }
 }

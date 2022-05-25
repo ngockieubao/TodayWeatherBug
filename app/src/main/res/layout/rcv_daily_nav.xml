@@ -13,9 +13,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:background="@color/black"
         android:paddingHorizontal="17dp"
-        android:layout_marginBottom="10dp"
         android:paddingVertical="8dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -77,21 +77,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
-                app:setTempMax="@{item.temp.max}"
-                app:setTempMin="@{item.temp.min}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_daily_nav_date"
+                app:setTempMax="@{item.temp.max}"
+                app:setTempMin="@{item.temp.min}"
                 tools:text="25° / 20°" />
 
             <TextView
                 android:id="@+id/tv_daily_nav_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
                 android:layout_marginTop="8dp"
-                app:setStatus="@{item.weather[0].description}"
+                android:textSize="15sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_daily_nav_celcius"
+                app:setDailyNavStatus="@{item}"
                 tools:text="Mây đen u ám. Cao 32°C, thấp 20°C. Gió đông nam, tốc độ 20 km/h" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
