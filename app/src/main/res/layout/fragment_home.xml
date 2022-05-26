@@ -126,34 +126,39 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_home_location"
                 tools:text="@string/home_status" />
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/home_status_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:weightSum="10"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_home_status">
 
                 <TextView
                     android:id="@+id/tv_home_status_description"
                     style="@style/txt_grey"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="9"
-                    android:text="@{item.weather[0].description}"
+                    app:layout_constraintEnd_toStartOf="@+id/imgView_home_nav"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:setHomeStatus="@{item}"
                     tools:text="@string/home_status_description" />
 
                 <ImageView
+                    android:id="@+id/imgView_home_nav"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginEnd="0dp"
-                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
                     android:src="@mipmap/ic_play"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toEndOf="@+id/tv_home_status_description"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.515"
                     tools:ignore="ContentDescription" />
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <include
                 android:id="@+id/recyclerView_detail_container_element"

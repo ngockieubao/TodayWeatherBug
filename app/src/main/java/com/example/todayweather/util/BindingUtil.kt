@@ -5,6 +5,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.example.todayweather.home.model.Daily
+import java.lang.NullPointerException
 
 @BindingAdapter("setIcon")
 fun ImageView.setIcon(url: String?) {
@@ -56,8 +58,29 @@ fun TextView.setStatus(description: String) {
     this.text = description
 }
 
-@BindingAdapter("setWindStatus")
-fun TextView.setWindStatus(description: String){
-    this.text = description
+@BindingAdapter(value = ["setWindStatusSpeed", "setWindStatusDescription"])
+fun TextView.setWindStatus(windSpeed: Double, windDeg: Int) {
+    this.text = Utils.formatWind(context, windSpeed, windDeg)
+}
 
+@BindingAdapter("setHomeStatus")
+fun TextView.setHomeStatus(daily: Daily?) {
+    try {
+        this.text = Utils.formatHomeStatus(
+            context, daily!!
+        )
+    } catch (ex: NullPointerException) {
+        LogUtils.logDebug("null", ex.toString())
+    }
+}
+
+@BindingAdapter("setDailyNavStatus")
+fun TextView.setDailyNavStatus(daily: Daily?) {
+    try {
+        this.text = Utils.formatDailyNavStatus(
+            context, daily!!
+        )
+    } catch (ex: NullPointerException) {
+        LogUtils.logDebug("null", ex.toString())
+    }
 }

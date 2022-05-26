@@ -12,7 +12,7 @@
     <string name="uvi">%.1f</string>
     <string name="rcv_everyday_title">Hàng giờ</string>
     <string name="time">%s</string>
-    <string name="home_status_description">Hôm nay - Mây đen u ám, Cao 32°C, thấp 20°C. Gió đông nam, tốc độ 20km/h.</string>
+    <string name="home_status_description">Hôm nay - Mây đen u ám, Cao 32°C, thấp 20°C. Gió đông nam, tốc độ 20km/h. Khả năng mưa 70%.</string>
     <string name="home_status">Mây đen u ám</string>
     <string name="home_location">Hà Nội</string>
     <string name="home_date">TH 5, 05 THÁNG 5</string>
@@ -36,12 +36,13 @@
     <string name="fm_pop">%.0f%%</string>
     <string name="fm_temp">%.0f</string>
     <string name="fm_temp_celsius">%.0f°C</string>
-    <string name="fm_wind_status">Gió: %.0fkm/h •</string>
+    <string name="fm_wind_status">Gió: %.0fkm/h • %s</string>
     <string name="fm_wind_speed">%.0f km/h</string>
     <string name="fm_temp_feels_like">%s°C - Cảm Giác Như: %s°C</string>
     <string name="fm_temp_max_min">%s° / %s°</string>
     <string name="fm_day_date">%s, %s</string>
-    <string name="fm_status_home">Hôm nay - %s. Cao %.0f°C, thấp %.0f°C. %s - %s, tốc độ %.0f km/h. Khả năng mưa %.0f%%</string>
+    <string name="fm_status_home">Hôm nay - %s. Cao %.0f°C, thấp %.0f°C. Gió %s, tốc độ %.0f km/h. Khả năng mưa %.0f%%</string>
+    <string name="fm_status_daily_nav">%s. Cao %.0f°C, thấp %.0f°C. Gió %s, tốc độ %.0f km/h. Khả năng mưa %.0f%%</string>
     <string name="string_empty" />
 
     <string-array name="days_of_week">
@@ -61,5 +62,24 @@
         <item>THỨ NĂM</item>
         <item>THỨ SÁU</item>
         <item>THỨ BẢY</item>
+    </string-array>
+    <string-array name="wind_deg">
+        <item>N</item>
+        <item>NNE</item>
+        <item>NE</item>
+        <item>ENE</item>
+        <item>E</item>
+        <item>ESE</item>
+        <item>SE</item>
+        <item>SSE</item>
+        <item>S</item>
+        <item>SSW</item>
+        <item>SW</item>
+        <item>WSW</item>
+        <item>W</item>
+        <item>WNW</item>
+        <item>NW</item>
+        <item>NNW</item>
+        <item>N</item>
     </string-array>
 </resources>
