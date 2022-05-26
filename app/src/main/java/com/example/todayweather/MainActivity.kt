@@ -1,32 +1,41 @@
 package com.example.todayweather
 
 import android.Manifest
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.navigation.findNavController
+import com.example.todayweather.broadcast.NotificationReceiver
+import com.example.todayweather.broadcast.WeatherReceiver
 import com.example.todayweather.home.WeatherViewModel
 import com.google.android.gms.location.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
     private val weatherViewModel: WeatherViewModel by viewModel()
 
-    // init var location
+    // Init var location
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var getPosition: String = ""
     private lateinit var locationRequest: LocationRequest
     private lateinit var locationCallback: LocationCallback
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -37,30 +46,37 @@ class MainActivity : AppCompatActivity() {
 //        val navController = this.findNavController(R.id.actNavHost)
 //        NavigationUI.setupActionBarWithNavController(this, navController)
 
-        // init var use for get location
+        // Init var use for get location
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         getLastLocation()
         initLocationRequest()
         initLocationCallback()
         startLocationUpdates()
+        startBrR()
+        startBroadcast()
     }
 
-    // init locationRequest
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = this.findNavController(R.id.actNavHost)
+        return navController.navigateUp()
+    }
+
+    // Init locationRequest
     private fun initLocationCallback() {
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 locationResult ?: return
                 for (location in locationResult.locations) {
                     // Update UI with location data
-                    // get lat-lon
+                    // Get lat-lon
                     val latUpdate = location.latitude
                     val lonUpdate = location.longitude
 
-                    // pass lat-lon args after allow position
+                    // Pass lat-lon args after allow position
                     weatherViewModel.getWeatherProperties(latUpdate, lonUpdate)
 
-                    // init var for update location
+                    // Init var for update location
                     try {
                         val geocoder = Geocoder(this@MainActivity)
                         val position = geocoder.getFromLocation(latUpdate, lonUpdate, 1)
@@ -76,12 +92,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = this.findNavController(R.id.actNavHost)
-        return navController.navigateUp()
-    }
-
-    // init locationCallback
+    // Init locationCallback
     private fun initLocationRequest() {
         locationRequest = LocationRequest.create().apply {
             interval = 10000
@@ -90,7 +101,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // get last location
+    // Get last location
     private val localPermissionRequest = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
         // permission = it : result of return
             permission ->
@@ -98,7 +109,7 @@ class MainActivity : AppCompatActivity() {
             getLastLocation()
         } else {
             Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
-            // navigate to setup permission
+            // Navigate to setup permission
         }
     }
 
@@ -155,7 +166,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // update location
+    // Update location
     private fun startLocationUpdates() {
         try {
             fusedLocationClient.requestLocationUpdates(
@@ -166,5 +177,45 @@ class MainActivity : AppCompatActivity() {
         } catch (e: SecurityException) {
             Log.e("SecurityException", e.toString())
         }
+    }
+
+    // Broadcast
+    private fun startBrR() {
+        val intent = Intent(this, WeatherReceiver::class.java).apply {
+            action = "com.example.todayweather.NetworkReceiver"
+        }
+        sendBroadcast(intent)
+    }
+
+    private fun startBroadcast() {
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(this, NotificationReceiver::class.java).apply {
+            action = "com.example.todayweather.AlarmManager"
+        }
+        sendBroadcast(intent)
+
+//        val pendingIntentRequestCode = 0
+//        // Cannot push notification when using pendingIntent
+//        // Todo fix later
+//
+//        val pendingIntent = PendingIntent.getBroadcast(this, pendingIntentRequestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+//            val isPermission = alarmManager.canScheduleExactAlarms()
+//            if (isPermission) {
+//                alarmManager.setInexactRepeating(
+//                    AlarmManager.RTC_WAKEUP,
+//                    System.currentTimeMillis() + 10_000,
+//                    TimeUnit.SECONDS.toMillis(10),
+//                    pendingIntent
+//                )
+//            } else {
+//                alarmManager.setRepeating(
+//                    AlarmManager.RTC_WAKEUP,
+//                    System.currentTimeMillis() + 10_000,
+//                    TimeUnit.SECONDS.toMillis(10),
+//                    pendingIntent
+//                )
+//            }
+//        }
     }
 }
