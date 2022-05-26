@@ -48,7 +48,7 @@
         </receiver>
 
         <service
-            android:name=".service.TestService"
+            android:name=".service.PushNotificationService"
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="location" />

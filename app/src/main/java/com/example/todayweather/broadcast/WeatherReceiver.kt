@@ -45,12 +45,4 @@ class WeatherReceiver : BroadcastReceiver() {
         }
         return false
     }
-
-    @RequiresApi(Build.VERSION_CODES.M)
-    fun alarmWeather(context: Context) {
-//        val alarmManager =
-//            context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-//        val intent = Intent(context, WeatherReceiver::class.java)
-//        val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
-    }
 }

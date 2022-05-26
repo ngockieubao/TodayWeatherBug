@@ -42,8 +42,12 @@
     <string name="fm_temp_max_min">%s° / %s°</string>
     <string name="fm_day_date">%s, %s</string>
     <string name="fm_status_home">Hôm nay - %s. Cao %.0f°C, thấp %.0f°C. Gió %s, tốc độ %.0f km/h. Khả năng mưa %.0f%%</string>
-    <string name="fm_status_daily_nav">%s. Cao %.0f°C, thấp %.0f°C. Gió %s, tốc độ %.0f km/h. Khả năng mưa %.0f%%</string>
+    <string name="fm_status_daily_nav">%s. Cao %.0f°C, thấp %.0f°C. Gió %s, tốc độ %.0f km/h. Khả năng mưa %.0f%%.</string>
     <string name="string_empty" />
+    <string name="notification_waiting_get_weather_infomation">Đang lấy thông tin thời tiết</string>
+    <string name="id_channel_push_notification">AlarmId</string>
+    <string name="name_notification_channel">Alarm</string>
+    <string name="description_notification_channel">Alarm details</string>
 
     <string-array name="days_of_week">
         <item>Sun</item>
