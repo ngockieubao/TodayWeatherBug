@@ -23,7 +23,7 @@ import kotlinx.coroutines.*
 import org.koin.android.ext.android.inject
 
 class TestService : Service() {
-    private val ONGOING_NOTIFICATION_ID = 1
+    private val ONGOING_NOTIFICATION_ID = 2
     private val weatherApiService: WeatherApiService by inject()
 
     private var job: Job = Job()
@@ -52,8 +52,7 @@ class TestService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        startPushNotification()
-
+        startPushNotification(startId)
         Log.i(TAG_SERVICE, "Service onStartCommand")
 
         /**
@@ -86,8 +85,8 @@ class TestService : Service() {
                         lon = location.longitude
                         val weatherData = weatherApiService.getProperties(lat, lon)
                         Log.i("service", weatherData.toString())
-                        // push Weather Notification
-
+                        // Push Weather Notification
+                        startPushNotificationShowInfo(weatherData)
                         stopSelf(startId)
                     }
                 }
@@ -96,7 +95,7 @@ class TestService : Service() {
         return START_STICKY
     }
 
-    private fun startPushNotification() {
+    private fun startPushNotification(startId: Int) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Create the NotificationChannel
             val name = "Alarm"
@@ -104,7 +103,8 @@ class TestService : Service() {
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val mChannel = NotificationChannel("AlarmId", name, importance)
             mChannel.description = descriptionText
-            val notificationManager = this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val notificationManager =
+                this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(mChannel)
         }
 
@@ -115,9 +115,33 @@ class TestService : Service() {
             .setContentText("Đang lấy thông tin thời tiết")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .build()
+        Log.i("push info", startId.toString())
+        startForeground(startId, mBuilder)
+    }
 
+    private fun startPushNotificationShowInfo(weatherGetApi: WeatherGetApi) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Create the NotificationChannel
+            val name = "Show information"
+            val descriptionText = "Show details"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val mChannel = NotificationChannel("AlarmId2", name, importance)
+            mChannel.description = descriptionText
+            val notificationManager =
+                this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(mChannel)
+        }
+
+        // Create the notification to be shown
+        val mBuilder: Notification = NotificationCompat.Builder(this@TestService, "AlarmId2")
+            .setSmallIcon(R.mipmap.ic_launcher)
+            .setAutoCancel(true)
+            .setContentTitle("Hanoi")
+            .setContentText(weatherGetApi.current.weather[0].description)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .build()
+        Log.i("push info", ONGOING_NOTIFICATION_ID.toString())
         startForeground(ONGOING_NOTIFICATION_ID, mBuilder)
-
     }
 }
 
