@@ -121,13 +121,14 @@ class PushNotificationService : Service() {
 
     private fun startPushNotification(startId: Int) {
         // Create the notification to be shown
-        val mBuilder: Notification = NotificationCompat.Builder(this@PushNotificationService, getString(R.string.id_channel_push_notification))
-            .setSmallIcon(R.mipmap.ic_todayweather_removebg)
-            .setLargeIcon(Utils.convertToBitMap(this@PushNotificationService, R.mipmap.ic_weather_news))
-            .setAutoCancel(true)
-            .setContentText(getString(R.string.notification_waiting_get_weather_infomation))
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .build()
+        val mBuilder: Notification =
+            NotificationCompat.Builder(this@PushNotificationService, getString(R.string.id_channel_push_notification))
+                .setSmallIcon(R.mipmap.ic_todayweather_removebg)
+                .setLargeIcon(Utils.convertToBitMap(this@PushNotificationService, R.mipmap.ic_weather_news))
+                .setAutoCancel(true)
+                .setContentText(getString(R.string.notification_waiting_get_weather_information))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .build()
         startForeground(startId, mBuilder)
     }
 
@@ -152,7 +153,7 @@ class PushNotificationService : Service() {
                             weatherGetApi.daily[0].temp.min,
                             Utils.formatWindDeg(this@PushNotificationService, weatherGetApi.daily[0].wind_deg),
                             weatherGetApi.daily[0].wind_speed,
-                            weatherGetApi.daily[0].pop
+                            Utils.formatPop(this@PushNotificationService, weatherGetApi.daily[0].pop)
                         )
                     )
             )

@@ -1,8 +1,6 @@
 package com.example.todayweather
 
 import android.Manifest
-import android.app.AlarmManager
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
@@ -11,22 +9,26 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
+import android.view.Menu
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.navigation.findNavController
 import com.example.todayweather.broadcast.NotificationReceiver
 import com.example.todayweather.broadcast.WeatherReceiver
+import com.example.todayweather.databinding.ActivityMainBinding
 import com.example.todayweather.home.WeatherViewModel
 import com.example.todayweather.util.Utils
 import com.google.android.gms.location.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.IOException
 
+
 class MainActivity : AppCompatActivity() {
     private val weatherViewModel: WeatherViewModel by viewModel()
+    private lateinit var binding: ActivityMainBinding
 
     // Init var location
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -34,16 +36,21 @@ class MainActivity : AppCompatActivity() {
     private lateinit var locationRequest: LocationRequest
     private lateinit var locationCallback: LocationCallback
 
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+//        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
 //        val navHostFragment = supportFragmentManager.findFragmentById(R.id.actNavHost) as NavHostFragment
 //        val navController = navHostFragment.navController
 
 //        val navController = this.findNavController(R.id.actNavHost)
 //        NavigationUI.setupActionBarWithNavController(this, navController)
+
+//        setSupportActionBar(binding.actNavHost)
+        setSupportActionBar(findViewById(R.id.my_toolbar))
 
         // Init var use for get location
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
@@ -53,9 +60,30 @@ class MainActivity : AppCompatActivity() {
         getLastLocation()
     }
 
+    //
     override fun onSupportNavigateUp(): Boolean {
         val navController = this.findNavController(R.id.actNavHost)
         return navController.navigateUp()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.search_menu, menu)
+
+        // Make a SearchView
+        val menuItem = menu.findItem(R.id.nav_search)
+        val searchView = menuItem.actionView as SearchView
+        searchView.queryHint = "City, State"
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return true
+            }
+        })
+
+        return super.onCreateOptionsMenu(menu)
     }
 
     // Init locationCallback

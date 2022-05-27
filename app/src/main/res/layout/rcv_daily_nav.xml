@@ -64,6 +64,7 @@
 
             <TextView
                 android:id="@+id/tv_daily_nav_date"
+                style="@style/txt_title_white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -74,6 +75,7 @@
 
             <TextView
                 android:id="@+id/tv_daily_nav_celcius"
+                style="@style/txt_title_white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
@@ -85,6 +87,7 @@
 
             <TextView
                 android:id="@+id/tv_daily_nav_status"
+                style="@style/txt_grey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"

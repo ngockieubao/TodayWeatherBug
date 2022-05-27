@@ -64,30 +64,34 @@ object Utils {
     fun formatWindDeg(context: Context, deg: Int): String {
         val getIndex = deg.div(22.5).plus(1).roundToInt()
         val listWindDeg = context.resources.getStringArray(R.array.wind_deg)
-        return listWindDeg[getIndex]
+        return listWindDeg[getIndex.minus(1)]
     }
 
-    fun formatHomeStatus(context: Context, daily: Daily?): String {
+    fun formatHomeStatusAbove(context: Context, daily: Daily?): String {
+        return String.format(context.getString(R.string.fm_string), upCaseFirstLetter(daily!!.weather[0].description))
+    }
+
+    fun formatHomeStatusBelow(context: Context, daily: Daily?): String {
         return String.format(
             context.getString(R.string.fm_status_home),
-            daily!!.weather[0].description,
+            upCaseFirstLetter(daily!!.weather[0].description),
             daily.temp.max,
             daily.temp.min,
             formatWindDeg(context, daily.wind_deg),
             daily.wind_speed,
-            daily.pop
+            formatPop(context, daily.pop)
         )
     }
 
     fun formatDailyNavStatus(context: Context, daily: Daily?): String {
         return String.format(
             context.getString(R.string.fm_status_daily_nav),
-            daily!!.weather[0].description,
+            upCaseFirstLetter(daily!!.weather[0].description),
             daily.temp.max,
             daily.temp.min,
             formatWindDeg(context, daily.wind_deg),
             daily.wind_speed,
-            daily.pop
+            formatPop(context, daily.pop)
         )
     }
 
