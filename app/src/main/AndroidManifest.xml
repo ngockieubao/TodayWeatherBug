@@ -5,20 +5,17 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
-
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".util.WeatherApplication"
-        android:allowBackup="false"
+        android:allowBackup="true"
         android:icon="@mipmap/ic_todayweather"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_todayweather"
         android:supportsRtl="true"
-        android:theme="@style/Theme.TodayWeather"
-        android:usesCleartextTraffic="true">
+        android:theme="@style/Theme.Design.NoActionBar">
         <activity
             android:name=".MainActivity"
             android:exported="true">

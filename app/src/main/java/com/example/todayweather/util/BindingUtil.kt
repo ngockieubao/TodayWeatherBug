@@ -10,7 +10,7 @@ import java.lang.NullPointerException
 
 @BindingAdapter("setIcon")
 fun ImageView.setIcon(url: String?) {
-    val urlPrefix = "http://openweathermap.org/img/wn/"
+    val urlPrefix = "https://openweathermap.org/img/wn/"
     val urlSuffix = "@2x.png"
     Glide.with(this.context)
         .load("$urlPrefix$url$urlSuffix")

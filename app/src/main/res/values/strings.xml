@@ -48,6 +48,7 @@
     <string name="id_channel_push_notification">AlarmId</string>
     <string name="name_notification_channel">Alarm</string>
     <string name="description_notification_channel">Alarm details</string>
+    <string name="search">Search</string>
 
     <string-array name="days_of_week">
         <item>Sun</item>
