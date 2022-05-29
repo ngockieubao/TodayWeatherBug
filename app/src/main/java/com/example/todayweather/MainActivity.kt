@@ -9,13 +9,16 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
-import android.view.Menu
-import android.widget.SearchView
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.todayweather.adapter.SearchAdapter
 import com.example.todayweather.broadcast.NotificationReceiver
 import com.example.todayweather.broadcast.WeatherReceiver
 import com.example.todayweather.databinding.ActivityMainBinding
@@ -24,7 +27,7 @@ import com.example.todayweather.util.Utils
 import com.google.android.gms.location.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.IOException
-
+import java.lang.NullPointerException
 
 class MainActivity : AppCompatActivity() {
     private val weatherViewModel: WeatherViewModel by viewModel()
@@ -50,7 +53,7 @@ class MainActivity : AppCompatActivity() {
 //        NavigationUI.setupActionBarWithNavController(this, navController)
 
 //        setSupportActionBar(binding.actNavHost)
-        setSupportActionBar(findViewById(R.id.my_toolbar))
+//        setSupportActionBar(findViewById(R.id.my_toolbar))
 
         // Init var use for get location
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
@@ -66,25 +69,29 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.search_menu, menu)
-
-        // Make a SearchView
-        val menuItem = menu.findItem(R.id.nav_search)
-        val searchView = menuItem.actionView as SearchView
-        searchView.queryHint = "City, State"
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return true
-            }
-        })
-
-        return super.onCreateOptionsMenu(menu)
-    }
+//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//        menuInflater.inflate(R.menu.search_menu, menu)
+//
+//        // Make a SearchView
+//        val menuItem = menu.findItem(R.id.nav_search)
+//        val searchView = menuItem.actionView as SearchView
+//        searchView.queryHint = "City, State"
+//        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+//            override fun onQueryTextSubmit(query: String?): Boolean {
+//                return false
+//            }
+//
+//            override fun onQueryTextChange(newText: String?): Boolean {
+//                return true
+//            }
+//        })
+//
+//        searchView.setOnClickListener {
+//
+//        }
+//
+//        return super.onCreateOptionsMenu(menu)
+//    }
 
     // Init locationCallback
     private fun initLocationRequest() {
@@ -99,7 +106,7 @@ class MainActivity : AppCompatActivity() {
     private fun initLocationCallback() {
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
-                locationResult ?: return
+                locationResult
                 for (location in locationResult.locations) {
                     // Update UI with location data
                     // Get lat-lon
@@ -178,7 +185,7 @@ class MainActivity : AppCompatActivity() {
             val geocoder = Geocoder(this@MainActivity)
             val position = geocoder.getFromLocation(lat, lon, 1)
 
-            // display location
+            // Display location
             getPosition = position[0].getAddressLine(0)
             weatherViewModel.showLocation(Utils.formatLocation(getPosition))
 

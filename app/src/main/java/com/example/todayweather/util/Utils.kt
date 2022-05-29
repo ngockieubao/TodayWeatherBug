@@ -109,7 +109,6 @@ object Utils {
     }
 
     fun setAlarm(context: Context, timeOfAlarm: Long) {
-
         // Intent to start the Broadcast Receiver
         val broadcastIntent = Intent(
             context, NotificationReceiver::class.java

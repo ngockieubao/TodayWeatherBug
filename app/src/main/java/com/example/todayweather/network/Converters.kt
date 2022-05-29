@@ -24,7 +24,7 @@ class Converters {
         return Gson().fromJson(input, type)
     }
 
-    // Convert data from API to json object
+    // Convert data from API(json string) to json object
     @TypeConverter
     fun fromCurrentToJson(input: Current): String {
         return Gson().toJson(input)
