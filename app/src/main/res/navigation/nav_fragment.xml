@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_7days_fragment"
+    android:id="@+id/nav_daily_hourly_fragment"
     app:startDestination="@id/homeFragment">
 
     <fragment
@@ -18,6 +18,9 @@
             android:id="@+id/action_homeFragment_to_hourlyFragment"
             app:destination="@id/hourlyFragment"
             app:popUpTo="@id/homeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
 
     <fragment
@@ -37,6 +40,15 @@
         tools:layout="@layout/rcv_hourly_nav">
         <action
             android:id="@+id/action_hourlyFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.todayweather.fragment.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
 </navigation>

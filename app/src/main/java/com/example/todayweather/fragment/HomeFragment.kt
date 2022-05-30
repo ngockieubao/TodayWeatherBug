@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.todayweather.R
@@ -13,12 +15,15 @@ import com.example.todayweather.adapter.HourlyAdapter
 import com.example.todayweather.databinding.FragmentHomeBinding
 import com.example.todayweather.home.WeatherViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import java.lang.NullPointerException
 
 class HomeFragment : Fragment() {
     private val weatherViewModel: WeatherViewModel by sharedViewModel()
     private lateinit var bindingHome: FragmentHomeBinding
     private lateinit var detailAdapter: DetailAdapter
     private lateinit var hourlyAdapter: HourlyAdapter
+
+    lateinit var imgBtn: ImageButton
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,6 +73,18 @@ class HomeFragment : Fragment() {
         weatherViewModel.listDataHourly.observe(this.viewLifecycleOwner) {
             hourlyAdapter.dataList = it
         }
+
+
+        try {
+            bindingHome.imageBtnSearch.setOnClickListener {
+                Toast.makeText(context, "Bug", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
+            }
+        } catch (ex: NullPointerException) {
+            ex.printStackTrace()
+            Log.i("fbug", ex.toString())
+        }
+
         return bindingHome.root
     }
 }

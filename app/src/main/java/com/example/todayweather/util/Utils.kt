@@ -4,6 +4,8 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import com.example.todayweather.broadcast.NotificationReceiver
 import com.example.todayweather.R
 import com.example.todayweather.home.model.Daily
@@ -59,41 +61,58 @@ object Utils {
         return String.format(context.getString(R.string.fm_wind_status), wind, formatWindDeg(context, windDeg))
     }
 
-    private fun formatWindDeg(context: Context, deg: Int): String {
+    fun formatWindDeg(context: Context, deg: Int): String {
         val getIndex = deg.div(22.5).plus(1).roundToInt()
         val listWindDeg = context.resources.getStringArray(R.array.wind_deg)
-        return listWindDeg[getIndex]
+        return listWindDeg[getIndex.minus(1)]
     }
 
-    fun formatHomeStatus(context: Context, daily: Daily?): String {
+    fun formatHomeStatusAbove(context: Context, daily: Daily?): String {
+        return String.format(context.getString(R.string.fm_string), upCaseFirstLetter(daily!!.weather[0].description))
+    }
+
+    fun formatHomeStatusBelow(context: Context, daily: Daily?): String {
         return String.format(
             context.getString(R.string.fm_status_home),
-            daily!!.weather[0].description,
+            upCaseFirstLetter(daily!!.weather[0].description),
             daily.temp.max,
             daily.temp.min,
             formatWindDeg(context, daily.wind_deg),
             daily.wind_speed,
-            daily.pop
+            formatPop(context, daily.pop)
         )
     }
 
     fun formatDailyNavStatus(context: Context, daily: Daily?): String {
         return String.format(
             context.getString(R.string.fm_status_daily_nav),
-            daily!!.weather[0].description,
+            upCaseFirstLetter(daily!!.weather[0].description),
             daily.temp.max,
             daily.temp.min,
             formatWindDeg(context, daily.wind_deg),
             daily.wind_speed,
-            daily.pop
+            formatPop(context, daily.pop)
         )
     }
 
-    fun setAlarm(context: Context, timeOfAlarm: Long) {
+    fun formatLocation(location: String): String {
+        val listLocation: List<String> = location.split(",").map { it -> it.trim() }
+        return "${listLocation[1]}, ${listLocation[2]}"
+    }
 
+    fun upCaseFirstLetter(letter: String): String {
+        return letter.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+    }
+
+    fun convertToBitMap(context: Context, id: Int): Bitmap {
+        return BitmapFactory.decodeResource(context.resources, id)
+    }
+
+    fun setAlarm(context: Context, timeOfAlarm: Long) {
         // Intent to start the Broadcast Receiver
-        val broadcastIntent = Intent(context
-            , NotificationReceiver::class.java)
+        val broadcastIntent = Intent(
+            context, NotificationReceiver::class.java
+        )
 
         val pIntent = PendingIntent.getBroadcast(
             context,
