@@ -1,9 +1,6 @@
 package com.example.todayweather
 
 import android.Manifest
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
@@ -12,22 +9,29 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.todayweather.adapter.SearchAdapter
 import com.example.todayweather.broadcast.NotificationReceiver
 import com.example.todayweather.broadcast.WeatherReceiver
+import com.example.todayweather.databinding.ActivityMainBinding
 import com.example.todayweather.home.WeatherViewModel
+import com.example.todayweather.util.Utils
 import com.google.android.gms.location.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.IOException
-import java.util.concurrent.TimeUnit
+import java.lang.NullPointerException
 
 class MainActivity : AppCompatActivity() {
     private val weatherViewModel: WeatherViewModel by viewModel()
+    private lateinit var binding: ActivityMainBinding
 
     // Init var location
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -35,10 +39,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var locationRequest: LocationRequest
     private lateinit var locationCallback: LocationCallback
 
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+//        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
 //        val navHostFragment = supportFragmentManager.findFragmentById(R.id.actNavHost) as NavHostFragment
 //        val navController = navHostFragment.navController
@@ -46,51 +52,46 @@ class MainActivity : AppCompatActivity() {
 //        val navController = this.findNavController(R.id.actNavHost)
 //        NavigationUI.setupActionBarWithNavController(this, navController)
 
+//        setSupportActionBar(binding.actNavHost)
+//        setSupportActionBar(findViewById(R.id.my_toolbar))
+
         // Init var use for get location
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-        getLastLocation()
         initLocationRequest()
         initLocationCallback()
-        startLocationUpdates()
-        startBrR()
-        startBroadcast()
+        getLastLocation()
     }
 
+    //
     override fun onSupportNavigateUp(): Boolean {
         val navController = this.findNavController(R.id.actNavHost)
         return navController.navigateUp()
     }
 
-    // Init locationRequest
-    private fun initLocationCallback() {
-        locationCallback = object : LocationCallback() {
-            override fun onLocationResult(locationResult: LocationResult) {
-                locationResult ?: return
-                for (location in locationResult.locations) {
-                    // Update UI with location data
-                    // Get lat-lon
-                    val latUpdate = location.latitude
-                    val lonUpdate = location.longitude
-
-                    // Pass lat-lon args after allow position
-                    weatherViewModel.getWeatherProperties(latUpdate, lonUpdate)
-
-                    // Init var for update location
-                    try {
-                        val geocoder = Geocoder(this@MainActivity)
-                        val position = geocoder.getFromLocation(latUpdate, lonUpdate, 1)
-                        Log.d("location", position[0].toString())
-                        // display location
-                        getPosition = position[0].getAddressLine(0)
-                        weatherViewModel.showLocation(getPosition)
-                    } catch (ex: IOException) {
-                        Log.d("bugUpdateLocation", ex.toString())
-                    }
-                }
-            }
-        }
-    }
+//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//        menuInflater.inflate(R.menu.search_menu, menu)
+//
+//        // Make a SearchView
+//        val menuItem = menu.findItem(R.id.nav_search)
+//        val searchView = menuItem.actionView as SearchView
+//        searchView.queryHint = "City, State"
+//        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+//            override fun onQueryTextSubmit(query: String?): Boolean {
+//                return false
+//            }
+//
+//            override fun onQueryTextChange(newText: String?): Boolean {
+//                return true
+//            }
+//        })
+//
+//        searchView.setOnClickListener {
+//
+//        }
+//
+//        return super.onCreateOptionsMenu(menu)
+//    }
 
     // Init locationCallback
     private fun initLocationRequest() {
@@ -98,6 +99,24 @@ class MainActivity : AppCompatActivity() {
             interval = 10000
             fastestInterval = 5000
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        }
+    }
+
+    // Init locationRequest
+    private fun initLocationCallback() {
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                locationResult
+                for (location in locationResult.locations) {
+                    // Update UI with location data
+                    // Get lat-lon
+                    val latUpdate = location.latitude
+                    val lonUpdate = location.longitude
+
+                    // Get location
+                    getLocation(latUpdate, lonUpdate)
+                }
+            }
         }
     }
 
@@ -113,7 +132,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // show dialog to request permission location
+    // Show dialog to request permission location
     private fun requestLocationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)) {
@@ -128,30 +147,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // check permission location & Get location
+    // Check permission location & Get location
     private fun getLastLocation() {
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-            // Get location
+            // Get last location
             fusedLocationClient.lastLocation
                 .addOnSuccessListener { location: Location? ->
                     // Got last known location. In some rare situations this can be null.
                     if (location != null) {
-                        val lat = location.latitude
-                        val lon = location.longitude
-                        try {
-                            val geocoder = Geocoder(this)
-                            val position = geocoder.getFromLocation(lat, lon, 1)
-                            Log.d("location", position[0].toString())
-                            getPosition = position[0].getAddressLine(0)
-                            weatherViewModel.getWeatherProperties(lat, lon)
-                            weatherViewModel.showLocation(getPosition)
-                        } catch (e: Exception) {
-                            Log.w("bugLocation", e)
-                        }
+                        val latUpdate = location.latitude
+                        val lonUpdate = location.longitude
+                        getLocation(latUpdate, lonUpdate)
                     } else {
                         startLocationUpdates()
                     }
@@ -160,9 +170,29 @@ class MainActivity : AppCompatActivity() {
                 }.addOnCompleteListener {
                     Log.i("addOnCompleteListener", "Completed!")
                 }
+            startLocationUpdates()
+            startBroadcastNetwork()
+            startBroadcastWeatherNotifications()
             return
         } else {
             requestLocationPermission()
+        }
+    }
+
+    // Get location
+    private fun getLocation(lat: Double, lon: Double) {
+        try {
+            val geocoder = Geocoder(this@MainActivity)
+            val position = geocoder.getFromLocation(lat, lon, 1)
+
+            // Display location
+            getPosition = position[0].getAddressLine(0)
+            weatherViewModel.showLocation(Utils.formatLocation(getPosition))
+
+            // Pass lat-lon args after allow position
+            weatherViewModel.getWeatherProperties(lat, lon)
+        } catch (ex: IOException) {
+            Log.d("bugUpdateLocation", ex.toString())
         }
     }
 
@@ -180,15 +210,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Broadcast
-    private fun startBrR() {
+    private fun startBroadcastNetwork() {
         val intent = Intent(this, WeatherReceiver::class.java).apply {
             action = "com.example.todayweather.NetworkReceiver"
         }
         sendBroadcast(intent)
     }
 
-    private fun startBroadcast() {
-        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    private fun startBroadcastWeatherNotifications() {
+//        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(this, NotificationReceiver::class.java).apply {
             action = "com.example.todayweather.AlarmManager"
         }

@@ -10,7 +10,7 @@ import java.lang.NullPointerException
 
 @BindingAdapter("setIcon")
 fun ImageView.setIcon(url: String?) {
-    val urlPrefix = "http://openweathermap.org/img/wn/"
+    val urlPrefix = "https://openweathermap.org/img/wn/"
     val urlSuffix = "@2x.png"
     Glide.with(this.context)
         .load("$urlPrefix$url$urlSuffix")
@@ -55,7 +55,7 @@ fun TextView.setTempFeelsLike(temp: Double, feelsLike: Double) {
 
 @BindingAdapter("setStatus")
 fun TextView.setStatus(description: String) {
-    this.text = description
+    this.text = Utils.upCaseFirstLetter(description)
 }
 
 @BindingAdapter(value = ["setWindStatusSpeed", "setWindStatusDescription"])
@@ -63,10 +63,21 @@ fun TextView.setWindStatus(windSpeed: Double, windDeg: Int) {
     this.text = Utils.formatWind(context, windSpeed, windDeg)
 }
 
-@BindingAdapter("setHomeStatus")
-fun TextView.setHomeStatus(daily: Daily?) {
+@BindingAdapter("setHomeStatusAbove")
+fun TextView.setHomeStatusAbove(daily: Daily?) {
     try {
-        this.text = Utils.formatHomeStatus(
+        this.text = Utils.formatHomeStatusAbove(
+            context, daily!!
+        )
+    } catch (ex: NullPointerException) {
+        LogUtils.logDebug("null", ex.toString())
+    }
+}
+
+@BindingAdapter("setHomeStatusBelow")
+fun TextView.setHomeStatusBelow(daily: Daily?) {
+    try {
+        this.text = Utils.formatHomeStatusBelow(
             context, daily!!
         )
     } catch (ex: NullPointerException) {

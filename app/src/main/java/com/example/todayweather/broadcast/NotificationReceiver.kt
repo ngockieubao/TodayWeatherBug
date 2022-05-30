@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.core.content.ContextCompat
-import com.example.todayweather.service.TestService
+import com.example.todayweather.service.PushNotificationService
 
 class NotificationReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent?) {
@@ -14,7 +14,7 @@ class NotificationReceiver : BroadcastReceiver() {
     }
 
     private fun startTestService(context: Context) {
-        val intent = Intent(context, TestService::class.java)
+        val intent = Intent(context, PushNotificationService::class.java)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             ContextCompat.startForegroundService(context, intent)
         } else {

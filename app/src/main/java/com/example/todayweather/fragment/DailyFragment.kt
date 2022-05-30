@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
+import com.example.todayweather.R
 import com.example.todayweather.adapter.DailyNavAdapter
 import com.example.todayweather.databinding.FragmentNavDailyBinding
 import com.example.todayweather.home.WeatherViewModel
@@ -22,6 +24,10 @@ class DailyFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         bindingDailyNavBinding = FragmentNavDailyBinding.inflate(inflater, container, false)
+
+        bindingDailyNavBinding.imageViewBackDailyNav.setOnClickListener {
+            findNavController().navigate(R.id.action_dailyFragment_to_homeFragment)
+        }
 
         return bindingDailyNavBinding.root
     }

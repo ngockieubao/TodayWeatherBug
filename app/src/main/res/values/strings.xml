@@ -12,6 +12,7 @@
     <string name="uvi">%.1f</string>
     <string name="rcv_everyday_title">Hàng giờ</string>
     <string name="time">%s</string>
+    <string name="fm_string">%s</string>
     <string name="home_status_description">Hôm nay - Mây đen u ám, Cao 32°C, thấp 20°C. Gió đông nam, tốc độ 20km/h. Khả năng mưa 70%.</string>
     <string name="home_status">Mây đen u ám</string>
     <string name="home_location">Hà Nội</string>
@@ -41,9 +42,14 @@
     <string name="fm_temp_feels_like">%s°C - Cảm Giác Như: %s°C</string>
     <string name="fm_temp_max_min">%s° / %s°</string>
     <string name="fm_day_date">%s, %s</string>
-    <string name="fm_status_home">Hôm nay - %s. Cao %.0f°C, thấp %.0f°C. Gió %s, tốc độ %.0f km/h. Khả năng mưa %.0f%%</string>
-    <string name="fm_status_daily_nav">%s. Cao %.0f°C, thấp %.0f°C. Gió %s, tốc độ %.0f km/h. Khả năng mưa %.0f%%</string>
+    <string name="fm_status_home">Hôm nay - %s. Cao %.0f°C, thấp %.0f°C. Gió %s, tốc độ %.0f km/h. Khả năng mưa %s.</string>
+    <string name="fm_status_daily_nav">%s. Cao %.0f°C, thấp %.0f°C. Gió %s, tốc độ %.0f km/h. Khả năng mưa %s.</string>
     <string name="string_empty" />
+    <string name="notification_waiting_get_weather_information">Đang lấy thông tin thời tiết</string>
+    <string name="id_channel_push_notification">AlarmId</string>
+    <string name="name_notification_channel">Alarm</string>
+    <string name="description_notification_channel">Alarm details</string>
+    <string name="search">Search</string>
 
     <string-array name="days_of_week">
         <item>Sun</item>
@@ -63,23 +69,42 @@
         <item>THỨ SÁU</item>
         <item>THỨ BẢY</item>
     </string-array>
+    <!--    <string-array name="wind_deg">-->
+    <!--        <item>N</item>-->
+    <!--        <item>NNE</item>-->
+    <!--        <item>NE</item>-->
+    <!--        <item>ENE</item>-->
+    <!--        <item>E</item>-->
+    <!--        <item>ESE</item>-->
+    <!--        <item>SE</item>-->
+    <!--        <item>SSE</item>-->
+    <!--        <item>S</item>-->
+    <!--        <item>SSW</item>-->
+    <!--        <item>SW</item>-->
+    <!--        <item>WSW</item>-->
+    <!--        <item>W</item>-->
+    <!--        <item>WNW</item>-->
+    <!--        <item>NW</item>-->
+    <!--        <item>NNW</item>-->
+    <!--        <item>N</item>-->
+    <!--    </string-array>-->
     <string-array name="wind_deg">
-        <item>N</item>
-        <item>NNE</item>
-        <item>NE</item>
-        <item>ENE</item>
-        <item>E</item>
-        <item>ESE</item>
-        <item>SE</item>
-        <item>SSE</item>
-        <item>S</item>
-        <item>SSW</item>
-        <item>SW</item>
-        <item>WSW</item>
-        <item>W</item>
-        <item>WNW</item>
-        <item>NW</item>
-        <item>NNW</item>
-        <item>N</item>
+        <item>Bắc</item>
+        <item>Bắc - Đông Bắc</item>
+        <item>Đông Bắc</item>
+        <item>Đông - Đông Bắc</item>
+        <item>Đông</item>
+        <item>Đông - Đông Nam</item>
+        <item>Đông Nam</item>
+        <item>Nam - Đông Nam</item>
+        <item>Nam</item>
+        <item>Nam - Tây Nam</item>
+        <item>Tây Nam</item>
+        <item>Tây - Tây Nam</item>
+        <item>Tây</item>
+        <item>Tây - Tây Bắc</item>
+        <item>Tây Bắc</item>
+        <item>Bắc - Tây Bắc</item>
+        <item>Bắc</item>
     </string-array>
 </resources>

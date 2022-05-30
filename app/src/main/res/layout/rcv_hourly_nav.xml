@@ -64,6 +64,7 @@
 
             <TextView
                 android:id="@+id/tv_hourly_nav_time"
+                style="@style/txt_title_white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
@@ -73,6 +74,7 @@
 
             <TextView
                 android:id="@+id/tv_hourly_nav_temp"
+                style="@style/txt_title_white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
