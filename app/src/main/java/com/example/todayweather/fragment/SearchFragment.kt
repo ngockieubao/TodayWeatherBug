@@ -5,13 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
+import com.example.todayweather.R
 import com.example.todayweather.adapter.SearchAdapter
 import com.example.todayweather.databinding.FragmentSearchBinding
 import com.example.todayweather.home.model.City
 import com.example.todayweather.util.Utils
 import com.example.todayweather.util.Utils.fromJsonToLocation
 
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(), SelectCity {
     private lateinit var binding: FragmentSearchBinding
     private lateinit var searchAdapter: SearchAdapter
 
@@ -24,17 +28,40 @@ class SearchFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentSearchBinding.inflate(inflater, container, false)
 
-
+        // Read list cities json
         listCity = Utils.readJSONFromAsset(requireContext())?.fromJsonToLocation()!!
 
+        var cityFilterList: List<City>
+
+        binding.citySearch.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                Toast.makeText(requireContext(), "Searching", Toast.LENGTH_SHORT).show()
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                for (item in listCity) {
+                    if (newText != null) {
+                        cityFilterList = listCity.filter { it.name.contains(newText) }
+                        searchAdapter.listCities = cityFilterList
+                    }
+                }
+                return true
+            }
+        })
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        searchAdapter = SearchAdapter()
+        searchAdapter = SearchAdapter(requireContext(), this)
         searchAdapter.listCities = listCity
         binding.rcvFragmentSearch.adapter = searchAdapter
+    }
+
+    override fun selectItem(city: City?) {
+        val bundle = bundleOf("myKey" to city)
+        findNavController().navigate(R.id.action_searchFragment_to_homeFragment, bundle)
     }
 }
