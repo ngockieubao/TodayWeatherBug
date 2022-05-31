@@ -14,12 +14,12 @@ import android.location.Location
 import android.os.Build
 import android.os.IBinder
 import android.os.Looper
-import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import com.example.todayweather.R
 import com.example.todayweather.home.model.WeatherGetApi
 import com.example.todayweather.network.WeatherApiService
+import com.example.todayweather.util.Constants
 import com.example.todayweather.util.Utils
 import com.google.android.gms.location.*
 import kotlinx.coroutines.*
@@ -28,7 +28,6 @@ import java.io.IOException
 
 class PushNotificationService : Service() {
     private val weatherApiService: WeatherApiService by inject()
-    private val ONGOING_NOTIFICATION_ID = 2
     private var getPosition: String = ""
     private lateinit var locationRequest: LocationRequest
     private lateinit var locationCallback: LocationCallback
@@ -38,29 +37,20 @@ class PushNotificationService : Service() {
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
-    private val TAG_SERVICE = "HelloService"
-    private var isRunning = false
-
     override fun onBind(intent: Intent?): IBinder? {
-        Log.i(TAG_SERVICE, "Service onBind")
         return null
     }
 
     override fun onCreate() {
-        isRunning = true
-        Log.i(TAG_SERVICE, "Service onCreate")
         initLocationRequest()
         initLocationCallback()
     }
 
     override fun onDestroy() {
-        isRunning = false
-        job.cancel() // cancel the Job
-        Log.i(TAG_SERVICE, "Service onDestroy")
+        job.cancel() // Cancel the Job
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Log.i(TAG_SERVICE, "Service onStartCommand")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Create the NotificationChannel
             val name = getString(R.string.name_notification_channel)
@@ -109,7 +99,7 @@ class PushNotificationService : Service() {
 
                         // Push Weather Notification
                         startPushNotificationShowInfo(weatherData, getPosition)
-                        delay(2000)
+                        delay(Constants.DELAY)
                         stopSelf(startId)
                     } else {
                         startLocationUpdates()
@@ -139,7 +129,7 @@ class PushNotificationService : Service() {
             .setSmallIcon(R.mipmap.ic_todayweather_removebg)
             .setLargeIcon(Utils.convertToBitMap(this@PushNotificationService, R.mipmap.ic_weather_news))
             .setAutoCancel(true)
-            .setContentTitle(Utils.formatLocation(location))
+            .setContentTitle(Utils.formatLocation(this@PushNotificationService, location))
             .setContentText(Utils.upCaseFirstLetter(weatherGetApi.current.weather[0].description))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setStyle(
@@ -159,14 +149,14 @@ class PushNotificationService : Service() {
             )
 
         val am = this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        am.notify(ONGOING_NOTIFICATION_ID, mBuilder.build())
+        am.notify(Constants.ONGOING_NOTIFICATION_ID, mBuilder.build())
     }
 
     // Init locationCallback
     private fun initLocationRequest() {
         locationRequest = LocationRequest.create().apply {
-            interval = 10000
-            fastestInterval = 5000
+            interval = Constants.INTERVAL
+            fastestInterval = Constants.FASTEST_INTERVAL
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
     }
@@ -193,11 +183,11 @@ class PushNotificationService : Service() {
         try {
             val geocoder = Geocoder(this@PushNotificationService)
             val position = geocoder.getFromLocation(latUpdate, lonUpdate, 1)
-            Log.d("location", position[0].toString())
-            // display location
+
+            // Display location
             getPosition = position[0].getAddressLine(0)
         } catch (ex: IOException) {
-            Log.d("bugUpdateLocation", ex.toString())
+            ex.printStackTrace()
         }
     }
 
@@ -209,8 +199,8 @@ class PushNotificationService : Service() {
                 locationCallback,
                 Looper.getMainLooper()
             )
-        } catch (e: SecurityException) {
-            Log.e("SecurityException", e.toString())
+        } catch (ex: SecurityException) {
+            ex.printStackTrace()
         }
     }
 }

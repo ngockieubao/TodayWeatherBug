@@ -1,12 +1,8 @@
 package com.example.todayweather.util
 
-import android.app.AlarmManager
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import com.example.todayweather.broadcast.NotificationReceiver
 import com.example.todayweather.R
 import com.example.todayweather.home.model.City
 import com.example.todayweather.home.model.Daily
@@ -26,9 +22,9 @@ object Utils {
 
     fun formatDate(context: Context, date: Long): String {
         val dateFormat = Date(date.times(1000))
-        val dayOfWeek = SimpleDateFormat(context.getString(R.string.fm_day_of_week), Locale("vi"))
+        val dayOfWeek = SimpleDateFormat(context.getString(R.string.fm_day_of_week), Locale(Constants.LOCALE_LANG))
         val dayOfWeekFormat = dayOfWeek.format(dateFormat)
-        val dayMonth = SimpleDateFormat(context.getString(R.string.fm_date), Locale("vi"))
+        val dayMonth = SimpleDateFormat(context.getString(R.string.fm_date), Locale(Constants.LOCALE_LANG))
         val dayMonthFormat = dayMonth.format(dateFormat)
         return String.format(context.getString(R.string.fm_day_date), dayOfWeekFormat, dayMonthFormat)
     }
@@ -99,9 +95,10 @@ object Utils {
         )
     }
 
-    fun formatLocation(location: String): String {
+    fun formatLocation(context: Context, location: String): String {
         val listLocation: List<String> = location.split(",").map { it -> it.trim() }
-        return "${listLocation[1]}, ${listLocation[2]}"
+//        return "${listLocation[1]}, ${listLocation[2]}"
+        return String.format(context.getString(R.string.fm_show_location), listLocation[1], listLocation[2])
     }
 
     fun upCaseFirstLetter(letter: String): String {
@@ -115,7 +112,7 @@ object Utils {
     fun readJSONFromAsset(context: Context): String? {
         var json: String? = null
         try {
-            val inputStream: InputStream = context.assets.open("Cities.json")
+            val inputStream: InputStream = context.assets.open(Constants.READ_JSON_FROM_ASSETS)
             json = inputStream.bufferedReader().use { it.readText() }
         } catch (ex: Exception) {
             ex.printStackTrace()
@@ -127,30 +124,5 @@ object Utils {
     fun String.fromJsonToLocation(): ArrayList<City> {
         val type = object : TypeToken<ArrayList<City>>() {}.type
         return Gson().fromJson(this, type)
-    }
-
-    fun setAlarm(context: Context, timeOfAlarm: Long) {
-        // Intent to start the Broadcast Receiver
-        val broadcastIntent = Intent(
-            context, NotificationReceiver::class.java
-        )
-
-        val pIntent = PendingIntent.getBroadcast(
-            context,
-            0,
-            broadcastIntent,
-            0
-        )
-
-        // Setting up AlarmManager
-        val alarmMgr = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
-        if (System.currentTimeMillis() < timeOfAlarm) {
-            alarmMgr.set(
-                AlarmManager.RTC_WAKEUP,
-                timeOfAlarm,
-                pIntent
-            )
-        }
     }
 }

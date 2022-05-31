@@ -1,30 +1,21 @@
 package com.example.todayweather.fragment
 
-import android.Manifest
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
-import android.os.Build
 import android.os.Bundle
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.todayweather.R
 import com.example.todayweather.adapter.DetailAdapter
 import com.example.todayweather.adapter.HourlyAdapter
-import com.example.todayweather.broadcast.NotificationReceiver
-import com.example.todayweather.broadcast.WeatherReceiver
 import com.example.todayweather.databinding.FragmentHomeBinding
 import com.example.todayweather.home.WeatherViewModel
 import com.example.todayweather.home.model.City
+import com.example.todayweather.util.Constants
 import com.example.todayweather.util.Utils
 import com.google.android.gms.location.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -56,7 +47,7 @@ class HomeFragment : Fragment() {
         initLocationRequest()
         initLocationCallback()
 
-        getBundle = arguments?.getParcelable<City>("myKey")
+        getBundle = arguments?.getParcelable<City>(Constants.KEY_BUNDLE_SELECT_CITY)
 
         if (getBundle != null) {
             weatherViewModel.showLocation(getBundle!!.name)
@@ -89,7 +80,6 @@ class HomeFragment : Fragment() {
         }
 
         weatherViewModel.listCurrent.observe(this.viewLifecycleOwner) {
-            Log.d("HomeFragment", "onCreateView: $it")
             if (it != null) {
                 bindingHome.item = it
             }
@@ -117,10 +107,7 @@ class HomeFragment : Fragment() {
             }
         } catch (ex: NullPointerException) {
             ex.printStackTrace()
-            Log.i("fbug", ex.toString())
         }
-
-
 
         return bindingHome.root
     }
@@ -167,10 +154,7 @@ class HomeFragment : Fragment() {
                         startLocationUpdates()
                     }
                 }.addOnFailureListener {
-                    Log.e("addOnFailureListener", "getLastLocation: ${it.message}")
-                }.addOnCompleteListener {
-                    Log.i("addOnCompleteListener", "Completed!")
-                }
+                }.addOnCompleteListener {}
         } catch (ex: SecurityException) {
             ex.printStackTrace()
         }
@@ -184,12 +168,12 @@ class HomeFragment : Fragment() {
 
             // Display location
             getPosition = position[0].getAddressLine(0)
-            weatherViewModel.showLocation(Utils.formatLocation(getPosition))
+            weatherViewModel.showLocation(Utils.formatLocation(requireContext(), getPosition))
 
             // Pass lat-lon args after allow position
             weatherViewModel.getWeatherProperties(lat, lon)
         } catch (ex: IOException) {
-            Log.d("bugUpdateLocation", ex.toString())
+            ex.printStackTrace()
         }
     }
 
@@ -201,8 +185,8 @@ class HomeFragment : Fragment() {
                 locationCallback,
                 Looper.getMainLooper()
             )
-        } catch (e: SecurityException) {
-            Log.e("SecurityException", e.toString())
+        } catch (ex: SecurityException) {
+            ex.printStackTrace()
         }
     }
 }
