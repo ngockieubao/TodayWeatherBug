@@ -11,6 +11,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.DialogFragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.todayweather.R
@@ -25,8 +28,7 @@ import com.google.android.gms.location.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.io.IOException
 
-
-class HomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
+class HomeFragment : Fragment() {
     private val weatherViewModel: WeatherViewModel by sharedViewModel()
     private lateinit var bindingHome: FragmentHomeBinding
     private lateinit var detailAdapter: DetailAdapter
@@ -54,6 +56,7 @@ class HomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         initLocationRequest()
         initLocationCallback()
 
+        getBundle = arguments?.getParcelable<City>(Constants.KEY_BUNDLE_SELECT_CITY)
         bindingHome.imageBtnSetting.setOnClickListener {
             val popupMenu = PopupMenu(requireActivity(), bindingHome.imageBtnSearch)
 
@@ -133,42 +136,42 @@ class HomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         return bindingHome.root
     }
 
-    private fun showPopup(v: View) {
-        val popup = PopupMenu(requireActivity(), v)
-        val inflater: MenuInflater = popup.menuInflater
-        inflater.inflate(R.menu.convert_menu, popup.menu)
-        popup.show()
-    }
-
-    private fun showMenu(v: View) {
-        PopupMenu(requireActivity(), v).apply {
-            // MainActivity implements OnMenuItemClickListener
-            setOnMenuItemClickListener(this@HomeFragment)
-            inflate(R.menu.convert_menu)
-            show()
-        }
-    }
-
-    override fun onMenuItemClick(item: MenuItem?): Boolean {
-        return when (item!!.itemId) {
-            R.id.menu_convert_celsius -> {
-                switchToCelsiusMode()
-                true
-            }
-            R.id.menu_convert_fahrenheit -> {
-                switchToFahrenheitMode()
-                true
-            }
-            else -> false
-        }
-    }
-
-    private fun switchToFahrenheitMode() {
-
-    }
-
-    private fun switchToCelsiusMode() {
-    }
+//    private fun showPopup(v: View) {
+//        val popup = PopupMenu(requireActivity(), v)
+//        val inflater: MenuInflater = popup.menuInflater
+//        inflater.inflate(R.menu.convert_menu, popup.menu)
+//        popup.show()
+//    }
+//
+//    private fun showMenu(v: View) {
+//        PopupMenu(requireActivity(), v).apply {
+//            // MainActivity implements OnMenuItemClickListener
+//            setOnMenuItemClickListener(this@HomeFragment)
+//            inflate(R.menu.convert_menu)
+//            show()
+//        }
+//    }
+//
+//    override fun onMenuItemClick(item: MenuItem?): Boolean {
+//        return when (item!!.itemId) {
+//            R.id.menu_convert_celsius -> {
+//                switchToCelsiusMode()
+//                true
+//            }
+//            R.id.menu_convert_fahrenheit -> {
+//                switchToFahrenheitMode()
+//                true
+//            }
+//            else -> false
+//        }
+//    }
+//
+//    private fun switchToFahrenheitMode() {
+//
+//    }
+//
+//    private fun switchToCelsiusMode() {
+//    }
 
     // Init locationRequest
     private fun initLocationRequest() {
