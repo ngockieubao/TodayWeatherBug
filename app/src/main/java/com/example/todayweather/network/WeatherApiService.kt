@@ -1,19 +1,9 @@
 package com.example.todayweather.network
 
 import com.example.todayweather.home.model.WeatherGetApi
+import com.example.todayweather.util.Constants
 import retrofit2.http.GET
 import retrofit2.http.Query
-
-private const val BASE_URL = "https://api.openweathermap.org/"
-private const val URL_PATH = "data/2.5/onecall"
-
-// Danang_lat-lon
-private const val URL_LAT = 16.047079
-private const val URL_LON = 108.206230
-private const val URL_EXCLUDE = "minutely,alert"
-private const val URL_APPID = "53fbf527d52d4d773e828243b90c1f8e"
-private const val URL_LANG = "vi"
-private const val URL_UNITS = "metric"
 
 //val retrofit: Retrofit = Retrofit.Builder()
 //    .addConverterFactory(GsonConverterFactory.create())
@@ -22,14 +12,14 @@ private const val URL_UNITS = "metric"
 //    .build()
 
 interface WeatherApiService {
-    @GET(URL_PATH)
+    @GET(Constants.URL_PATH)
     suspend fun getProperties(
-        @Query("lat") lat: Double = URL_LAT,
-        @Query("lon") lon: Double = URL_LON,
-        @Query("exclude") exclude: String = URL_EXCLUDE,
-        @Query("appid") appid: String = URL_APPID,
-        @Query("lang") lang: String = URL_LANG,
-        @Query("units") units: String = URL_UNITS
+        @Query(Constants.URL_LAT) lat: Double = Constants.URL_LAT_VALUE,
+        @Query(Constants.URL_LON) lon: Double = Constants.URL_LON_VALUE,
+        @Query(Constants.URL_EXCLUDE) exclude: String = Constants.URL_EXCLUDE_VALUE,
+        @Query(Constants.URL_APPID) appid: String = Constants.URL_APPID_VALUE,
+        @Query(Constants.URL_LANG) lang: String = Constants.URL_LANG_VALUE,
+        @Query(Constants.URL_UNITS) units: String = Constants.URL_UNITS_VALUE
     ): WeatherGetApi
 }
 

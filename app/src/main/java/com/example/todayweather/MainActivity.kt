@@ -7,20 +7,21 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
-import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
-import android.util.Log
+import android.provider.Settings
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.navigation.findNavController
 import com.example.todayweather.broadcast.NotificationReceiver
 import com.example.todayweather.broadcast.WeatherReceiver
+import com.example.todayweather.databinding.ActivityMainBinding
 import com.example.todayweather.home.WeatherViewModel
+import com.example.todayweather.util.Constants
+import com.example.todayweather.util.Utils
 import com.google.android.gms.location.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.IOException
@@ -28,6 +29,7 @@ import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
     private val weatherViewModel: WeatherViewModel by viewModel()
+    private lateinit var binding: ActivityMainBinding
 
     // Init var location
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -35,34 +37,35 @@ class MainActivity : AppCompatActivity() {
     private lateinit var locationRequest: LocationRequest
     private lateinit var locationCallback: LocationCallback
 
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-//        val navHostFragment = supportFragmentManager.findFragmentById(R.id.actNavHost) as NavHostFragment
-//        val navController = navHostFragment.navController
-
-//        val navController = this.findNavController(R.id.actNavHost)
-//        NavigationUI.setupActionBarWithNavController(this, navController)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         // Init var use for get location
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-
-        getLastLocation()
         initLocationRequest()
         initLocationCallback()
-        startLocationUpdates()
-        startBrR()
-        startBroadcast()
+        checkPermissionLocation()
     }
 
+    // Navigation by nav host
     override fun onSupportNavigateUp(): Boolean {
         val navController = this.findNavController(R.id.actNavHost)
         return navController.navigateUp()
     }
 
     // Init locationRequest
+    private fun initLocationRequest() {
+        locationRequest = LocationRequest.create().apply {
+            interval = Constants.INTERVAL
+            fastestInterval = Constants.FASTEST_INTERVAL
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        }
+    }
+
+    // Init locationCallback
     private fun initLocationCallback() {
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
@@ -73,31 +76,10 @@ class MainActivity : AppCompatActivity() {
                     val latUpdate = location.latitude
                     val lonUpdate = location.longitude
 
-                    // Pass lat-lon args after allow position
-                    weatherViewModel.getWeatherProperties(latUpdate, lonUpdate)
-
-                    // Init var for update location
-                    try {
-                        val geocoder = Geocoder(this@MainActivity)
-                        val position = geocoder.getFromLocation(latUpdate, lonUpdate, 1)
-                        Log.d("location", position[0].toString())
-                        // display location
-                        getPosition = position[0].getAddressLine(0)
-                        weatherViewModel.showLocation(getPosition)
-                    } catch (ex: IOException) {
-                        Log.d("bugUpdateLocation", ex.toString())
-                    }
+                    // Get location
+                    getLocation(latUpdate, lonUpdate)
                 }
             }
-        }
-    }
-
-    // Init locationCallback
-    private fun initLocationRequest() {
-        locationRequest = LocationRequest.create().apply {
-            interval = 10000
-            fastestInterval = 5000
-            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
     }
 
@@ -106,14 +88,18 @@ class MainActivity : AppCompatActivity() {
         // permission = it : result of return
             permission ->
         if (permission == true) {
-            getLastLocation()
+            startBroadcast()
         } else {
-            Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
-            // Navigate to setup permission
+            Toast.makeText(this, getString(R.string.permission_denied), Toast.LENGTH_SHORT).show()
+//            TODO Navigate to setup permission
+//            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+//            val uri: Uri = Uri.fromParts(Constants.PACKAGE, packageName, null)
+//            intent.data = uri
+//            startActivity(intent)
         }
     }
 
-    // show dialog to request permission location
+    // Show dialog to request permission location
     private fun requestLocationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)) {
@@ -128,41 +114,39 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // check permission location & Get location
-    private fun getLastLocation() {
+    // Check permission location & Get location
+    private fun checkPermissionLocation() {
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-            // Get location
-            fusedLocationClient.lastLocation
-                .addOnSuccessListener { location: Location? ->
-                    // Got last known location. In some rare situations this can be null.
-                    if (location != null) {
-                        val lat = location.latitude
-                        val lon = location.longitude
-                        try {
-                            val geocoder = Geocoder(this)
-                            val position = geocoder.getFromLocation(lat, lon, 1)
-                            Log.d("location", position[0].toString())
-                            getPosition = position[0].getAddressLine(0)
-                            weatherViewModel.getWeatherProperties(lat, lon)
-                            weatherViewModel.showLocation(getPosition)
-                        } catch (e: Exception) {
-                            Log.w("bugLocation", e)
-                        }
-                    } else {
-                        startLocationUpdates()
-                    }
-                }.addOnFailureListener {
-                    Log.e("addOnFailureListener", "getLastLocation: ${it.message}")
-                }.addOnCompleteListener {
-                    Log.i("addOnCompleteListener", "Completed!")
-                }
-            return
+            // Get last location
+            startBroadcast()
         } else {
             requestLocationPermission()
+        }
+    }
+
+    private fun startBroadcast() {
+        startBroadcastNetwork()
+        startBroadcastWeatherNotifications()
+    }
+
+    // Get location
+    private fun getLocation(lat: Double, lon: Double) {
+        try {
+            val geocoder = Geocoder(this@MainActivity)
+            val position = geocoder.getFromLocation(lat, lon, 1)
+
+            // Display location
+            getPosition = position[0].getAddressLine(0)
+            weatherViewModel.showLocation(Utils.formatLocation(this, getPosition))
+
+            // Pass lat-lon args after allow permission
+            weatherViewModel.getWeatherProperties(lat, lon)
+        } catch (ex: IOException) {
+            ex.printStackTrace()
         }
     }
 
@@ -174,48 +158,51 @@ class MainActivity : AppCompatActivity() {
                 locationCallback,
                 Looper.getMainLooper()
             )
-        } catch (e: SecurityException) {
-            Log.e("SecurityException", e.toString())
+        } catch (ex: SecurityException) {
+            ex.printStackTrace()
         }
     }
 
     // Broadcast
-    private fun startBrR() {
+    private fun startBroadcastNetwork() {
         val intent = Intent(this, WeatherReceiver::class.java).apply {
-            action = "com.example.todayweather.NetworkReceiver"
+            action = Constants.BROADCAST_RECEIVER_NETWORK_STATUS
         }
         sendBroadcast(intent)
     }
 
-    private fun startBroadcast() {
+    private fun startBroadcastWeatherNotifications() {
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(this, NotificationReceiver::class.java).apply {
-            action = "com.example.todayweather.AlarmManager"
+            action = Constants.BROADCAST_RECEIVER_PUSH_NOTIFICATIONS
         }
-        sendBroadcast(intent)
 
-//        val pendingIntentRequestCode = 0
-//        // Cannot push notification when using pendingIntent
-//        // Todo fix later
-//
-//        val pendingIntent = PendingIntent.getBroadcast(this, pendingIntentRequestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-//            val isPermission = alarmManager.canScheduleExactAlarms()
-//            if (isPermission) {
-//                alarmManager.setInexactRepeating(
-//                    AlarmManager.RTC_WAKEUP,
-//                    System.currentTimeMillis() + 10_000,
-//                    TimeUnit.SECONDS.toMillis(10),
-//                    pendingIntent
-//                )
-//            } else {
-//                alarmManager.setRepeating(
-//                    AlarmManager.RTC_WAKEUP,
-//                    System.currentTimeMillis() + 10_000,
-//                    TimeUnit.SECONDS.toMillis(10),
-//                    pendingIntent
-//                )
-//            }
-//        }
+        val pendingIntentRequestCode = 0
+        val pendingIntent = PendingIntent.getBroadcast(this, pendingIntentRequestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val isPermission = alarmManager.canScheduleExactAlarms()
+            if (isPermission) {
+                alarmManager.setInexactRepeating(
+                    AlarmManager.RTC_WAKEUP,
+                    System.currentTimeMillis() + 1_000,
+                    TimeUnit.SECONDS.toMillis(10),
+                    pendingIntent
+                )
+            } else {
+                alarmManager.setRepeating(
+                    AlarmManager.RTC_WAKEUP,
+                    System.currentTimeMillis() + 60_000,
+                    TimeUnit.SECONDS.toMillis(10),
+                    pendingIntent
+                )
+            }
+        } else {
+            alarmManager.setRepeating(
+                AlarmManager.RTC_WAKEUP,
+                System.currentTimeMillis() + 60_000,
+                TimeUnit.SECONDS.toMillis(10),
+                pendingIntent
+            )
+        }
     }
 }

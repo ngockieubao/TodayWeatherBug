@@ -6,12 +6,11 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.example.todayweather.home.model.Daily
-import java.lang.NullPointerException
 
 @BindingAdapter("setIcon")
 fun ImageView.setIcon(url: String?) {
-    val urlPrefix = "http://openweathermap.org/img/wn/"
-    val urlSuffix = "@2x.png"
+    val urlPrefix = Constants.URL_ICON_PREFIX
+    val urlSuffix = Constants.URL_ICON_SUFFIX
     Glide.with(this.context)
         .load("$urlPrefix$url$urlSuffix")
         .into(this)
@@ -19,7 +18,13 @@ fun ImageView.setIcon(url: String?) {
 
 @BindingAdapter("setTemp")
 fun TextView.setTemp(temp: Double) {
+//    val key = SharedPref(context).sharedPref
+//    if (key.equals(Constants.CELSIUS)) {
     this.text = Utils.formatTemp(context, temp)
+//    }
+//    else {
+//        this.text = Utils.formatTempFah(context, temp)
+//    }
 }
 
 @BindingAdapter("setPop")
@@ -55,7 +60,7 @@ fun TextView.setTempFeelsLike(temp: Double, feelsLike: Double) {
 
 @BindingAdapter("setStatus")
 fun TextView.setStatus(description: String) {
-    this.text = description
+    this.text = Utils.upCaseFirstLetter(description)
 }
 
 @BindingAdapter(value = ["setWindStatusSpeed", "setWindStatusDescription"])
@@ -63,10 +68,21 @@ fun TextView.setWindStatus(windSpeed: Double, windDeg: Int) {
     this.text = Utils.formatWind(context, windSpeed, windDeg)
 }
 
-@BindingAdapter("setHomeStatus")
-fun TextView.setHomeStatus(daily: Daily?) {
+@BindingAdapter("setHomeStatusAbove")
+fun TextView.setHomeStatusAbove(daily: Daily?) {
     try {
-        this.text = Utils.formatHomeStatus(
+        this.text = Utils.formatHomeStatusAbove(
+            context, daily!!
+        )
+    } catch (ex: NullPointerException) {
+        LogUtils.logDebug("null", ex.toString())
+    }
+}
+
+@BindingAdapter("setHomeStatusBelow")
+fun TextView.setHomeStatusBelow(daily: Daily?) {
+    try {
+        this.text = Utils.formatHomeStatusBelow(
             context, daily!!
         )
     } catch (ex: NullPointerException) {
