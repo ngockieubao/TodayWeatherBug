@@ -38,7 +38,6 @@ class SearchAdapter(
 
         // Set onClick to each item
         holder.itemView.setOnClickListener {
-            Toast.makeText(context, "Clicked", Toast.LENGTH_SHORT).show()
             selectCity.selectItem(listCities[position])
         }
     }

@@ -7,13 +7,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
-import android.location.Location
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
-import android.provider.Settings
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +19,7 @@ import com.example.todayweather.broadcast.NotificationReceiver
 import com.example.todayweather.broadcast.WeatherReceiver
 import com.example.todayweather.databinding.ActivityMainBinding
 import com.example.todayweather.home.WeatherViewModel
+import com.example.todayweather.util.Constants
 import com.example.todayweather.util.Utils
 import com.google.android.gms.location.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -41,20 +38,18 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
         // Init var use for get location
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-
         initLocationRequest()
         initLocationCallback()
-        getLastLocation()
+        checkPermissionLocation()
     }
 
-    //
+    // Navigation by nav host
     override fun onSupportNavigateUp(): Boolean {
         val navController = this.findNavController(R.id.actNavHost)
         return navController.navigateUp()
@@ -63,8 +58,8 @@ class MainActivity : AppCompatActivity() {
     // Init locationRequest
     private fun initLocationRequest() {
         locationRequest = LocationRequest.create().apply {
-            interval = 10000
-            fastestInterval = 5000
+            interval = Constants.INTERVAL
+            fastestInterval = Constants.FASTEST_INTERVAL
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
     }
@@ -92,14 +87,14 @@ class MainActivity : AppCompatActivity() {
         // permission = it : result of return
             permission ->
         if (permission == true) {
-            getLastLocation()
+            startBroadcast()
         } else {
-            Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
-            // Navigate to setup permission
-            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-            val uri: Uri = Uri.fromParts("package", packageName, null)
-            intent.data = uri
-            startActivity(intent)
+            Toast.makeText(this, getString(R.string.permission_denied), Toast.LENGTH_SHORT).show()
+//            TODO Navigate to setup permission
+//            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+//            val uri: Uri = Uri.fromParts(Constants.PACKAGE, packageName, null)
+//            intent.data = uri
+//            startActivity(intent)
         }
     }
 
@@ -119,35 +114,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Check permission location & Get location
-    private fun getLastLocation() {
+    private fun checkPermissionLocation() {
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
             // Get last location
-            fusedLocationClient.lastLocation
-                .addOnSuccessListener { location: Location? ->
-                    // Got last known location. In some rare situations this can be null.
-                    if (location != null) {
-                        val latUpdate = location.latitude
-                        val lonUpdate = location.longitude
-                        getLocation(latUpdate, lonUpdate)
-                    } else {
-                        startLocationUpdates()
-                    }
-                }.addOnFailureListener {
-                    Log.e("addOnFailureListener", "getLastLocation: ${it.message}")
-                }.addOnCompleteListener {
-                    Log.i("addOnCompleteListener", "Completed!")
-                }
-            startLocationUpdates()
-            startBroadcastNetwork()
-            startBroadcastWeatherNotifications()
-            return
+            startBroadcast()
         } else {
             requestLocationPermission()
         }
+    }
+
+    private fun startBroadcast() {
+        startBroadcastNetwork()
+        startBroadcastWeatherNotifications()
     }
 
     // Get location
@@ -158,12 +140,12 @@ class MainActivity : AppCompatActivity() {
 
             // Display location
             getPosition = position[0].getAddressLine(0)
-            weatherViewModel.showLocation(Utils.formatLocation(getPosition))
+            weatherViewModel.showLocation(Utils.formatLocation(this, getPosition))
 
             // Pass lat-lon args after allow permission
             weatherViewModel.getWeatherProperties(lat, lon)
         } catch (ex: IOException) {
-            Log.d("bugUpdateLocation", ex.toString())
+            ex.printStackTrace()
         }
     }
 
@@ -175,15 +157,15 @@ class MainActivity : AppCompatActivity() {
                 locationCallback,
                 Looper.getMainLooper()
             )
-        } catch (e: SecurityException) {
-            Log.e("SecurityException", e.toString())
+        } catch (ex: SecurityException) {
+            ex.printStackTrace()
         }
     }
 
     // Broadcast
     private fun startBroadcastNetwork() {
         val intent = Intent(this, WeatherReceiver::class.java).apply {
-            action = "com.example.todayweather.NetworkReceiver"
+            action = Constants.BROADCAST_RECEIVER_NETWORK_STATUS
         }
         sendBroadcast(intent)
     }
@@ -191,7 +173,7 @@ class MainActivity : AppCompatActivity() {
     private fun startBroadcastWeatherNotifications() {
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(this, NotificationReceiver::class.java).apply {
-            action = "com.example.todayweather.AlarmManager"
+            action = Constants.BROADCAST_RECEIVER_PUSH_NOTIFICATIONS
         }
 
         val pendingIntentRequestCode = 0

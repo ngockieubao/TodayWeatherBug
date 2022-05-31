@@ -51,7 +51,6 @@ class HourlyFragment : Fragment() {
             hourlyNavAdapter.dataList = it
         }
 
-
         bindingHourlyNavBinding.rcvNavHourly.adapter = hourlyNavAdapter
     }
 }

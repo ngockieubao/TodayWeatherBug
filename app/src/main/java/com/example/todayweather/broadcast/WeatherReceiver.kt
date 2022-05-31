@@ -6,14 +6,15 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
-import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import com.example.todayweather.R
+import com.example.todayweather.util.Constants
 
 class WeatherReceiver : BroadcastReceiver() {
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onReceive(context: Context, intent: Intent) {
-        if (intent.action == "com.example.todayweather.NetworkReceiver") {
+        if (intent.action == Constants.BROADCAST_RECEIVER_NETWORK_STATUS) {
             isOnline(context)
         }
     }
@@ -27,20 +28,17 @@ class WeatherReceiver : BroadcastReceiver() {
                 connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
             if (capabilities != null) {
                 if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_CELLULAR")
-                    Toast.makeText(context, "Đã kết nối Internet", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(R.string.online), Toast.LENGTH_SHORT).show()
                     return true
                 } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_WIFI")
-                    Toast.makeText(context, "Đã kết nối Internet", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(R.string.online), Toast.LENGTH_SHORT).show()
                     return true
                 } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
-                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_ETHERNET")
-                    Toast.makeText(context, "Đã kết nối Internet", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(R.string.online), Toast.LENGTH_SHORT).show()
                     return true
                 }
             } else {
-                Toast.makeText(context, "Bạn đang ngoại tuyến", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.offline), Toast.LENGTH_SHORT).show()
             }
         }
         return false

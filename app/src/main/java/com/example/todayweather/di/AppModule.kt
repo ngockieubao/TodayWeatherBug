@@ -5,14 +5,13 @@ import androidx.room.Room
 import com.example.todayweather.database.WeatherDAO
 import com.example.todayweather.database.WeatherDatabase
 import com.example.todayweather.network.WeatherApiService
+import com.example.todayweather.util.Constants
 import com.example.todayweather.util.WeatherApplication
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-
-private const val BASE_URL = "https://api.openweathermap.org/"
 
 val appModule = module {
     single { provideRetrofit(get()) }
@@ -30,14 +29,14 @@ private fun logRetrofit(): OkHttpClient {
 
 private fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
     .addConverterFactory(GsonConverterFactory.create())
-    .baseUrl(BASE_URL)
+    .baseUrl(Constants.BASE_URL)
     .client(okHttpClient)
     .build()
 
 private fun provideApiService(retrofit: Retrofit): WeatherApiService = retrofit.create(WeatherApiService::class.java)
 
 private fun provideDatabase(application: Application): WeatherDatabase {
-    return Room.databaseBuilder(application, WeatherDatabase::class.java, "database").fallbackToDestructiveMigration().allowMainThreadQueries()
+    return Room.databaseBuilder(application, WeatherDatabase::class.java, Constants.DATABASE).fallbackToDestructiveMigration().allowMainThreadQueries()
         .build()
 }
 
