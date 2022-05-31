@@ -12,6 +12,7 @@ import com.example.todayweather.R
 import com.example.todayweather.adapter.SearchAdapter
 import com.example.todayweather.databinding.FragmentSearchBinding
 import com.example.todayweather.home.model.City
+import com.example.todayweather.util.Constants
 import com.example.todayweather.util.Utils
 import com.example.todayweather.util.Utils.fromJsonToLocation
 
@@ -35,7 +36,7 @@ class SearchFragment : Fragment(), SelectCity {
 
         binding.citySearch.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                Toast.makeText(requireContext(), "Searching", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.searching), Toast.LENGTH_SHORT).show()
                 return true
             }
 
@@ -61,7 +62,7 @@ class SearchFragment : Fragment(), SelectCity {
     }
 
     override fun selectItem(city: City?) {
-        val bundle = bundleOf("myKey" to city)
+        val bundle = bundleOf(Constants.KEY_BUNDLE_SELECT_CITY to city)
         findNavController().navigate(R.id.action_searchFragment_to_homeFragment, bundle)
     }
 }

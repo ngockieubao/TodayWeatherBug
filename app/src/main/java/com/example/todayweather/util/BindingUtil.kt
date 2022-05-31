@@ -6,12 +6,11 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.example.todayweather.home.model.Daily
-import java.lang.NullPointerException
 
 @BindingAdapter("setIcon")
 fun ImageView.setIcon(url: String?) {
-    val urlPrefix = "https://openweathermap.org/img/wn/"
-    val urlSuffix = "@2x.png"
+    val urlPrefix = Constants.URL_ICON_PREFIX
+    val urlSuffix = Constants.URL_ICON_SUFFIX
     Glide.with(this.context)
         .load("$urlPrefix$url$urlSuffix")
         .into(this)
@@ -19,7 +18,12 @@ fun ImageView.setIcon(url: String?) {
 
 @BindingAdapter("setTemp")
 fun TextView.setTemp(temp: Double) {
-    this.text = Utils.formatTemp(context, temp)
+    val key = SharedPref(context).sharedPref
+    if (key.equals(Constants.CELSIUS)) {
+        this.text = Utils.formatTemp(context, temp)
+    } else {
+        this.text = Utils.formatTempFah(context, temp)
+    }
 }
 
 @BindingAdapter("setPop")

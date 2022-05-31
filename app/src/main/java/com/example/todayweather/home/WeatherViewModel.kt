@@ -1,6 +1,5 @@
 package com.example.todayweather.home
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -44,12 +43,6 @@ class WeatherViewModel(
     // init var get location to show in MainActivity
     val showLocation = MutableLiveData<String>()
 
-    init {
-        viewModelScope.launch {
-            getDataFromDatabase()
-        }
-    }
-
     fun getWeatherProperties(lat: Double, lon: Double) {
         viewModelScope.launch {
             try {
@@ -58,8 +51,8 @@ class WeatherViewModel(
                 // create and save db after get from API
                 database.insert(weatherData)
                 getDataFromDatabase()
-            } catch (e: Exception) {
-                Log.d("bug", e.toString())
+            } catch (ex: Exception) {
+                ex.printStackTrace()
             }
         }
     }

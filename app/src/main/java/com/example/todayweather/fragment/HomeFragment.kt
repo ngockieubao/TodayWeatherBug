@@ -1,37 +1,28 @@
 package com.example.todayweather.fragment
 
-import android.Manifest
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
-import android.os.Build
 import android.os.Bundle
 import android.os.Looper
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
+import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.todayweather.R
 import com.example.todayweather.adapter.DetailAdapter
 import com.example.todayweather.adapter.HourlyAdapter
-import com.example.todayweather.broadcast.NotificationReceiver
-import com.example.todayweather.broadcast.WeatherReceiver
 import com.example.todayweather.databinding.FragmentHomeBinding
 import com.example.todayweather.home.WeatherViewModel
 import com.example.todayweather.home.model.City
+import com.example.todayweather.util.Constants
 import com.example.todayweather.util.Utils
 import com.google.android.gms.location.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.io.IOException
-import java.lang.NullPointerException
 
-class HomeFragment : Fragment() {
+
+class HomeFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
     private val weatherViewModel: WeatherViewModel by sharedViewModel()
     private lateinit var bindingHome: FragmentHomeBinding
     private lateinit var detailAdapter: DetailAdapter
@@ -51,12 +42,28 @@ class HomeFragment : Fragment() {
     ): View {
         bindingHome = FragmentHomeBinding.inflate(inflater)
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+//        val imgSetting = bindingHome.imageBtnSetting
+//        showPopup(imgSetting)
+//        showMenu(imgSetting)
 
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         initLocationRequest()
         initLocationCallback()
 
-        getBundle = arguments?.getParcelable<City>("myKey")
+        bindingHome.imageBtnSetting.setOnClickListener {
+            val popupMenu = PopupMenu(requireActivity(), bindingHome.imageBtnSearch)
+
+            // Inflating popup menu from popup_menu.xml file
+            popupMenu.menuInflater.inflate(R.menu.convert_menu, popupMenu.menu)
+            popupMenu.setOnMenuItemClickListener { menuItem -> // Toast message on menu item clicked
+                Toast.makeText(requireActivity(), "You Clicked " + menuItem.title, Toast.LENGTH_SHORT).show()
+                true
+            }
+            // Showing the popup menu
+            popupMenu.show()
+        }
+
+        getBundle = arguments?.getParcelable(Constants.KEY_BUNDLE_SELECT_CITY)
 
         if (getBundle != null) {
             weatherViewModel.showLocation(getBundle!!.name)
@@ -89,7 +96,6 @@ class HomeFragment : Fragment() {
         }
 
         weatherViewModel.listCurrent.observe(this.viewLifecycleOwner) {
-            Log.d("HomeFragment", "onCreateView: $it")
             if (it != null) {
                 bindingHome.item = it
             }
@@ -117,19 +123,53 @@ class HomeFragment : Fragment() {
             }
         } catch (ex: NullPointerException) {
             ex.printStackTrace()
-            Log.i("fbug", ex.toString())
         }
 
-
-
         return bindingHome.root
+    }
+
+    private fun showPopup(v: View) {
+        val popup = PopupMenu(requireActivity(), v)
+        val inflater: MenuInflater = popup.menuInflater
+        inflater.inflate(R.menu.convert_menu, popup.menu)
+        popup.show()
+    }
+
+    private fun showMenu(v: View) {
+        PopupMenu(requireActivity(), v).apply {
+            // MainActivity implements OnMenuItemClickListener
+            setOnMenuItemClickListener(this@HomeFragment)
+            inflate(R.menu.convert_menu)
+            show()
+        }
+    }
+
+    override fun onMenuItemClick(item: MenuItem?): Boolean {
+        return when (item!!.itemId) {
+            R.id.menu_convert_celsius -> {
+                switchToCelsiusMode()
+                true
+            }
+            R.id.menu_convert_fahrenheit -> {
+                switchToFahrenheitMode()
+                true
+            }
+            else -> false
+        }
+    }
+
+    private fun switchToFahrenheitMode() {
+
+    }
+
+    private fun switchToCelsiusMode() {
     }
 
     // Init locationRequest
     private fun initLocationRequest() {
         locationRequest = LocationRequest.create().apply {
-            interval = 10000
-            fastestInterval = 5000
+            interval = Constants.INTERVAL
+            fastestInterval = Constants.FASTEST_INTERVAL
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
     }
@@ -156,22 +196,23 @@ class HomeFragment : Fragment() {
     private fun getLastLocation() {
         // Get last location
         try {
-            fusedLocationClient!!.lastLocation
-                .addOnSuccessListener { location: Location? ->
-                    // Got last known location. In some rare situations this can be null.
-                    if (location != null) {
-                        val latUpdate = location.latitude
-                        val lonUpdate = location.longitude
-                        getLocation(latUpdate, lonUpdate)
-                    } else {
-                        startLocationUpdates()
-                    }
-                }.addOnFailureListener {
-                    Log.e("addOnFailureListener", "getLastLocation: ${it.message}")
-                }.addOnCompleteListener {
-                    Log.i("addOnCompleteListener", "Completed!")
-                }
-        } catch (ex: SecurityException) {
+            try {
+                fusedLocationClient!!.lastLocation
+                    .addOnSuccessListener { location: Location? ->
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            val latUpdate = location.latitude
+                            val lonUpdate = location.longitude
+                            getLocation(latUpdate, lonUpdate)
+                        } else {
+                            startLocationUpdates()
+                        }
+                    }.addOnFailureListener {
+                    }.addOnCompleteListener {}
+            } catch (ex: SecurityException) {
+                ex.printStackTrace()
+            }
+        } catch (ex: NullPointerException) {
             ex.printStackTrace()
         }
     }
@@ -184,12 +225,12 @@ class HomeFragment : Fragment() {
 
             // Display location
             getPosition = position[0].getAddressLine(0)
-            weatherViewModel.showLocation(Utils.formatLocation(getPosition))
+            weatherViewModel.showLocation(Utils.formatLocation(requireContext(), getPosition))
 
             // Pass lat-lon args after allow position
             weatherViewModel.getWeatherProperties(lat, lon)
         } catch (ex: IOException) {
-            Log.d("bugUpdateLocation", ex.toString())
+            ex.printStackTrace()
         }
     }
 
@@ -201,8 +242,8 @@ class HomeFragment : Fragment() {
                 locationCallback,
                 Looper.getMainLooper()
             )
-        } catch (e: SecurityException) {
-            Log.e("SecurityException", e.toString())
+        } catch (ex: SecurityException) {
+            ex.printStackTrace()
         }
     }
 }

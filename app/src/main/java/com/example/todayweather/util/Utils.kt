@@ -1,12 +1,8 @@
 package com.example.todayweather.util
 
-import android.app.AlarmManager
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import com.example.todayweather.broadcast.NotificationReceiver
 import com.example.todayweather.R
 import com.example.todayweather.home.model.City
 import com.example.todayweather.home.model.Daily
@@ -26,9 +22,9 @@ object Utils {
 
     fun formatDate(context: Context, date: Long): String {
         val dateFormat = Date(date.times(1000))
-        val dayOfWeek = SimpleDateFormat(context.getString(R.string.fm_day_of_week), Locale("vi"))
+        val dayOfWeek = SimpleDateFormat(context.getString(R.string.fm_day_of_week), Locale(Constants.LOCALE_LANG))
         val dayOfWeekFormat = dayOfWeek.format(dateFormat)
-        val dayMonth = SimpleDateFormat(context.getString(R.string.fm_date), Locale("vi"))
+        val dayMonth = SimpleDateFormat(context.getString(R.string.fm_date), Locale(Constants.LOCALE_LANG))
         val dayMonthFormat = dayMonth.format(dateFormat)
         return String.format(context.getString(R.string.fm_day_date), dayOfWeekFormat, dayMonthFormat)
     }
@@ -47,9 +43,21 @@ object Utils {
         return String.format(context.getString(R.string.fm_temp_feels_like), tempFormat, tempFeelsLikeFormat)
     }
 
+    fun formatTempFeelsLikeFah(context: Context, temp: Double, tempFeelsLike: Double): String {
+        val tempFormat = String.format(context.getString(R.string.fm_temp), convertCelsiusToFahrenheit(temp))
+        val tempFeelsLikeFormat = String.format(context.getString(R.string.fm_temp), convertCelsiusToFahrenheit(tempFeelsLike))
+        return String.format(context.getString(R.string.fm_temp_feels_like), tempFormat, tempFeelsLikeFormat)
+    }
+
     fun formatTempMaxMin(context: Context, tempMax: Double, tempMin: Double): String {
         val tempMaxFormat = String.format(context.getString(R.string.fm_temp), tempMax)
         val tempMinFormat = String.format(context.getString(R.string.fm_temp), tempMin)
+        return String.format(context.getString(R.string.fm_temp_max_min), tempMaxFormat, tempMinFormat)
+    }
+
+    fun formatTempMaxMinFah(context: Context, tempMax: Double, tempMin: Double): String {
+        val tempMaxFormat = String.format(context.getString(R.string.fm_temp), convertCelsiusToFahrenheit(tempMax))
+        val tempMinFormat = String.format(context.getString(R.string.fm_temp), convertCelsiusToFahrenheit(tempMin))
         return String.format(context.getString(R.string.fm_temp_max_min), tempMaxFormat, tempMinFormat)
     }
 
@@ -57,12 +65,24 @@ object Utils {
         return String.format(context.getString(R.string.fm_temp_celsius), temp)
     }
 
+    fun formatTempFah(context: Context, temp: Double): String {
+        return String.format(context.getString(R.string.fm_temp_fah), convertCelsiusToFahrenheit(temp))
+    }
+
     fun formatWindSpeed(context: Context, windSpeed: Double): String {
         return String.format(context.getString(R.string.fm_wind_speed), windSpeed.times(3600).div(1000))
     }
 
+    fun formatWindSpeedMile(context: Context, windSpeed: Double): String {
+        return String.format(context.getString(R.string.fm_wind_speed_mile), convertKilometerToMile(windSpeed.times(3600).div(1000)))
+    }
+
     fun formatWind(context: Context, wind: Double, windDeg: Int): String {
         return String.format(context.getString(R.string.fm_wind_status), wind, formatWindDeg(context, windDeg))
+    }
+
+    fun formatWindMile(context: Context, wind: Double, windDeg: Int): String {
+        return String.format(context.getString(R.string.fm_wind_status_mile), wind, formatWindDeg(context, windDeg))
     }
 
     fun formatWindDeg(context: Context, deg: Int): String {
@@ -87,6 +107,18 @@ object Utils {
         )
     }
 
+    fun formatHomeStatusBelowFah(context: Context, daily: Daily?): String {
+        return String.format(
+            context.getString(R.string.fm_status_home_fah),
+            upCaseFirstLetter(daily!!.weather[0].description),
+            convertCelsiusToFahrenheit(daily.temp.max),
+            convertCelsiusToFahrenheit(daily.temp.min),
+            formatWindDeg(context, daily.wind_deg),
+            daily.wind_speed,
+            formatPop(context, daily.pop)
+        )
+    }
+
     fun formatDailyNavStatus(context: Context, daily: Daily?): String {
         return String.format(
             context.getString(R.string.fm_status_daily_nav),
@@ -99,9 +131,21 @@ object Utils {
         )
     }
 
-    fun formatLocation(location: String): String {
+    fun formatDailyNavStatusFah(context: Context, daily: Daily?): String {
+        return String.format(
+            context.getString(R.string.fm_status_daily_nav_fah),
+            upCaseFirstLetter(daily!!.weather[0].description),
+            convertCelsiusToFahrenheit(daily.temp.max),
+            convertCelsiusToFahrenheit(daily.temp.min),
+            formatWindDeg(context, daily.wind_deg),
+            convertKilometerToMile(daily.wind_speed),
+            formatPop(context, daily.pop)
+        )
+    }
+
+    fun formatLocation(context: Context, location: String): String {
         val listLocation: List<String> = location.split(",").map { it -> it.trim() }
-        return "${listLocation[1]}, ${listLocation[2]}"
+        return String.format(context.getString(R.string.fm_show_location), listLocation[1], listLocation[2])
     }
 
     fun upCaseFirstLetter(letter: String): String {
@@ -115,7 +159,7 @@ object Utils {
     fun readJSONFromAsset(context: Context): String? {
         var json: String? = null
         try {
-            val inputStream: InputStream = context.assets.open("Cities.json")
+            val inputStream: InputStream = context.assets.open(Constants.READ_JSON_FROM_ASSETS)
             json = inputStream.bufferedReader().use { it.readText() }
         } catch (ex: Exception) {
             ex.printStackTrace()
@@ -129,28 +173,12 @@ object Utils {
         return Gson().fromJson(this, type)
     }
 
-    fun setAlarm(context: Context, timeOfAlarm: Long) {
-        // Intent to start the Broadcast Receiver
-        val broadcastIntent = Intent(
-            context, NotificationReceiver::class.java
-        )
+    fun convertCelsiusToFahrenheit(input: Double): Double {
+        return input.times(1.8).plus(32)
+    }
 
-        val pIntent = PendingIntent.getBroadcast(
-            context,
-            0,
-            broadcastIntent,
-            0
-        )
-
-        // Setting up AlarmManager
-        val alarmMgr = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
-        if (System.currentTimeMillis() < timeOfAlarm) {
-            alarmMgr.set(
-                AlarmManager.RTC_WAKEUP,
-                timeOfAlarm,
-                pIntent
-            )
-        }
+    fun convertKilometerToMile(input: Double): Double {
+        return input.times(1.609344)
     }
 }
+
