@@ -1,6 +1,5 @@
 package com.example.todayweather.home
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -58,8 +57,8 @@ class WeatherViewModel(
                 // create and save db after get from API
                 database.insert(weatherData)
                 getDataFromDatabase()
-            } catch (e: Exception) {
-                Log.d("bug", e.toString())
+            } catch (ex: Exception) {
+                ex.printStackTrace()
             }
         }
     }

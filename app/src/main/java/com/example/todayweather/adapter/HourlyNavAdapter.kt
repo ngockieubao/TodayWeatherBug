@@ -23,16 +23,7 @@ class HourlyNavAdapter : RecyclerView.Adapter<HourlyNavAdapter.HourlyNavViewHold
 
         fun bind(item: Hourly?) {
             if (item == null) return
-
             rcvNavHourlyBinding.item = item
-
-            // status description
-//            val statusAbove = item.weather[0].description
-//            rcvNavHourlyBinding.tvHourlyNavStatusAbove.text = statusAbove
-//            val statusBelowWind = item.wind_speed
-//            val statusBelowWindDeg = item.wind_deg
-//            val statusBelowWindFormat = Utils.formatWind(this., statusBelowWind)
-//            rcvNavHourlyBinding.tvHourlyNavStatusBelow.text = statusBelowWindFormat
         }
     }
 

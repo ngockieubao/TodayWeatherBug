@@ -1,8 +1,14 @@
 package com.example.todayweather.util
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import com.example.todayweather.R
+import com.example.todayweather.home.model.City
 import com.example.todayweather.home.model.Daily
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
@@ -16,9 +22,9 @@ object Utils {
 
     fun formatDate(context: Context, date: Long): String {
         val dateFormat = Date(date.times(1000))
-        val dayOfWeek = SimpleDateFormat(context.getString(R.string.fm_day_of_week), Locale("vi"))
+        val dayOfWeek = SimpleDateFormat(context.getString(R.string.fm_day_of_week), Locale(Constants.LOCALE_LANG))
         val dayOfWeekFormat = dayOfWeek.format(dateFormat)
-        val dayMonth = SimpleDateFormat(context.getString(R.string.fm_date), Locale("vi"))
+        val dayMonth = SimpleDateFormat(context.getString(R.string.fm_date), Locale(Constants.LOCALE_LANG))
         val dayMonthFormat = dayMonth.format(dateFormat)
         return String.format(context.getString(R.string.fm_day_date), dayOfWeekFormat, dayMonthFormat)
     }
@@ -55,33 +61,68 @@ object Utils {
         return String.format(context.getString(R.string.fm_wind_status), wind, formatWindDeg(context, windDeg))
     }
 
-    private fun formatWindDeg(context: Context, deg: Int): String {
+    fun formatWindDeg(context: Context, deg: Int): String {
         val getIndex = deg.div(22.5).plus(1).roundToInt()
         val listWindDeg = context.resources.getStringArray(R.array.wind_deg)
-        return listWindDeg[getIndex]
+        return listWindDeg[getIndex.minus(1)]
     }
 
-    fun formatHomeStatus(context: Context, daily: Daily?): String {
+    fun formatHomeStatusAbove(context: Context, daily: Daily?): String {
+        return String.format(context.getString(R.string.fm_string), upCaseFirstLetter(daily!!.weather[0].description))
+    }
+
+    fun formatHomeStatusBelow(context: Context, daily: Daily?): String {
         return String.format(
             context.getString(R.string.fm_status_home),
-            daily!!.weather[0].description,
+            upCaseFirstLetter(daily!!.weather[0].description),
             daily.temp.max,
             daily.temp.min,
             formatWindDeg(context, daily.wind_deg),
             daily.wind_speed,
-            daily.pop
+            formatPop(context, daily.pop)
         )
     }
 
     fun formatDailyNavStatus(context: Context, daily: Daily?): String {
         return String.format(
             context.getString(R.string.fm_status_daily_nav),
-            daily!!.weather[0].description,
+            upCaseFirstLetter(daily!!.weather[0].description),
             daily.temp.max,
             daily.temp.min,
             formatWindDeg(context, daily.wind_deg),
             daily.wind_speed,
-            daily.pop
+            formatPop(context, daily.pop)
         )
+    }
+
+    fun formatLocation(context: Context, location: String): String {
+        val listLocation: List<String> = location.split(",").map { it -> it.trim() }
+//        return "${listLocation[1]}, ${listLocation[2]}"
+        return String.format(context.getString(R.string.fm_show_location), listLocation[1], listLocation[2])
+    }
+
+    fun upCaseFirstLetter(letter: String): String {
+        return letter.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+    }
+
+    fun convertToBitMap(context: Context, id: Int): Bitmap {
+        return BitmapFactory.decodeResource(context.resources, id)
+    }
+
+    fun readJSONFromAsset(context: Context): String? {
+        var json: String? = null
+        try {
+            val inputStream: InputStream = context.assets.open(Constants.READ_JSON_FROM_ASSETS)
+            json = inputStream.bufferedReader().use { it.readText() }
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+            return null
+        }
+        return json
+    }
+
+    fun String.fromJsonToLocation(): ArrayList<City> {
+        val type = object : TypeToken<ArrayList<City>>() {}.type
+        return Gson().fromJson(this, type)
     }
 }
