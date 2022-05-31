@@ -3,15 +3,31 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Documents/Mobile/AndroidProjects/TodayWeatherBug/app/src/main/res/layout/dialog_settings.xml" value="0.253125" />
+        <entry key="..\:/Documents/Mobile/AndroidProjects/TodayWeatherBug/app/src/main/res/layout/fragment_blank.xml" value="0.25416666666666665" />
+        <entry key="..\:/Documents/Mobile/AndroidProjects/TodayWeatherBug/app/src/main/res/layout/fragment_dialog.xml" value="0.25416666666666665" />
+        <entry key="..\:/Documents/Mobile/AndroidProjects/TodayWeatherBug/app/src/main/res/layout/fragment_home.xml" value="0.264" />
+        <entry key="..\:/Documents/Mobile/AndroidProjects/TodayWeatherBug/app/src/main/res/layout/fragment_nav_daily.xml" value="0.25416666666666665" />
+        <entry key="..\:/Documents/Mobile/AndroidProjects/TodayWeatherBug/app/src/main/res/layout/fragment_nav_hourly.xml" value="0.1" />
+        <entry key="..\:/Documents/Mobile/AndroidProjects/TodayWeatherBug/app/src/main/res/layout/fragment_search.xml" value="0.1" />
+        <entry key="..\:/Documents/Mobile/AndroidProjects/TodayWeatherBug/app/src/main/res/layout/fragment_setting.xml" value="0.24010416666666667" />
+        <entry key="..\:/Documents/Mobile/AndroidProjects/TodayWeatherBug/app/src/main/res/layout/listview_search.xml" value="0.253125" />
+        <entry key="..\:/Documents/Mobile/AndroidProjects/TodayWeatherBug/app/src/main/res/layout/rcv_daily_nav.xml" value="0.25416666666666665" />
+        <entry key="..\:/Documents/Mobile/AndroidProjects/TodayWeatherBug/app/src/main/res/layout/rcv_detail.xml" value="0.25416666666666665" />
+        <entry key="..\:/Documents/Mobile/AndroidProjects/TodayWeatherBug/app/src/main/res/layout/rcv_detail_element.xml" value="0.25416666666666665" />
+        <entry key="..\:/Documents/Mobile/AndroidProjects/TodayWeatherBug/app/src/main/res/layout/rcv_hourly.xml" value="0.25416666666666665" />
+        <entry key="..\:/Documents/Mobile/AndroidProjects/TodayWeatherBug/app/src/main/res/layout/rcv_hourly_element.xml" value="0.25416666666666665" />
+        <entry key="..\:/Documents/Mobile/AndroidProjects/TodayWeatherBug/app/src/main/res/layout/rcv_hourly_nav.xml" value="0.25416666666666665" />
+        <entry key="..\:/Documents/Mobile/AndroidProjects/TodayWeatherBug/app/src/main/res/layout/rcv_search.xml" value="0.2" />
+        <entry key="..\:/Documents/Mobile/AndroidProjects/TodayWeatherBug/app/src/main/res/layout/rcv_search_element.xml" value="0.2" />
+        <entry key="..\:/Documents/Mobile/AndroidProjects/TodayWeatherBug/app/src/main/res/menu-v26/search_menu.xml" value="0.11822916666666666" />
+        <entry key="..\:/Documents/Mobile/AndroidProjects/TodayWeatherBug/app/src/main/res/menu/search_menu.xml" value="0.4" />
         <entry key="..\:/Users/tomosia/AndroidStudioProjects/TodayWeather/app/src/main/res/drawable/corner_layout.xml" value="0.345" />
         <entry key="..\:/Users/tomosia/AndroidStudioProjects/TodayWeather/app/src/main/res/drawable/corner_radius.xml" value="0.3015" />
-        <entry key="..\:/Users/tomosia/AndroidStudioProjects/TodayWeather/app/src/main/res/drawable/custom_ic_search.xml" value="0.284" />
-        <entry key="..\:/Users/tomosia/AndroidStudioProjects/TodayWeather/app/src/main/res/drawable/custom_searchview.xml" value="0.224" />
         <entry key="..\:/Users/tomosia/AndroidStudioProjects/TodayWeather/app/src/main/res/layout/activity_main.xml" value="0.22" />
-        <entry key="..\:/Users/tomosia/AndroidStudioProjects/TodayWeather/app/src/main/res/layout/fragment_home.xml" value="0.7497337593184239" />
-        <entry key="..\:/Users/tomosia/AndroidStudioProjects/TodayWeather/app/src/main/res/layout/fragment_nav_daily.xml" value="0.6303630363036303" />
+        <entry key="..\:/Users/tomosia/AndroidStudioProjects/TodayWeather/app/src/main/res/layout/fragment_home.xml" value="0.9" />
+        <entry key="..\:/Users/tomosia/AndroidStudioProjects/TodayWeather/app/src/main/res/layout/fragment_nav_daily.xml" value="0.75" />
         <entry key="..\:/Users/tomosia/AndroidStudioProjects/TodayWeather/app/src/main/res/layout/fragment_nav_hourly.xml" value="0.9" />
-        <entry key="..\:/Users/tomosia/AndroidStudioProjects/TodayWeather/app/src/main/res/layout/fragment_search.xml" value="0.6505460218408736" />
         <entry key="..\:/Users/tomosia/AndroidStudioProjects/TodayWeather/app/src/main/res/layout/fragment_seven_days.xml" value="0.25" />
         <entry key="..\:/Users/tomosia/AndroidStudioProjects/TodayWeather/app/src/main/res/layout/rcv_7days.xml" value="0.67" />
         <entry key="..\:/Users/tomosia/AndroidStudioProjects/TodayWeather/app/src/main/res/layout/rcv_daily.xml" value="1.5" />
@@ -25,12 +41,9 @@
         <entry key="..\:/Users/tomosia/AndroidStudioProjects/TodayWeather/app/src/main/res/layout/rcv_hourly.xml" value="0.8243559718969555" />
         <entry key="..\:/Users/tomosia/AndroidStudioProjects/TodayWeather/app/src/main/res/layout/rcv_hourly_element.xml" value="0.67" />
         <entry key="..\:/Users/tomosia/AndroidStudioProjects/TodayWeather/app/src/main/res/layout/rcv_hourly_nav.xml" value="1.1" />
-        <entry key="..\:/Users/tomosia/AndroidStudioProjects/TodayWeather/app/src/main/res/layout/rcv_search_element.xml" value="0.8243559718969555" />
         <entry key="..\:/Users/tomosia/AndroidStudioProjects/TodayWeather/app/src/main/res/layout/recyclerview_7days.xml" value="0.75" />
         <entry key="..\:/Users/tomosia/AndroidStudioProjects/TodayWeather/app/src/main/res/layout/recyclerview_detail.xml" value="0.5" />
         <entry key="..\:/Users/tomosia/AndroidStudioProjects/TodayWeather/app/src/main/res/layout/recyclerview_detail_element.xml" value="0.5844155844155844" />
-        <entry key="..\:/Users/tomosia/AndroidStudioProjects/TodayWeather/app/src/main/res/menu/convert_menu.xml" value="0.4637002341920375" />
-        <entry key="..\:/Users/tomosia/AndroidStudioProjects/TodayWeather/app/src/main/res/menu/search_menu.xml" value="0.5292740046838408" />
       </map>
     </option>
   </component>

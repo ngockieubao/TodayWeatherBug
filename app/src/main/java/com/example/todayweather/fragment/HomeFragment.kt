@@ -1,16 +1,9 @@
 package com.example.todayweather.fragment
 
-import android.app.Dialog
-import android.content.DialogInterface
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
 import android.os.Looper
-import android.view.*
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.PopupMenu
-import androidx.fragment.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,31 +41,11 @@ class HomeFragment : Fragment() {
     ): View {
         bindingHome = FragmentHomeBinding.inflate(inflater)
 
-//        val imgSetting = bindingHome.imageBtnSetting
-//        showPopup(imgSetting)
-//        showMenu(imgSetting)
-
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         initLocationRequest()
         initLocationCallback()
 
-        getBundle = arguments?.getParcelable<City>(Constants.KEY_BUNDLE_SELECT_CITY)
-        bindingHome.imageBtnSetting.setOnClickListener {
-            val popupMenu = PopupMenu(requireActivity(), bindingHome.imageBtnSearch)
-
-            // Inflating popup menu from popup_menu.xml file
-            popupMenu.menuInflater.inflate(R.menu.convert_menu, popupMenu.menu)
-            popupMenu.setOnMenuItemClickListener { menuItem -> // Toast message on menu item clicked
-                Toast.makeText(requireActivity(), "You Clicked " + menuItem.title, Toast.LENGTH_SHORT).show()
-
-                true
-            }
-            // Showing the popup menu
-            popupMenu.show()
-        }
-
         getBundle = arguments?.getParcelable(Constants.KEY_BUNDLE_SELECT_CITY)
-
         if (getBundle != null) {
             weatherViewModel.showLocation(getBundle!!.name)
 
@@ -135,43 +108,6 @@ class HomeFragment : Fragment() {
 
         return bindingHome.root
     }
-
-//    private fun showPopup(v: View) {
-//        val popup = PopupMenu(requireActivity(), v)
-//        val inflater: MenuInflater = popup.menuInflater
-//        inflater.inflate(R.menu.convert_menu, popup.menu)
-//        popup.show()
-//    }
-//
-//    private fun showMenu(v: View) {
-//        PopupMenu(requireActivity(), v).apply {
-//            // MainActivity implements OnMenuItemClickListener
-//            setOnMenuItemClickListener(this@HomeFragment)
-//            inflate(R.menu.convert_menu)
-//            show()
-//        }
-//    }
-//
-//    override fun onMenuItemClick(item: MenuItem?): Boolean {
-//        return when (item!!.itemId) {
-//            R.id.menu_convert_celsius -> {
-//                switchToCelsiusMode()
-//                true
-//            }
-//            R.id.menu_convert_fahrenheit -> {
-//                switchToFahrenheitMode()
-//                true
-//            }
-//            else -> false
-//        }
-//    }
-//
-//    private fun switchToFahrenheitMode() {
-//
-//    }
-//
-//    private fun switchToCelsiusMode() {
-//    }
 
     // Init locationRequest
     private fun initLocationRequest() {
@@ -254,21 +190,4 @@ class HomeFragment : Fragment() {
             ex.printStackTrace()
         }
     }
-
-//    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-//        return activity?.let {
-//            // Use the Builder class for convenient dialog construction
-//            val builder = AlertDialog.Builder(it)
-//            builder.setMessage(R.string.dialog_settings)
-//                .setPositiveButton(R.string.start,
-//                    DialogInterface.OnClickListener { dialog, id ->
-//                        // START THE GAME!
-//                    })
-//                .setNegativeButton(R.string.cancel,
-//                    DialogInterface.OnClickListener { dialog, id ->
-//                        // User cancelled the dialog
-//                    })
-//            // Create the AlertDialog object and return it
-//            builder.create()
-//        } ?: throw IllegalStateException("Activity cannot be null")
-    }
+}

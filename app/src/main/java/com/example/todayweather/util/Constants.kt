@@ -12,8 +12,9 @@ object Constants {
     const val BROADCAST_RECEIVER_PUSH_NOTIFICATIONS = "com.example.todayweather.AlarmManager"
 
     // Shared preference keys
-    const val CELSIUS = "celsius"
-    const val FAHRENHEIT = "fahrenheit"
+    var SHARED_PREF_VALUE = ""
+    const val SHARED_PREF_CELSIUS = "celsius"
+    const val SHARED_PREF_FAHRENHEIT = "fahrenheit"
 
     // Bundle keys
     const val KEY_BUNDLE_SELECT_CITY = "myKey"

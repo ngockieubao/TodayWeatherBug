@@ -18,13 +18,12 @@ fun ImageView.setIcon(url: String?) {
 
 @BindingAdapter("setTemp")
 fun TextView.setTemp(temp: Double) {
-//    val key = SharedPref(context).sharedPref
-//    if (key.equals(Constants.CELSIUS)) {
-    this.text = Utils.formatTemp(context, temp)
-//    }
-//    else {
-//        this.text = Utils.formatTempFah(context, temp)
-//    }
+    val key = SharedPref(context).sharedPref
+    if (key.equals(Constants.SHARED_PREF_CELSIUS)) {
+        this.text = Utils.formatTemp(context, temp)
+    } else {
+        this.text = Utils.formatTempFah(context, temp)
+    }
 }
 
 @BindingAdapter("setPop")
